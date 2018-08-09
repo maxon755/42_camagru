@@ -34,14 +34,13 @@ class Router
 	}
 
     /**
-     * Возвращет строку запроса или false в случае неудачи
+     * Возвращет строку запроса
      *
-     * @return string|false
+     * @return string
      */
 	private function getURI()
     {
-        $uri = trim($_SERVER['REQUEST_URI'], '/');
-		return $uri ? $uri : false;
+        return trim($_SERVER['REQUEST_URI'], '/');
 	}
 
     /**
@@ -95,8 +94,10 @@ class Router
 	    $pageFound = false;
 		$uri = $this->getURI();
 
-		if (!$uri)
-		    return ;
+        Debug::debugValue($uri, "uri");
+
+		if (is_null($uri))
+            return ;
 
 		foreach ($this->routes as $uriPattern => $path)
 		{

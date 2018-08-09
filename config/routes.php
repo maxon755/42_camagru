@@ -1,5 +1,6 @@
 <?php
 
 return array(
-	'^empty$' 	=> 'empty/index'
+    '^login$'   => 'login/index',
+	'^$'        => 'ribbon/index'
 );
