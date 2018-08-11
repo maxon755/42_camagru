@@ -1,0 +1,51 @@
+.signup {
+    width: 400px;
+    margin: auto;
+
+    height: 500px;
+
+    display: flex;
+    flex-direction: column;
+
+    background-color: darkslateblue;
+
+    font-family: 'Roboto', sans-serif;
+
+    position: relative;
+    top: 20px;
+}
+
+.signup__header {
+    text-align: center;
+
+    color: white;
+
+    font-size: 32px;
+    font-weight: 900;
+}
+
+.signup__line {
+    width: 100%;
+}
+
+.signup__input {
+    display: block;
+
+    font-size: 16px;
+    padding-left: 10px;
+    margin: auto;
+    width:  300px;
+    height: 30px;
+}
+
+.signup__input::placeholder {
+    font-style: italic;
+}
+
+
+.signup__submit{
+    display: block;
+    width: 30%;
+    margin: 20px auto;
+}
+

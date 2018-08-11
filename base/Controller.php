@@ -2,8 +2,6 @@
 
 namespace app\base;
 
-use app\components\Debug;
-
 /**
  * Класс Controller
  *
@@ -17,16 +15,13 @@ class Controller extends Application
     {
         $pattern = "/views/{$renderUnit}/{$renderUnit}";
         return ["markUp"    => ROOT . $pattern . ".php",
-                "style"     => $pattern . "css",
+                "style"     => $pattern . ".css",
                 "script"    => $pattern . ".js"];
     }
 
-    protected function render($renderUnit, $embedded, array $parameters = [])
+    protected function render($renderUnit, $useComponents, array $parameters = [])
     {
         $renderUnit = $this->getViewFiles($renderUnit);
-        if (!$embedded)
-            include($renderUnit['markUp']);
-        else
-            include($this->template);
+        include($this->template);
     }
 }

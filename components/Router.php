@@ -50,7 +50,7 @@ class Router
 	private function getControllerName(&$segments)
     {
         $controllerName = array_shift($segments) . 'Controller';
-        $controllerName = ucfirst($controllerName);
+//        $controllerName = ucfirst($controllerName);
 
         return $controllerName;
     }
@@ -59,9 +59,12 @@ class Router
      * @param $segments
      * @return string
      */
-    private function getActionName(&$segments)
+    public function getActionName(&$segments)
     {
-        $actionName = 'action' . ucfirst(array_shift($segments));
+        $actionName = array_shift($segments);
+        $actionName = ucwords($actionName, "-");
+        $actionName = str_replace("-", "", $actionName);
+        $actionName = 'action' . $actionName;
         return  $actionName;
     }
 
@@ -109,6 +112,9 @@ class Router
             $actionName = $this->getActionName($segments);
             $controllerName = $this->getFullClassName($controllerName);
             $controllerObject = new $controllerName;
+
+            if (!method_exists($controllerObject, $actionName))
+                continue ;
 
             call_user_func_array(array($controllerObject, $actionName), $segments);
             $pageFound = true;
