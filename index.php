@@ -19,6 +19,13 @@ require_once(ROOT . '/components/DataBase.php');
 $config = require_once(ROOT . '/config/config.php');
 Application::initApplication($config);
 
+//$db = new \app\base\DataBase("users");
+//var_dump($db);
+//
+//$data = $db->selectAllWhere('username', 'Mega_Vasiliy');
+//var_dump($data);
+
+
 $router = new Router();
 $router->run();
 

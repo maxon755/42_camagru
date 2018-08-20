@@ -7,6 +7,14 @@ $config = [
      */
     'mode' => 'dev',
 
+    'db' => [
+        'host' 		=> 'localhost',
+        'dbname' 	=> 'camagru',
+        'user' 		=> 'root',
+        'password' 	=> 'root42',
+        'charset'   => 'utf8'
+    ],
+
     'components' => [
         'header' => [
             'path' =>  ROOT . '/template/header/header.php',

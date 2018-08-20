@@ -4,3 +4,9 @@
 phpDocumentor.phar
 
 docs
+
+test.php
+
+config/db_params.php
+components/DataBase.php
+base/ActiveRecord.php

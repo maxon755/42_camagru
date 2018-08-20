@@ -111,6 +111,8 @@ class Router
             $controllerName = $this->getControllerName($segments);
             $actionName = $this->getActionName($segments);
             $controllerName = $this->getFullClassName($controllerName);
+            Debug::debugValue($controllerName, "Controller name");
+
             $controllerObject = new $controllerName;
 
             if (!method_exists($controllerObject, $actionName))

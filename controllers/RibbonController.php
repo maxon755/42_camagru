@@ -3,6 +3,7 @@
 namespace app\controllers;
 
 use app\base\Controller;
+use app\components\Debug;
 
 class RibbonController extends Controller
 {
@@ -10,6 +11,8 @@ class RibbonController extends Controller
 	{
 //		echo "<br><code> Empty controller works and extends basic controller </code>";
 
-		$this->render('ribbon', true, [1, 42]);
+//        Debug::debugArray(self::$components);
+
+		$this->render('ribbon', true);
 	}
 }
