@@ -3,6 +3,8 @@
 namespace app\controllers;
 
 use app\base\Controller;
+use app\base\DataBase;
+use app\components\Debug;
 
 class EmptyController extends Controller
 {
@@ -12,4 +14,19 @@ class EmptyController extends Controller
 
 		$this->render();
 	}
+
+	public function actionTestInsert()
+    {
+        $userInput = [
+            "username"  => "Maxim",
+            "password"  => 7777,
+            "email"     => "maks@gmail.com",
+            "firstName" => "Максим",
+            "lastName"  => "Гайдук"
+        ];
+
+        $db = DataBase::getInstance('pre_users');
+
+        Debug::debugArray($db->insert($userInput),"", true);
+    }
 }

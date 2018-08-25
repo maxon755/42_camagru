@@ -10,3 +10,5 @@ test.php
 config/db_params.php
 components/DataBase.php
 base/ActiveRecord.php
+
+views/sign-up/sign-up_backup.js

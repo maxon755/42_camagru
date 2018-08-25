@@ -17,21 +17,21 @@ class SignUpController extends Controller
         $this->render('sign-up', false);
     }
 
-    public function actionCheckUsername()
+    public function actionCheckAvailability()
     {
-        $username = $_POST['username'];
+        $value      = $_POST['value'];
+        $columnName = $_POST['type'];
 
-        $db = new DataBase('users');
-        $data = $db->selectAllWhere('username', $username);
+        $db = DataBase::getInstance('users');
+
+        $data = $db->selectAllWhere($columnName, $value);
         echo json_encode(["available" => !count($data)]);
     }
 
-    public function actionCheckEmail()
+    public function actionPreConfirm()
     {
-        $username = $_POST['email'];
-
-        $db = new DataBase('users');
-        $data = $db->selectAllWhere('email', $username);
-        echo json_encode(["available" => !count($data)]);
+        $userInput  = (array) json_decode($_POST['userInput']);
+        $db         = DataBase::getInstance('pre_users');
+        $db->insert($userInput);
     }
 }

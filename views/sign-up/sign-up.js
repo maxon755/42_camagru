@@ -1,350 +1,182 @@
 window.onload = function () {
     "use strict";
 
-    var inputFields = document.getElementsByClassName("signup__input");
+    /* РЕГИСТРО ЗАВИСИМОСТЬ В ВЫБОРКЕ*/
+
     var submitButton = document.getElementById("signup__submit");
 
-
-    HTMLCollection.prototype.addEvent = function (eventName, handler) {
-        for (var i = 0; i < this.length; i++) {
-            this[i].addEventListener(eventName, handler);
-        }
-    }
-
-    function handleResponse(response, input, validation){
-        if (response){
-            input.classList.remove("invalid-input");
-            input.classList.add("valid-input");
-            validation.classList.remove("invalid-message");
-            validation.classList.add("valid-message");
-        }
-        else {
-            input.classList.remove("valid-input");
-            input.classList.add("invalid-input");
-            validation.classList.remove("valid-message");
-            validation.classList.add("invalid-message");
-        }
-    }
+    var inputFields = {
+        usernameField       : new InputField("signup__username", true),
+        firstNameField      : new InputField("signup__first-name"),
+        lastNameField       : new InputField("signup__last-name"),
+        emailField          : new InputField("signup__email", true),
+        passwordField       : new InputField("signup__password"),
+        repeatPasswordField : new InputField("signup__repeat-password")
+    };
 
     submitButton.addEventListener("click", function (event) {
         event.preventDefault();
 
-        var isFormValid = checkInputFields();
+        var validFields = true;
 
-        if (!isFormValid)
-            return ;
-
+        // for (var key in inputFields){
+        //     if (inputFields[key].shouldSend)
+        //         validFields *= inputFields[key].isAvailable;
+        //
+        //     if (inputFields[key].wasChecked()) {
+        //         validFields *= inputFields[key].isValid();
+        //         continue ;
+        //     }
+        //     validFields *= inputFields[key].check();
+        // }
+        //
+        // if (!validFields)
+        //     return ;
 
         var userInput = {
-            'userName': "Maxsim",
+            'username': "Maxim",
             'password': "7777",
             'email': "maks@gmail.com",
             'firstName': "Максим",
-            'secondName': "Гайдук"
+            'lastName': "Гайдук"
         }
         console.log("clicked");
-    })
-
-    function checkInputFields() {
-        var isFormValid = true;
-
-        var inputChecker = new InputChecker();
-
-        isFormValid = checkUsername();
-        isFormValid = checkEmail();
-        isFormValid = checkPassword();
-        isFormValid = checkRepeatPassword();
-
-        return isFormValid;
-
-        function checkUsername() {
-            var inputField = document.getElementById("signup__username");
-            if (inputField.classList.contains("invalid-input"))
-                return false;
-
-            var username = inputField.value;
-            var validationField = inputField.nextElementSibling;
-
-
-            var response = inputChecker.checkUsernameField(username);
-            if (!response.status) {
-                validationField.textContent = response.message;
-                handleResponse(response.status, inputField, validationField)
-            }
-            return response.status;
-        }
-
-        function checkEmail() {
-            var inputField = document.getElementById("signup__email");
-            if (inputField.classList.contains("invalid-input"))
-                return false;
-
-            var email = inputField.value;
-            var validationField = inputField.nextElementSibling;
-
-
-            var response = inputChecker.checkEmailField(email);
-            if (!response.status) {
-                validationField.textContent = response.message;
-                handleResponse(response.status, inputField, validationField)
-            }
-            return response.status;
-        }
-
-        function checkPassword() {
-            var inputField = document.getElementById("signup__password");
-            if (inputField.classList.contains("invalid-input"))
-                return false;
-
-            var password = inputField.value;
-            var validationField = inputField.nextElementSibling;
-
-            var response = inputChecker.checkPasswordField(password);
-            if (!response.status) {
-                validationField.textContent = response.message;
-                handleResponse(response.status, inputField, validationField)
-            }
-            return response.status;
-        }
-
-        function checkRepeatPassword() {
-            var inputField = document.getElementById("signup__repeat-password");
-            if (inputField.classList.contains("invalid-input"))
-                return false;
-
-            var passwordField = document.getElementById("signup__password");
-            var password = passwordField.value;
-            var passwordRepeat = inputField.value;
-            var validationField = inputField.nextElementSibling;
-
-            var response = inputChecker.checkUsernameField(passwordRepeat);
-            if (!response.status) {
-                validationField.textContent = response.message;
-                handleResponse(response.status, inputField, validationField)
-            }
-            return response.status;
-        }
-    }
-
-
-    /*
-        Username input handling
-     */
-    var usernameField = document.getElementById("signup__username");
-    var timerIdUser;
-    var timerIdUserInput;
-
-    usernameField.addEventListener("input", function (event) {
-        clearTimeout(timerIdUser);
-        clearTimeout(timerIdUserInput);
-
-        var inputField = this;
-        var username = this.value;
-        var validationField = this.nextElementSibling;
-
-        timerIdUserInput = setTimeout (function () {
-            var inputChecker = new InputChecker();
-
-            var response = inputChecker.checkUsernameField(username);
-            validationField.textContent = response.message;
-            if (!response.status) {
-                handleResponse(response.status, inputField, validationField)
-                return;
-            }
-            else {
-                timerIdUser = setTimeout(function () {
-                    checkUserNameOnServer(username, inputField, validationField);
-                }, 1000);
-            }
-        }, 1000)
+        sendUserInputToServer(userInput);
     });
 
-    function checkUserNameOnServer(username, inputField, validationField) {
-        var formData = new FormData();
-        var xhr = new XMLHttpRequest();
+    function sendUserInputToServer(userInput) {
+        var formData    = new FormData();
+        var xhr         = new XMLHttpRequest();
+
+
+        (function (xhr) {
+            xhr.onload = function () {
+                console.log(this.responseText);
+                try {
+                    var response = JSON.parse(this.responseText);
+                }
+                catch (e) {
+                    return;
+                }
+            };
+        }(xhr));
+
+        formData.append('userInput', JSON.stringify(userInput));
+        xhr.open('post', 'sign-up/pre-confirm');
+        xhr.send(formData);
+    }
+}
+
+
+function InputField(elementId, shouldSend) {
+
+    var self = this;
+
+    this.shouldSend         = shouldSend;
+    this.elementId          = elementId;
+    this.element            = document.getElementById(elementId);
+    this.type               = elementId.split('_')[2];
+    this.validationField    = this.element.nextElementSibling;
+    this.isAvailable        = false;
+
+    var inputChecker = new InputChecker("signup__password");
+
+    this.checkValue = inputChecker.getRelatedCheckingMethod(elementId);
+
+    this.element.addEventListener("input", function (event) {
+        clearTimeout(self.inputTimerId);
+        clearTimeout(self.ajaxTimerId);
+        self.isAvailable = false;
+
+        self.inputTimerId = setTimeout(function () {
+
+            if (self.check() && self.shouldSend) {
+                self.ajaxTimerId = setTimeout(function() {
+                    self.checkAvailability();
+                }, 1500);
+            }
+        }, 1000);
+    });
+
+    this.check = function () {
+        var inputValue  = self.element.value;
+        var response    = self.checkValue(inputValue);
+        self.validationField.textContent = response.message;
+        self.handleResponse(response.status);
+        return response.status;
+    }
+
+    this.checkAvailability = function () {
+        if (self.element.classList.contains("invalid-input"))
+            return ;
+        var inputValue = self.element.value;
+
+        var formData    = new FormData();
+        var xhr         = new XMLHttpRequest();
+
 
         (function (xhr, inputField, validationField) {
             xhr.onload = function () {
-                console.log(this.responseText)
+                console.log(this.responseText);
                 try {
                     var response = JSON.parse(this.responseText);
                 }
                 catch (e) {
                     return;
                 }
-                handleResponse(response['available'], inputField, validationField)
-                if (response['available'])
-                    validationField.textContent = "Username is available";
-                else
-                    validationField.textContent = "Username is unavailable";
+                self.isAvailable = response['available'];
+                self.handleResponse(response['available'])
+                self.validationField.textContent =
+                    getMessage(response['available'], self.type)
             };
-        }(xhr, inputField, validationField));
+        }(xhr, self.element, self.validationField));
 
-        formData.append('username', username);
-        xhr.open('post', 'sign-up/check-username');
+        formData.append('type', self.type);
+        formData.append('value', inputValue);
+        xhr.open('post', 'sign-up/check-availability');
         xhr.send(formData);
-    };
+    }
 
-    /*
-        Email input handling
-     */
-    var emailField = document.getElementById("signup__email");
-    var timerIdEmail;
-    var timerIdEmailInput;
+    this.handleResponse = function(response){
+        if (response){
+            self.element.classList.remove("invalid-input");
+            self.element.classList.add("valid-input");
+            self.validationField.classList.remove("invalid-message");
+            self.validationField.classList.add("valid-message");
+        }
+        else {
+            self.element.classList.remove("valid-input");
+            self.element.classList.add("invalid-input");
+            self.validationField.classList.remove("valid-message");
+            self.validationField.classList.add("invalid-message");
+        }
+    }
 
-    emailField.addEventListener("input", function (event) {
-        clearTimeout(timerIdEmail);
-        clearTimeout(timerIdEmailInput);
+    function getMessage(available, type){
+        type = ucFirst(type);
+        if (available)
+            return`${type} is available`;
+        return `${type} is unavailable`
+    }
 
-        var inputField = this;
-        var email = this.value;
-        var validationField = this.nextElementSibling;
+    function ucFirst(string) {
+        return string.charAt(0).toUpperCase() + string.slice(1);
+    }
 
-        timerIdEmailInput = setTimeout(function () {
-            var inputChecker = new InputChecker();
-            var response = inputChecker.checkEmailField(email);
-            validationField.textContent = response.message;
-            if (!response.status) {
-                handleResponse(response.status, inputField, validationField)
-                return;
-            }
-            else {
-                timerIdEmail = setTimeout(function () {
-                    checkEmailOnServer(email, inputField, validationField);
-                }, 1000);
-            }
-        }, 1000);
-    });
+    this.wasChecked = function() {
+        return self.element.classList.contains("valid-input") ||
+                self.element.classList.contains("invalid-input");
+    }
 
-    function checkEmailOnServer(email, inputField, validationField) {
-        var formData = new FormData();
-        var xhr = new XMLHttpRequest();
+    this.isValid = function() {
+        return self.element.classList.contains("valid-input");
+    }
+}
 
-        (function (xhr, usernameValidation) {
-            xhr.onload = function () {
-                try {
-                    var response = JSON.parse(this.responseText);
-                }
-                catch (e) {
-                    return;
-                }
-                handleResponse(response['available'], inputField, validationField);
-                if (response['available'])
-                    validationField.textContent = "Email is available";
-                else
-                    validationField.textContent = "Email is already used";
-            };
-        }(xhr, inputField, validationField));
+function InputChecker(passwordFieldId) {
+    var self = this;
 
-        formData.append('email', email);
-        xhr.open('post', 'sign-up/check-email');
-        xhr.send(formData);
-    };
-
-    /*
-        First name input handling
-     */
-    var firstNameField = document.getElementById("signup__first-name");
-    var timerIdFirstNameInput;
-
-    firstNameField.addEventListener("input", function (event) {
-        clearTimeout(timerIdFirstNameInput);
-
-        var inputField = this;
-        var firstName = this.value;
-        var validationField = this.nextElementSibling;
-
-        timerIdFirstNameInput = setTimeout(function () {
-            var inputChecker = new InputChecker();
-            var response = inputChecker.checkNameField(firstName);
-            validationField.textContent = response.message;
-            handleResponse(response.status, inputField, validationField)
-            if (!response.status) {
-                return;
-            }
-        }, 1000);
-    });
-
-    /*
-    Last name input handling
- */
-    var lastNameField = document.getElementById("signup__last-name");
-    var timerIdLastNameInput;
-
-    lastNameField.addEventListener("input", function (event) {
-        clearTimeout(timerIdLastNameInput);
-
-        var inputField = this;
-        var lastName = this.value;
-        var validationField = this.nextElementSibling;
-
-        timerIdLastNameInput = setTimeout(function () {
-            var inputChecker = new InputChecker();
-            var response = inputChecker.checkNameField(lastName);
-            validationField.textContent = response.message;
-            handleResponse(response.status, inputField, validationField)
-            if (!response.status) {
-                return;
-            }
-        }, 1000);
-    });
-
-    /*
-        Password input handling
-     */
-    var passwordField = document.getElementById("signup__password");
-    var timerIdPasswordInput;
-
-    passwordField.addEventListener("input", function (event) {
-        clearTimeout(timerIdPasswordInput);
-
-        var inputField = this;
-        var password = this.value;
-        var validationField = this.nextElementSibling;
-
-        timerIdPasswordInput = setTimeout(function () {
-            var inputChecker = new InputChecker();
-            var response = inputChecker.checkPasswordField(password);
-            validationField.textContent = response.message;
-            handleResponse(response.status, inputField, validationField)
-            if (!response.status) {
-                return;
-            }
-        }, 1000);
-    });
-
-    /*
-        Password repeat handling
-     */
-    var passwordRepeatField = document.getElementById("signup__repeat-password");
-    var timerIdPasswordRepeatInput;
-
-    passwordRepeatField.addEventListener("input", function (event) {
-        clearTimeout(timerIdPasswordRepeatInput);
-
-        var passwordField = document.getElementById("signup__password");
-
-        var inputField = this;
-        var password = passwordField.value;
-        var passwordRepeat = this.value;
-        var validationField = this.nextElementSibling;
-
-        timerIdPasswordInput = setTimeout(function () {
-            var inputChecker = new InputChecker();
-            var response = inputChecker.
-                        checkPasswordRepeatField(password, passwordRepeat);
-            validationField.textContent = response.message;
-            handleResponse(response.status, inputField, validationField)
-            if (!response.status) {
-                return;
-            }
-        }, 1000);
-    });
-};
-
-
-
-function InputChecker() {
+    this.passwordFieldId = passwordFieldId;
 
     var MAX_LENGTH = 32;
 
@@ -369,12 +201,35 @@ function InputChecker() {
         }
     }
 
+    function getCorrectMethodName(elementId) {
+        var methodName = elementId.split('_')[2];
+        methodName = methodName.replace(/\b\w/g, function(l) {
+            return l.toUpperCase()
+        });
+        methodName = methodName.replace('-', '');
+        methodName = `check${methodName}Field`;
+
+        return methodName;
+    }
+
+    this.getRelatedCheckingMethod = function (elementId) {
+        var methodName = getCorrectMethodName(elementId);
+        return this[methodName];
+    }
+
+    function lengthCheck (value) {
+        if (!value)
+            return EMPTY_FIELD;
+        if (value.length > MAX_LENGTH)
+            return LENGTH_ERROR;
+    }
+
     this.checkUsernameField = function(username) {
         username = username.trim();
-        if (!username)
-            return formResponse(false, EMPTY_FIELD);
-        if (username.length > MAX_LENGTH)
-            return formResponse(false, LENGTH_ERROR);
+
+        var lengthError = lengthCheck(username);
+        if (lengthError)
+            return formResponse(false, lengthError);
 
         if (!username.match(/^\w+$/))
             return formResponse(false, INCORRECT_USERNAME);
@@ -382,19 +237,20 @@ function InputChecker() {
         return formResponse(true, "");
     }
 
-    this.checkNameField = function (name) {
+    this.checkFirstNameField = function (name) {
         if (name.length > MAX_LENGTH)
             return formResponse(false, LENGTH_ERROR);
 
         return formResponse(true, "");
     }
 
+    this.checkLastNameField = this.checkFirstNameField;
+
     this.checkEmailField = function(email) {
         email = email.trim();
-        if (!email)
-            return formResponse(false, EMPTY_FIELD);
-        if (email.length > MAX_LENGTH)
-            return formResponse(false, LENGTH_ERROR);
+        var lengthError = lengthCheck(email);
+        if (lengthError)
+            return formResponse(false, lengthError);
 
         if (!email.match(/^.+@[a-z]+\.[a-z]+/))
             return formResponse(false, INCORECT_EMAIL);
@@ -403,10 +259,9 @@ function InputChecker() {
     }
 
     this.checkPasswordField = function(password) {
-        if (!password)
-            return formResponse(false, EMPTY_FIELD);
-        if (password.length > MAX_LENGTH)
-            return formResponse(false, LENGTH_ERROR);
+        var lengthError = lengthCheck(password);
+        if (lengthError)
+            return formResponse(false, lengthError);
 
         if (password.length < 8)
             return formResponse(false, INCORECT_LENGTH);
@@ -420,9 +275,10 @@ function InputChecker() {
         return formResponse(true, "");
     }
 
-    this.checkPasswordRepeatField = function(password, passwordRepeat) {
+    this.checkRepeatPasswordField = function(passwordRepeat) {
         if (!passwordRepeat)
             return formResponse(false, EMPTY_FIELD);
+        var password = document.getElementById(self.passwordFieldId).value;
         if (password != passwordRepeat)
             return formResponse(false, DISMATCH_ERROR);
         else

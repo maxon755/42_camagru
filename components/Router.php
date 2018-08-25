@@ -112,6 +112,7 @@ class Router
             $actionName = $this->getActionName($segments);
             $controllerName = $this->getFullClassName($controllerName);
             Debug::debugValue($controllerName, "Controller name");
+            Debug::debugValue($actionName, "Action");
 
             $controllerObject = new $controllerName;
 

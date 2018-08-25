@@ -7,18 +7,26 @@ use app\base\Application;
 class Debug extends Application
 {
 
-    static public  function debugValue($value, $msg = "")
+    private static function debugMode()
     {
-        if (self::$mode != 'debug')
+        return self::$mode == 'debug';
+    }
+
+    static public function debugValue($value, $msg = "")
+    {
+        if (!self::debugMode())
             return ;
         echo '<code>';
-        echo '<pre>' . $msg . ': ' . $value . '</pre>';
+        if ($msg)
+            echo '<pre>' . $msg . ': ' . $value . '</pre>';
+        else
+            echo '<pre>' . $value . '</pre>';
         echo '</code><br>';
     }
 
-    static public function debugArray(array $arr, $expl = "")
+    static public function debugArray($arr, $expl = "", $forceOutput)
     {
-        if (self::$mode != 'dev')
+        if (!self::debugMode() && !$forceOutput)
             return ;
         echo '<code>';
         echo $expl . '<br>';
