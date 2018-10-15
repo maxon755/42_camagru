@@ -1,7 +1,6 @@
 <?php
 
 spl_autoload_register(function ($class) {
-
     $pathParts = explode('\\', $class);
     $classFolder = $pathParts[1];
     $className = $pathParts[2] . '.php';

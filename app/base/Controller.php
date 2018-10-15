@@ -13,10 +13,10 @@ class Controller extends Application
 
     private function getViewFiles($renderUnit)
     {
-        $pattern = "/views/{$renderUnit}/{$renderUnit}";
-        return ["markUp"    => ROOT . $pattern . ".php",
-                "style"     => $pattern . ".css",
-                "script"    => $pattern . ".js"];
+        $pattern = "views/{$renderUnit}/{$renderUnit}";
+        return ["markUp"    => ROOT . DS . $pattern . ".php",
+                "style"     => APP . DS . $pattern . ".css",
+                "script"    => APP . DS . $pattern . ".js"];
     }
 
     protected function render($renderUnit, $useComponents, array $parameters = [])
