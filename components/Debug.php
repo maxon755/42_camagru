@@ -24,7 +24,7 @@ class Debug extends Application
         echo '</code><br>';
     }
 
-    static public function debugArray($arr, $expl = "", $forceOutput)
+    static public function debugArray($arr, $expl = "", $forceOutput=false)
     {
         if (!self::debugMode() && !$forceOutput)
             return ;

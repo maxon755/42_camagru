@@ -1,6 +1,7 @@
 <?php
 
 $config = [
+    'appName' => 'Camagru',
 
     /*
      *  mode = debug - display debug information

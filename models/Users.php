@@ -1,20 +1,20 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: maks
- * Date: 11.08.18
- * Time: 14:42
- */
 
 namespace app\models;
 
-use \app\base\ActiveRecord;
+use app\base\Model;
 
-class Users extends ActiveRecord
+class Users extends Model
 {
+
     public static function getClassName()
     {
         return __CLASS__;
+    }
+
+    public function checkAvailability($column, $value)
+    {
+        return  $count = $this->db->countWhere($column, $value);
     }
 
 }

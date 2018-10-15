@@ -63,7 +63,6 @@ class DataBase extends Application
         return $dbData;
     }
 
-
     public function selectAllWhere($colunmName, $value)
     {
         $query = "SELECT * FROM $this->tableName WHERE $colunmName = ?;";
@@ -71,6 +70,11 @@ class DataBase extends Application
         $stm->execute(array($value));
         $dbData = $stm->fetchAll();
         return $dbData;
+    }
+
+    public function countWhere($colunmName, $value)
+    {
+        return !count($this->selectAllWhere($colunmName, $value));
     }
 
     public function insert($data)
@@ -82,9 +86,8 @@ class DataBase extends Application
 
         $query = "INSERT INTO $this->tableName ($columns) VALUES ($holders);";
         $stm = $this->pdo->prepare($query);
-        $res = $stm->execute($values);
 
-        return $res;
+        return $stm->execute($values);
     }
 
     private function prepareInsertData($data)

@@ -34,9 +34,9 @@ window.onload = function () {
         //     return ;
 
         var userInput = {
-            'username': "Maxim",
+            'username': "Max",
             'password': "7777",
-            'email': "maks@gmail.com",
+            'email': "maksim.gayduk@gmail.com",
             'firstName': "Максим",
             'lastName': "Гайдук"
         }
@@ -91,9 +91,9 @@ function InputField(elementId, shouldSend) {
         self.inputTimerId = setTimeout(function () {
 
             if (self.check() && self.shouldSend) {
-                self.ajaxTimerId = setTimeout(function() {
-                    self.checkAvailability();
-                }, 1500);
+                // self.ajaxTimerId = setTimeout(function() {
+                //     self.checkAvailability();
+                // }, 1500);
             }
         }, 1000);
     });

@@ -11,20 +11,22 @@ namespace app\base;
 
 class Application
 {
-    static $config;
-    static $mode;
-    static $components;
+    protected static $config;
+    protected static $appName;
+    protected static $mode;
+    protected static $components;
 
     public static function initApplication(array $config)
     {
-        self::$config = $config;
-        self::$mode = $config['mode'];
-        self::$components = $config['components'];
+        self::$config       = $config;
+        self::$appName      = $config['appName'];
+        self::$mode         = $config['mode'];
+        self::$components   = $config['components'];
     }
 
     protected function camelToSnake($camelString)
     {
-        $re = '/(?=[A-Z])/';
+        $re = '/(?<=[a-z])(?=[A-Z])/';
         $stringParts = preg_split($re, $camelString);
         $kebabString = implode('_', $stringParts);
         $kebabString = strtolower($kebabString);
