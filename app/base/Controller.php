@@ -15,8 +15,8 @@ class Controller extends Application
     {
         $pattern = "views/{$renderUnit}/{$renderUnit}";
         return ["markUp"    => ROOT . DS . $pattern . ".php",
-                "style"     => APP . DS . $pattern . ".css",
-                "script"    => APP . DS . $pattern . ".js"];
+                "style"     => $pattern . ".css",
+                "script"    => $pattern . ".js"];
     }
 
     protected function render($renderUnit, $useComponents, array $parameters = [])

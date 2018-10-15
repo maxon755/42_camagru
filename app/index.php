@@ -8,7 +8,6 @@ error_reporting(E_ALL);
 
 
 define('ROOT', dirname(__FILE__));
-define('APP', "app");
 define('DS', DIRECTORY_SEPARATOR);
 
 require_once(ROOT . '/components/AutoLoader.php');
@@ -23,7 +22,6 @@ Application::initApplication($config);
 //
 //$data = $db->selectAllWhere('username', 'Mega_Vasiliy');
 //var_dump($data);
-
 
 $router = new Router();
 $router->run();

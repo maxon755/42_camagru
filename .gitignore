@@ -1,14 +1,8 @@
 .*
 !.gitignore
 
-phpDocumentor.phar
+# Local data base dump
+db_dump
 
-docs
-
-test.php
-
-config/db_params.php
-components/DataBase.php
-base/ActiveRecord.php
-
-views/sign-up/sign-up_backup.js
+# Controller for testing propose
+app/controllers/EmptyController.php
