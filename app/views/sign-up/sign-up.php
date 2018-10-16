@@ -2,7 +2,7 @@
 
 
 
-<form class="signup" action="/" method="POST">
+<form class="signup" action="empty/index" method="POST">
 
     <h2 class="signup__header">Sign Up</h2>
 

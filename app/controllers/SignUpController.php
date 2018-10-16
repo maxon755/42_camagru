@@ -4,15 +4,12 @@ namespace app\controllers;
 
 use app\base\Controller;
 use app\components\Debug;
+use app\components\InputField;
 use app\models\PreUsers;
 use app\models\Users;
 
 class SignUpController extends Controller
 {
-    public function actionConfirm() {
-        echo "method works!";
-    }
-
     public function actionIndex()
     {
         $this->render('sign-up', false);
@@ -28,25 +25,40 @@ class SignUpController extends Controller
 
     public function actionPreConfirm()
     {
-        $userInput  = (array) json_decode($_POST['userInput']);
+//        $userInput  = (array) json_decode($_POST['userInput']);
+//        $userInput  = $_POST;
+
+        $userInput = [
+            'username'          => 'mgayduk',
+            'first-name'        => 'maks',
+            'last-name'         => 'gayduk',
+            'email'             => 'maksim.gayduk@gmail.com',
+            'password'          => '1234aaZZ',
+            'repeat-passwordd'  => '1234aaZZ',
+        ];
 
         print_r($userInput);
 
         $isValid = $this->checkUserInput($userInput);
 
-        if (!$isValid)
-            exit(json_encode(["success" => $isValid]));
+//        if (!$isValid)
+//            exit(json_encode(["success" => $isValid]));
 
-        (new PreUsers())->insert($userInput);
+//        (new PreUsers())->insert($userInput);
     }
 
     private function checkUserInput($userInput)
     {
-        $isValid = true;
+        $i = new InputField('username', 'maks', [
+           'emptyness',
+           'word'
+        ]);
 
-        $isValid *= $this->isAvailable($userInput);
+        print_r($i);
 
-        return $isValid;
+//        $isValid = true;
+//        $isValid *= $this->isAvailable($userInput);
+//        return $isValid;
     }
 
     private function isAvailable($userInput)

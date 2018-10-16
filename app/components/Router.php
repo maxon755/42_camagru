@@ -124,6 +124,6 @@ class Router
             break;
 		}
 		if (!$pageFound)
-		    echo '404 page not found';
+		    echo 'camagru_log:404 page not found';
 	}
 }

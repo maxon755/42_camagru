@@ -14,35 +14,35 @@ window.onload = function () {
         repeatPasswordField : new InputField("signup__repeat-password")
     };
 
-    submitButton.addEventListener("click", function (event) {
-        event.preventDefault();
-
-        var validFields = true;
-
-        // for (var key in inputFields){
-        //     if (inputFields[key].shouldSend)
-        //         validFields *= inputFields[key].isAvailable;
-        //
-        //     if (inputFields[key].wasChecked()) {
-        //         validFields *= inputFields[key].isValid();
-        //         continue ;
-        //     }
-        //     validFields *= inputFields[key].check();
-        // }
-        //
-        // if (!validFields)
-        //     return ;
-
-        var userInput = {
-            'username': "Max",
-            'password': "7777",
-            'email': "maksim.gayduk@gmail.com",
-            'firstName': "Максим",
-            'lastName': "Гайдук"
-        }
-        console.log("clicked");
-        sendUserInputToServer(userInput);
-    });
+    // submitButton.addEventListener("click", function (event) {
+    //     event.preventDefault();
+    //
+    //     var validFields = true;
+    //
+    //     for (var key in inputFields){
+    //         if (inputFields[key].shouldSend)
+    //             validFields *= inputFields[key].isAvailable;
+    //
+    //         if (inputFields[key].wasChecked()) {
+    //             validFields *= inputFields[key].isValid();
+    //             continue ;
+    //         }
+    //         validFields *= inputFields[key].check();
+    //     }
+    //
+    //     if (!validFields)
+    //         return ;
+    //
+    //     var userInput = {
+    //         'username': "Max",
+    //         'password': "7777",
+    //         'email': "maksim.gayduk@gmail.com",
+    //         'firstName': "Максим",
+    //         'lastName': "Гайдук"
+    //     }
+    //     console.log("clicked");
+    //     sendUserInputToServer(userInput);
+    // });
 
     function sendUserInputToServer(userInput) {
         var formData    = new FormData();
@@ -279,9 +279,9 @@ function InputChecker(passwordFieldId) {
         if (!passwordRepeat)
             return formResponse(false, EMPTY_FIELD);
         var password = document.getElementById(self.passwordFieldId).value;
-        if (password != passwordRepeat)
-            return formResponse(false, DISMATCH_ERROR);
-        else
+        if (password === passwordRepeat)
             return formResponse(true, EQUAL_PASSWORDS);
+        else
+            return formResponse(false, DISMATCH_ERROR);
     }
 }
