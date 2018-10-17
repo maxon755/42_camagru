@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: maks
- * Date: 09.08.18
- * Time: 15:05
- */
 
 namespace app\base;
 
@@ -28,20 +22,20 @@ class Application
     {
         $re = '/(?<=[a-z])(?=[A-Z])/';
         $stringParts = preg_split($re, $camelString);
-        $kebabString = implode('_', $stringParts);
-        $kebabString = strtolower($kebabString);
+        $snakeString = implode('_', $stringParts);
+        $snakeString = strtolower($snakeString);
 
-        return $kebabString;
+        return $snakeString;
     }
 
     protected function arrayCamelToSnake($camelArray)
     {
-        $kebabArray = [];
+        $snakeArray = [];
 
         foreach ($camelArray as $camelString) {
-            $kebabArray[] = $this->camelToSnake($camelString);
+            $snakeArray[] = $this->camelToSnake($camelString);
         }
 
-        return $kebabArray;
+        return $snakeArray;
     }
 }

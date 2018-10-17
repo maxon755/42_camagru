@@ -4,6 +4,7 @@ namespace app\controllers;
 
 use app\base\Controller;
 use app\components\Debug;
+use app\components\InputChecker;
 use app\components\InputField;
 use app\models\PreUsers;
 use app\models\Users;
@@ -49,16 +50,33 @@ class SignUpController extends Controller
 
     private function checkUserInput($userInput)
     {
-        $i = new InputField('username', 'maks', [
-           'emptyness',
-           'word'
-        ]);
+        $inputFields = $this->getInputFields($userInput);
+        print_r($inputFields);
 
-        print_r($i);
+        (new InputChecker($inputFields))->check();
+
+        print_r($inputFields);
 
 //        $isValid = true;
 //        $isValid *= $this->isAvailable($userInput);
 //        return $isValid;
+    }
+
+    private function getInputFields(array $userInput): array
+    {
+//        $inputFields = [];
+
+//        foreach ($userInput as $name => $value)
+//        {
+//            $inputFields[] = new InputField($name, $value)
+//        }
+        return [
+            new InputField('username', $userInput['username'], [
+                'emptiness',
+                'length',
+                'word'
+            ])
+        ];
     }
 
     private function isAvailable($userInput)

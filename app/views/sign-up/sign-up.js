@@ -64,7 +64,7 @@ window.onload = function () {
         formData.append('userInput', JSON.stringify(userInput));
         xhr.open('post', 'sign-up/pre-confirm');
         xhr.send(formData);
-    }
+    };
 }
 
 
@@ -104,7 +104,7 @@ function InputField(elementId, shouldSend) {
         self.validationField.textContent = response.message;
         self.handleResponse(response.status);
         return response.status;
-    }
+    };
 
     this.checkAvailability = function () {
         if (self.element.classList.contains("invalid-input"))
@@ -135,7 +135,7 @@ function InputField(elementId, shouldSend) {
         formData.append('value', inputValue);
         xhr.open('post', 'sign-up/check-availability');
         xhr.send(formData);
-    }
+    };
 
     this.handleResponse = function(response){
         if (response){
@@ -150,27 +150,27 @@ function InputField(elementId, shouldSend) {
             self.validationField.classList.remove("valid-message");
             self.validationField.classList.add("invalid-message");
         }
-    }
+    };
 
     function getMessage(available, type){
         type = ucFirst(type);
         if (available)
             return`${type} is available`;
         return `${type} is unavailable`
-    }
+    };
 
     function ucFirst(string) {
         return string.charAt(0).toUpperCase() + string.slice(1);
-    }
+    };
 
     this.wasChecked = function() {
         return self.element.classList.contains("valid-input") ||
                 self.element.classList.contains("invalid-input");
-    }
+    };
 
     this.isValid = function() {
         return self.element.classList.contains("valid-input");
-    }
+    };
 }
 
 function InputChecker(passwordFieldId) {
@@ -186,7 +186,7 @@ function InputChecker(passwordFieldId) {
         "It should be an alphanumeric ASCII word. " +
         "Optionally splitted with an underscore.";
     var INCORECT_EMAIL = "Incorect email";
-    var INCORECT_LENGTH = "Minimum length is 8 symbols"
+    var INCORECT_LENGTH = "Minimum length is 8 symbols";
     var CAPITAL_ERROR = "The password must contain at least " +
         "one capital letter";
     var DIGIT_ERROR = "The password must contain at least " +
@@ -199,7 +199,7 @@ function InputChecker(passwordFieldId) {
             status: status,
             message: message
         }
-    }
+    };
 
     function getCorrectMethodName(elementId) {
         var methodName = elementId.split('_')[2];
@@ -210,19 +210,19 @@ function InputChecker(passwordFieldId) {
         methodName = `check${methodName}Field`;
 
         return methodName;
-    }
+    };
 
     this.getRelatedCheckingMethod = function (elementId) {
         var methodName = getCorrectMethodName(elementId);
         return this[methodName];
-    }
+    };
 
     function lengthCheck (value) {
         if (!value)
             return EMPTY_FIELD;
         if (value.length > MAX_LENGTH)
             return LENGTH_ERROR;
-    }
+    };
 
     this.checkUsernameField = function(username) {
         username = username.trim();
@@ -235,14 +235,14 @@ function InputChecker(passwordFieldId) {
             return formResponse(false, INCORRECT_USERNAME);
 
         return formResponse(true, "");
-    }
+    };
 
     this.checkFirstNameField = function (name) {
         if (name.length > MAX_LENGTH)
             return formResponse(false, LENGTH_ERROR);
 
         return formResponse(true, "");
-    }
+    };
 
     this.checkLastNameField = this.checkFirstNameField;
 
@@ -256,7 +256,7 @@ function InputChecker(passwordFieldId) {
             return formResponse(false, INCORECT_EMAIL);
 
         return formResponse(true, "");
-    }
+    };
 
     this.checkPasswordField = function(password) {
         var lengthError = lengthCheck(password);
@@ -273,7 +273,7 @@ function InputChecker(passwordFieldId) {
             return formResponse(false, DIGIT_ERROR);
 
         return formResponse(true, "");
-    }
+    };
 
     this.checkRepeatPasswordField = function(passwordRepeat) {
         if (!passwordRepeat)

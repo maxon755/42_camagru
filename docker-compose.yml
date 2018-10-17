@@ -12,11 +12,8 @@ services:
       - ./app:/usr/share/nginx/html/
       - ./nginx:/etc/nginx/conf.d
 
-    links:
-      - "php-fpm"
-
   php-fpm:
-    image: "bitnami/php-fpm"
+    image: "php:7.2-fpm"
     container_name: "php-fpm"
     volumes:
       - ./app:/app

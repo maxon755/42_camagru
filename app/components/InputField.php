@@ -7,8 +7,10 @@ class InputField
 {
     private $name;
     private $value;
-    private $checks;
     private $auxValue;
+    private $checks;
+    private $validity;
+    private $message;
 
     /**
      * InputField constructor.
@@ -20,13 +22,14 @@ class InputField
     public function __construct(
         string $name,
         string $value,
-        array $checks,
+        array $checks=[],
         string $auxValue=Null)
     {
         $this->name = $name;
-        $this->value = $value;
+        $this->value = trim($value);
         $this->checks = $checks;
         $this->auxValue = $auxValue;
+        $this->validity = true;
     }
 
     /**
@@ -56,9 +59,41 @@ class InputField
     /**
      * @return string
      */
-    public function getAuxValue()
+    public function getAuxValue(): string
     {
         return $this->auxValue;
     }
 
+    /**
+     * @return bool
+     */
+    public function getValidity(): bool
+    {
+        return $this->validity;
+    }
+
+    /**
+     * @param bool $validity
+     * @return InputField
+     */
+    public function setValidity(bool $validity): void
+    {
+        $this->validity = $validity;
+    }
+
+    /**
+     * @return string
+     */
+    public function getMessage():string
+    {
+        return $this->message;
+    }
+
+    /**
+     * @param string $message
+     */
+    public function setMessage(string $message): void
+    {
+        $this->message = $message;
+    }
 }

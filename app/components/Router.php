@@ -50,8 +50,6 @@ class Router
 	private function getControllerName(&$segments)
     {
         $controllerName = array_shift($segments) . 'Controller';
-//        $controllerName = ucfirst($controllerName);
-
         return $controllerName;
     }
 
