@@ -9,13 +9,24 @@
     <hr class="signup__line">
 
     <div class="signup__container">
+
         <div class="signup__unit">
             <input id="signup__username"
                    class="signup__input"
                    type="text" name="username"
                    placeholder="username *" required>
-            <p class="signup__validation">
-
+            <p class="
+                    <?php
+                        echo $parameters['username']->getValidity()
+                        ? "signup__validation"
+                        : "signup__validation invalid-message";
+                    ?>
+                ">
+                <?php
+                    if (!$parameters['username']->getValidity())
+                        {
+                            echo $parameters['username']->getMessage();
+                        }?>
             </p>
         </div>
 

@@ -11,9 +11,9 @@ use app\models\Users;
 
 class SignUpController extends Controller
 {
-    public function actionIndex()
+    public function actionIndex($parameters=[])
     {
-        $this->render('sign-up', false);
+        $this->render('sign-up', false, $parameters);
     }
 
     public function actionCheckAvailability()
@@ -30,7 +30,7 @@ class SignUpController extends Controller
 //        $userInput  = $_POST;
 
         $userInput = [
-            'username'          => 'mgayduk',
+            'username'          => 'pan_Z',
             'first-name'        => 'maks',
             'last-name'         => 'gayduk',
             'email'             => 'maksim.gayduk@gmail.com',
@@ -38,7 +38,7 @@ class SignUpController extends Controller
             'repeat-passwordd'  => '1234aaZZ',
         ];
 
-        print_r($userInput);
+//        print_r($userInput);
 
         $isValid = $this->checkUserInput($userInput);
 
@@ -51,12 +51,13 @@ class SignUpController extends Controller
     private function checkUserInput($userInput)
     {
         $inputFields = $this->getInputFields($userInput);
-        print_r($inputFields);
+//        print_r($inputFields);
 
         (new InputChecker($inputFields))->check();
 
-        print_r($inputFields);
+//        print_r($inputFields);
 
+        $this->actionIndex($inputFields);
 //        $isValid = true;
 //        $isValid *= $this->isAvailable($userInput);
 //        return $isValid;
@@ -64,14 +65,8 @@ class SignUpController extends Controller
 
     private function getInputFields(array $userInput): array
     {
-//        $inputFields = [];
-
-//        foreach ($userInput as $name => $value)
-//        {
-//            $inputFields[] = new InputField($name, $value)
-//        }
         return [
-            new InputField('username', $userInput['username'], [
+            'username' => new InputField('username', $userInput['username'], [
                 'emptiness',
                 'length',
                 'word'

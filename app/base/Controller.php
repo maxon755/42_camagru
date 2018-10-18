@@ -13,7 +13,7 @@ class Controller extends Application
 
     private function getViewFiles($renderUnit)
     {
-        $pattern = "views/{$renderUnit}/{$renderUnit}";
+        $pattern = "/views/{$renderUnit}/{$renderUnit}";
         return ["markUp"    => ROOT . DS . $pattern . ".php",
                 "style"     => $pattern . ".css",
                 "script"    => $pattern . ".js"];

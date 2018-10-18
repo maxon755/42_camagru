@@ -24,7 +24,6 @@
 <?php
     if ($useComponents)
         include(self::$components['header']['path']);
-
     include($renderUnit['markUp']);
 
 ?>

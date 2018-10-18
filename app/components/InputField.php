@@ -20,10 +20,10 @@ class InputField
      * @param string|Null $auxValue
      */
     public function __construct(
-        string $name,
-        string $value,
-        array $checks=[],
-        string $auxValue=Null)
+        string  $name,
+        string  $value,
+        array   $checks=[],
+        string  $auxValue=Null)
     {
         $this->name = $name;
         $this->value = trim($value);
