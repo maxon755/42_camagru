@@ -6,11 +6,22 @@ use app\base\Controller;
 use app\components\Debug;
 use app\components\InputChecker;
 use app\components\InputField;
+use app\components\InputForm;
 use app\models\PreUsers;
 use app\models\Users;
 
 class SignUpController extends Controller
 {
+    private $signUpForm;
+
+    public function __construct()
+    {
+        $this->signUpForm = new InputForm('sign_up', [
+            'username' => ['emptiness', 'length', 'word'],
+            'email'=> ['emptiness', 'length']
+        ]);
+    }
+
     public function actionIndex($parameters=[])
     {
         $this->render('sign-up', false, $parameters);
@@ -39,6 +50,7 @@ class SignUpController extends Controller
         ];
 
 //        print_r($userInput);
+        print_r($this->signUpForm);
 
         $isValid = $this->checkUserInput($userInput);
 
@@ -57,7 +69,7 @@ class SignUpController extends Controller
 
 //        print_r($inputFields);
 
-        $this->actionIndex($inputFields);
+        $this->actionIndex(['signUpForm' => $this->signUpForm]);
 //        $isValid = true;
 //        $isValid *= $this->isAvailable($userInput);
 //        return $isValid;

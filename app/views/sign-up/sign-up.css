@@ -1,4 +1,4 @@
-.signup {
+.sign_up {
     position: relative;
     top: 20px;
 
@@ -11,13 +11,13 @@
     font-family: 'Roboto', sans-serif;
 }
 
-.signup__container {
+.sign_up__container {
     display: flex;
     flex-direction: column;
     justify-content: space-around;
 }
 
-.signup__header {
+.sign_up__header {
     text-align: center;
 
     color: black;
@@ -29,7 +29,7 @@
     padding: 20px;
 }
 
-.signup__line {
+.sign_up__line {
     width: 100%;
 
     background-color: #1f78d1;
@@ -39,13 +39,13 @@
     margin-top: 0;
 }
 
-.signup__unit {
+.sign_up__unit {
     width:  300px;
     margin: auto;
     margin-bottom: 20px;
 }
 
-.signup__input {
+.sign_up__input {
     display: block;
     box-sizing: border-box;
     width: 100%;
@@ -59,12 +59,12 @@
     border: 1px solid lightgray;
 }
 
-.signup__input::placeholder {
+.sign_up__input::placeholder {
     /*font-style: italic;*/
 }
 
 
-.signup__submit{
+.sign_up__submit{
     display: block;
 
     width: 30%;
@@ -81,7 +81,7 @@
     border: none;
 }
 
-.signup__validation {
+.sign_up__validation {
     font-size: 13px;
 
     margin: 0px;

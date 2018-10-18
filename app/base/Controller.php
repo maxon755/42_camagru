@@ -21,6 +21,7 @@ class Controller extends Application
 
     protected function render($renderUnit, $useComponents, array $parameters = [])
     {
+        print_r($parameters);
         $renderUnit = $this->getViewFiles($renderUnit);
         include($this->template);
     }

@@ -21,9 +21,9 @@ class InputField
      */
     public function __construct(
         string  $name,
-        string  $value,
+        string  $value=null,
         array   $checks=[],
-        string  $auxValue=Null)
+        string  $auxValue=null)
     {
         $this->name = $name;
         $this->value = trim($value);
