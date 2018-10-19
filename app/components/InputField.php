@@ -17,9 +17,11 @@ class InputField
     /**
      * InputField constructor.
      * @param string $name
-     * @param string $value
+     * @param string $contentType
+     * @param bool $required
      * @param array $checks
-     * @param string|Null $auxValue
+     * @param string|null $value
+     * @param string|null $auxValue
      */
     public function __construct(
         string  $name,
@@ -71,6 +73,14 @@ class InputField
     }
 
     /**
+     * @param $value
+     */
+    public function setValue($value): void
+    {
+        $this->value = $value;
+    }
+
+    /**
      * @return array
      */
     public function getChecks(): array
@@ -89,7 +99,7 @@ class InputField
     /**
      * @return bool
      */
-    public function getValidity(): bool
+    public function isValid(): bool
     {
         return $this->validity;
     }

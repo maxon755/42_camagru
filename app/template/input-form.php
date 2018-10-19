@@ -1,5 +1,5 @@
 
-<form class="<?php echo $this->formName ?>" action="empty/index" method="POST">
+<form class="<?php echo $this->formName ?>" action="<?php echo $this->action ?>" method="POST">
 
     <h2 class="<?php echo $this->formName . '__header' ?>"><?php echo $this->formName?></h2>
 
@@ -18,12 +18,12 @@
                             ?>" required>
                 <p class="
                     <?php
-                        echo $field->getValidity()
+                        echo $field->isValid()
                         ? "sign_up__validation"
                         : "sign_up__validation invalid-message";
                     ?>
                 ">
-                    <?php echo $field->getValidity() ? '' : $field->getMessage(); ?>
+                    <?php echo $field->isValid() ? '' : $field->getMessage(); ?>
                 </p>
             </div>
         <?php endforeach; ?>

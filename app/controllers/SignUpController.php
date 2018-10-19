@@ -16,9 +16,12 @@ class SignUpController extends Controller
 
     public function __construct()
     {
-        $this->signUpForm = new InputForm('sign_up', [
-            new InputField('username', 'text', true, ['emptiness', 'length', 'word']),
-            new InputField('email', 'text', true, ['emptiness', 'length'])
+        $this->signUpForm = new InputForm('sign_up', 'pre-confirm', [
+            'username'  => new InputField('username', 'text', true, ['emptiness', 'length', 'word']),
+            'first-name'=> new InputField('first-name', 'text', false, ['length']),
+            'last-name' => new InputField('last-name', 'text', false, ['length']),
+            'email'     => new InputField('email', 'email', true, ['emptiness', 'length', 'email']),
+            'password'  => new InputField('password', 'password', true, ['emptiness', 'length', 'password'])
         ]);
     }
 
@@ -47,11 +50,11 @@ class SignUpController extends Controller
             'last-name'         => 'gayduk',
             'email'             => 'maksim.gayduk@gmail.com',
             'password'          => '1234aaZZ',
-            'repeat-passwordd'  => '1234aaZZ',
+            'repeat-password'   => '1234aaZZ',
         ];
 
 //        print_r($userInput);
-        print_r($this->signUpForm);
+//        print_r($this->signUpForm);
 
         $isValid = $this->checkUserInput($userInput);
 
@@ -63,28 +66,15 @@ class SignUpController extends Controller
 
     private function checkUserInput($userInput)
     {
-        $inputFields = $this->getInputFields($userInput);
-//        print_r($inputFields);
+        $this->signUpForm->setValues($userInput);
+        $this->signUpForm->validate(new InputChecker());
 
-        (new InputChecker($inputFields))->check();
-
-//        print_r($inputFields);
+        print_r($this->signUpForm);
 
         $this->actionIndex();
 //        $isValid = true;
 //        $isValid *= $this->isAvailable($userInput);
 //        return $isValid;
-    }
-
-    private function getInputFields(array $userInput): array
-    {
-        return [
-            'username' => new InputField('username', $userInput['username'], [
-                'emptiness',
-                'length',
-                'word'
-            ])
-        ];
     }
 
     private function isAvailable($userInput)

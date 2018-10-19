@@ -185,8 +185,8 @@ function InputChecker(passwordFieldId) {
     var INCORRECT_USERNAME = "Incorrenct username. " +
         "It should be an alphanumeric ASCII word. " +
         "Optionally splitted with an underscore.";
-    var INCORECT_EMAIL = "Incorect email";
-    var INCORECT_LENGTH = "Minimum length is 8 symbols";
+    var INCORRECT_EMAIL = "Incorect email";
+    var INCORRECT_LENGTH = "Minimum length is 8 symbols";
     var CAPITAL_ERROR = "The password must contain at least " +
         "one capital letter";
     var DIGIT_ERROR = "The password must contain at least " +
@@ -253,7 +253,7 @@ function InputChecker(passwordFieldId) {
             return formResponse(false, lengthError);
 
         if (!email.match(/^.+@[a-z]+\.[a-z]+/))
-            return formResponse(false, INCORECT_EMAIL);
+            return formResponse(false, INCORRECT_EMAIL);
 
         return formResponse(true, "");
     };
@@ -264,7 +264,7 @@ function InputChecker(passwordFieldId) {
             return formResponse(false, lengthError);
 
         if (password.length < 8)
-            return formResponse(false, INCORECT_LENGTH);
+            return formResponse(false, INCORRECT_LENGTH);
 
         if (!password.match(/[А-ЯA-Z]/))
             return formResponse(false, CAPITAL_ERROR);
