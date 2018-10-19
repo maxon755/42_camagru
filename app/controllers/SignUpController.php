@@ -17,13 +17,14 @@ class SignUpController extends Controller
     public function __construct()
     {
         $this->signUpForm = new InputForm('sign_up', [
-            'username' => ['emptiness', 'length', 'word'],
-            'email'=> ['emptiness', 'length']
+            new InputField('username', 'text', true, ['emptiness', 'length', 'word']),
+            new InputField('email', 'text', true, ['emptiness', 'length'])
         ]);
     }
 
     public function actionIndex($parameters=[])
     {
+        $parameters['signUpForm'] = $this->signUpForm;
         $this->render('sign-up', false, $parameters);
     }
 
@@ -69,7 +70,7 @@ class SignUpController extends Controller
 
 //        print_r($inputFields);
 
-        $this->actionIndex(['signUpForm' => $this->signUpForm]);
+        $this->actionIndex();
 //        $isValid = true;
 //        $isValid *= $this->isAvailable($userInput);
 //        return $isValid;

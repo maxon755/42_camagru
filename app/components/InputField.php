@@ -6,6 +6,8 @@ namespace app\components;
 class InputField
 {
     private $name;
+    private $contentType;
+    private $required;
     private $value;
     private $auxValue;
     private $checks;
@@ -21,13 +23,17 @@ class InputField
      */
     public function __construct(
         string  $name,
-        string  $value=null,
+        string  $contentType,
+        bool    $required,
         array   $checks=[],
+        string  $value=null,
         string  $auxValue=null)
     {
         $this->name = $name;
-        $this->value = trim($value);
+        $this->contentType = $contentType;
+        $this->required = $required;
         $this->checks = $checks;
+        $this->value = trim($value);
         $this->auxValue = $auxValue;
         $this->validity = true;
     }
@@ -38,6 +44,22 @@ class InputField
     public function getName(): string
     {
         return $this->name;
+    }
+
+    /**
+     * @return string
+     */
+    public function getContentType(): string
+    {
+        return $this->contentType;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isRequired(): bool
+    {
+        return $this->required;
     }
 
     /**

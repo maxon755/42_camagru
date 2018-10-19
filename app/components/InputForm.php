@@ -14,21 +14,21 @@ class InputForm extends Application
      * InputForm constructor.
      * @param array $inputFields ['fieldName' => [validation conditions]]
      */
-    public function __construct($formName, array $formFrame)
+    public function __construct($formName, array $inputFields)
     {
         $this->formName = $formName;
-        $this->inputFields = $this->buildForm($formFrame);
+        $this->inputFields = $inputFields;
     }
 
-    private function buildForm($formFrame)
-    {
-        $inputFields = [];
-        foreach ($formFrame as $filedName => $checks)
-        {
-            $inputFields[] = new InputField($filedName, null, $checks);
-        }
-        return $inputFields;
-    }
+//    private function buildForm($formFrame)
+//    {
+//        $inputFields = [];
+//        foreach ($formFrame as $filedName => $checks)
+//        {
+//            $inputFields[] = new InputField($filedName, null, $checks);
+//        }
+//        return $inputFields;
+//    }
 
     public function render()
     {

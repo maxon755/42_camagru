@@ -1,35 +1,34 @@
 
-<form class="sign_up" action="empty/index" method="POST">
+<form class="<?php echo $this->formName ?>" action="empty/index" method="POST">
 
-    <h2 class="sign_up__header">Sign Up</h2>
+    <h2 class="<?php echo $this->formName . '__header' ?>"><?php echo $this->formName?></h2>
 
-    <hr class="sign_up__line">
+    <hr class="<?php echo $this->formName . '__line' ?>">
 
-    <div class="sign_up__container">
+    <div class="<?php echo $this->formName . '__container' ?>">
 
         <?php foreach($this->inputFields as $field): ?>
             <div class="<?php echo $this->formName . '__unit' ?>">
                 <input id="<?php echo $this->formName . '__' . $field->getName()?>"
                        class="<?php echo $this->formName . '__input' ?>"
-                       type="text" name="<?php echo $field->getName()?>"
-                       placeholder="<?php echo $field->getName() . ' *'?>" required>
+                       type="<?php echo $field->getContentType()?>"
+                       name="<?php echo $field->getName()?>"
+                       placeholder="<?php
+                                echo $field->isRequired() ? $field->getName() . ' *' : $field->getName();
+                            ?>" required>
                 <p class="
                     <?php
                         echo $field->getValidity()
                         ? "sign_up__validation"
                         : "sign_up__validation invalid-message";
-                ?>
+                    ?>
                 ">
-                    <?php
-                    if (!$field->getValidity())
-                    {
-                        echo $field->getMessage();
-                    }?>
+                    <?php echo $field->getValidity() ? '' : $field->getMessage(); ?>
                 </p>
             </div>
         <?php endforeach; ?>
-        <input  id="sign_up__submit"
-                class="sign_up__submit"
+        <input  id="<?php echo $this->formName . '__submit' ?>"
+                class="<?php echo $this->formName . '__submit' ?>"
                 type="submit" value="Submit">
     </div>
 </form>
