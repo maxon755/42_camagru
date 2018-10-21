@@ -5,8 +5,8 @@ namespace app\controllers;
 use app\base\Controller;
 use app\components\Debug;
 use app\components\InputChecker;
-use app\components\InputField;
-use app\components\InputForm;
+use app\components\inputForm\InputField;
+use app\components\inputForm\InputForm;
 use app\models\PreUsers;
 use app\models\Users;
 

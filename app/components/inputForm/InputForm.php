@@ -1,9 +1,10 @@
 <?php
 
-namespace app\components;
+namespace app\components\inputForm;
 
 
 use app\base\Application;
+use app\components\Checker;
 
 class InputForm extends Application
 {
@@ -38,7 +39,7 @@ class InputForm extends Application
 
     public function render(): void
     {
-        include(ROOT . '/template/input-form.php');
+        include(__DIR__ . DS . 'input-form.php');
     }
 
     /**
