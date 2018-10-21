@@ -18,6 +18,7 @@ class InputChecker implements Checker
     const PW_CAPITAL_ERROR  =   "The password must contain at least one capital letter";
     const PW_DIGIT_ERROR    =   "The password must contain at least one digit";
 
+    const DISMATCH_ERROR    =   "The value is not match the previous one";
     /**
      * @param array $inputFields
      */
@@ -140,6 +141,17 @@ class InputChecker implements Checker
         {
             $inputField->setValidity(false);
             $inputField->setMessage(self::PW_DIGIT_ERROR);
+            return false;
+        }
+        return true;
+    }
+
+    private function checkEquality(InputField $inputField)
+    {
+        if (strcmp($inputField->getValue(), $inputField->getAuxValue()))
+        {
+            $inputField->setValidity(false);
+            $inputField->setMessage(self::DISMATCH_ERROR);
             return false;
         }
         return true;

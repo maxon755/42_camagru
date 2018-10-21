@@ -1,7 +1,7 @@
 
 <form class="<?php echo $this->formName ?>" action="<?php echo $this->action ?>" method="POST">
 
-    <h2 class="<?php echo $this->formName . '__header' ?>"><?php echo $this->formName?></h2>
+    <h2 class="<?php echo $this->formName . '__header' ?>"><?php echo $this->tittle?></h2>
 
     <hr class="<?php echo $this->formName . '__line' ?>">
 
@@ -13,9 +13,8 @@
                        class="<?php echo $this->formName . '__input' ?>"
                        type="<?php echo $field->getContentType()?>"
                        name="<?php echo $field->getName()?>"
-                       placeholder="<?php
-                                echo $field->isRequired() ? $field->getName() . ' *' : $field->getName();
-                            ?>" required>
+                       placeholder="<?php echo $field->isRequired() ? $field->getName() . ' *' : $field->getName(); ?>"
+                            <?php echo $field->isRequired() ? 'required' : '' ?>>
                 <p class="
                     <?php
                         echo $field->isValid()

@@ -89,11 +89,19 @@ class InputField
     }
 
     /**
-     * @return string
+     * @return null|string
      */
-    public function getAuxValue(): string
+    public function getAuxValue(): ?string
     {
         return $this->auxValue;
+    }
+
+    /**
+     * @param null|string $auxValue
+     */
+    public function setAuxValue(?string $auxValue): void
+    {
+        $this->auxValue = $auxValue;
     }
 
     /**

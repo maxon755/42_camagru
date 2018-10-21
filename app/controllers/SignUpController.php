@@ -16,12 +16,33 @@ class SignUpController extends Controller
 
     public function __construct()
     {
-        $this->signUpForm = new InputForm('sign_up', 'pre-confirm', [
-            'username'  => new InputField('username', 'text', true, ['emptiness', 'length', 'word']),
-            'first-name'=> new InputField('first-name', 'text', false, ['length']),
-            'last-name' => new InputField('last-name', 'text', false, ['length']),
-            'email'     => new InputField('email', 'email', true, ['emptiness', 'length', 'email']),
-            'password'  => new InputField('password', 'password', true, ['emptiness', 'length', 'password'])
+        $this->signUpForm = new InputForm('sign_up', 'Sign Up', 'pre-confirm', [
+            'username'  => new InputField('username', 'text', true, [
+                'emptiness',
+                'length',
+                'word'
+            ]),
+            'first-name'=> new InputField('first-name', 'text', false, [
+                'length'
+            ]),
+            'last-name' => new InputField('last-name', 'text', false, [
+                'length'
+            ]),
+            'email'     => new InputField('email', 'email', true, [
+                'emptiness',
+                'length',
+                'email'
+            ]),
+            'password'  => new InputField('password', 'password', true, [
+                'emptiness',
+                'length',
+                'password'
+            ]),
+            'repeat-password' => new InputField('repeat-password', 'password', true, [
+                'emptiness',
+                'length',
+                'equality'
+            ], null, $auxValue = 'password')
         ]);
     }
 
@@ -41,9 +62,6 @@ class SignUpController extends Controller
 
     public function actionPreConfirm()
     {
-//        $userInput  = (array) json_decode($_POST['userInput']);
-//        $userInput  = $_POST;
-
         $userInput = [
             'username'          => 'pan_Z',
             'first-name'        => 'maks',
@@ -53,15 +71,7 @@ class SignUpController extends Controller
             'repeat-password'   => '1234aaZZ',
         ];
 
-//        print_r($userInput);
-//        print_r($this->signUpForm);
-
         $isValid = $this->checkUserInput($userInput);
-
-//        if (!$isValid)
-//            exit(json_encode(["success" => $isValid]));
-
-//        (new PreUsers())->insert($userInput);
     }
 
     private function checkUserInput($userInput)
@@ -69,7 +79,7 @@ class SignUpController extends Controller
         $this->signUpForm->setValues($userInput);
         $this->signUpForm->validate(new InputChecker());
 
-        print_r($this->signUpForm);
+        Debug::debugArray($this->signUpForm, "", true);
 
         $this->actionIndex();
 //        $isValid = true;

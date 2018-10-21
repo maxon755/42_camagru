@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: maks
- * Date: 25.08.18
- * Time: 13:21
- */
 
 namespace app\base;
 

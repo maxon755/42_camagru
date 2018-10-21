@@ -74,7 +74,7 @@
 <!--        <div class="sign_up__unit">-->
 <!--            <input id="sign_up__repeat-password"-->
 <!--                   class="sign_up__input"-->
-<!--                   type="password" name="repeat-passwordd"-->
+<!--                   type="password" name="repeat-password"-->
 <!--                   placeholder="Repeat Password *" required>-->
 <!--            <p class="sign_up__validation valid">-->
 <!---->
