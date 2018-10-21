@@ -11,6 +11,7 @@ class InputForm extends Application
     private $tittle;
     private $action;
     private $inputFields;
+    private $validity;
 
     /**
      * InputForm constructor.
@@ -32,7 +33,7 @@ class InputForm extends Application
      */
     public function validate(Checker $inputChecker): void
     {
-        $inputChecker->check($this->inputFields);
+        $this->validity = $inputChecker->check($this->inputFields);
     }
 
     public function render(): void
@@ -57,5 +58,13 @@ class InputForm extends Application
                 }
             }
         }
+    }
+
+    /**
+     * @return bool
+     */
+    public function isValid()
+    {
+        return $this->validity;
     }
 }

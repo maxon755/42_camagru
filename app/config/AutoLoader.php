@@ -1,12 +1,15 @@
 <?php
 
 spl_autoload_register(function ($class) {
-    $pathParts = explode('\\', $class);
-    $classFolder = $pathParts[1];
-    $className = $pathParts[2] . '.php';
-    $path = ROOT . DS . $classFolder . DS . $className;
-    if (file_exists($path))
+    $pathParts = array_slice(explode('\\', $class), 1);
+    $path = ROOT;
+    foreach ($pathParts as $pathPart)
     {
-        require_once $path;
+        $path .= DS . $pathPart;
+    }
+    $class = $path . '.php';
+    if (file_exists($class))
+    {
+        require_once $class;
     }
 });

@@ -68,7 +68,7 @@ class SignUpController extends Controller
             'last-name'         => 'gayduk',
             'email'             => 'maksim.gayduk@gmail.com',
             'password'          => '1234aaZZ',
-            'repeat-password'   => '1234aaZZ',
+            'repeat-password'   => '1234aaZZa',
         ];
 
         $isValid = $this->checkUserInput($userInput);

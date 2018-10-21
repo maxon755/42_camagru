@@ -22,27 +22,32 @@ class InputChecker implements Checker
 
     /**
      * @param array $inputFields
+     * @return bool
      */
-    public function check(array $inputFields):void
+    public function check(array $inputFields):bool
     {
+        $validity = true;
         foreach ($inputFields as $inputField) {
-            $this->performChecks($inputField);
+            $validity *= $this->performChecks($inputField);
         }
+        return $validity;
     }
 
     /**
      * @param InputField $inputField
+     * @return bool
      */
-    private function performChecks(InputField $inputField): void
+    private function performChecks(InputField $inputField): bool
     {
         foreach ($inputField->getChecks() as $checkName)
         {
             $method = $this->getCheckMethod($checkName);
-            if (!call_user_func(array($this, $method), $inputField))
+            if (!(call_user_func(array($this, $method), $inputField)))
             {
-                break;
+                return false;
             }
         }
+        return true;
     }
 
     /**

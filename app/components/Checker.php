@@ -5,5 +5,9 @@ namespace app\components;
 
 interface Checker
 {
-    public function check(array $itemsToCheck);
+    /**
+     * @param array $itemsToCheck
+     * @return bool
+     */
+    public function check(array $itemsToCheck): bool;
 }
