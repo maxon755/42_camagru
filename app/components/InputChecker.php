@@ -2,6 +2,7 @@
 
 namespace app\components;
 
+use app\components\inputForm\InputField;
 
 class InputChecker implements Checker
 {
@@ -11,14 +12,14 @@ class InputChecker implements Checker
     const LENGTH_ERROR      =   "Maximum field length is " . self::MAX_LENGTH . " characters";
     const INCORRECT_WORD    =   "This field should be an alphanumeric ASCII word. " .
                                 "Optionally splitted with an underscore.";
-    const INCORRECT_EMAIL   =   "Incorect email";
+    const INCORRECT_EMAIL   =   "Incorrect email";
 
     const PW_MIN_LENGTH     =   8;
     const PW_LENGTH_ERROR   =   "Minimum length is " . self::PW_MIN_LENGTH . " symbols";
     const PW_CAPITAL_ERROR  =   "The password must contain at least one capital letter";
     const PW_DIGIT_ERROR    =   "The password must contain at least one digit";
 
-    const DISMATCH_ERROR    =   "The value is not match the previous one";
+    const DISMATCH_ERROR    =   "The value doesn`t not match the previous one";
 
     /**
      * @param array $inputFields

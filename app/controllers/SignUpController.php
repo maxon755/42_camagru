@@ -14,6 +14,8 @@ class SignUpController extends Controller
 {
     private $signUpForm;
 
+    const VIEW_NAME = 'sign-up';
+
     public function __construct()
     {
         $this->signUpForm = new InputForm('sign_up', 'Sign Up', 'pre-confirm', [
@@ -46,10 +48,14 @@ class SignUpController extends Controller
         ]);
     }
 
-    public function actionIndex($parameters=[])
+    private function renderForm()
     {
-        $parameters['signUpForm'] = $this->signUpForm;
-        $this->render('sign-up', false, $parameters);
+        $this->render(self::VIEW_NAME, false, ['signUpForm' => $this->signUpForm]);
+    }
+
+    public function actionIndex()
+    {
+        $this->renderForm();
     }
 
     public function actionCheckAvailability()
@@ -71,21 +77,15 @@ class SignUpController extends Controller
             'repeat-password'   => '1234aaZZa',
         ];
 
-        $isValid = $this->checkUserInput($userInput);
-    }
-
-    private function checkUserInput($userInput)
-    {
         $this->signUpForm->setValues($userInput);
         $this->signUpForm->validate(new InputChecker());
-
-        Debug::debugArray($this->signUpForm, "", true);
-
-        $this->actionIndex();
-//        $isValid = true;
-//        $isValid *= $this->isAvailable($userInput);
-//        return $isValid;
+        if ($this->signUpForm->isValid())
+        {
+            // check avalability
+        }
+        $this->renderForm();
     }
+
 
     private function isAvailable($userInput)
     {

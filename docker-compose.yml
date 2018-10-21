@@ -2,7 +2,7 @@ version: '3'
 
 services:
   nginx:
-    image: "nginx:latest"
+    image: nginx:latest
 
     container_name: nginx
     ports:
@@ -10,11 +10,29 @@ services:
       - "443:443"
     volumes:
       - ./app:/usr/share/nginx/html/
-      - ./nginx:/etc/nginx/conf.d
+      - ./nginx/config:/etc/nginx/conf.d
+      - ./nginx/logs:/var/log/nginx/
 
   php-fpm:
-    image: "php:7.2-fpm"
+    image: php:7.2-fpm
     container_name: "php-fpm"
     volumes:
       - ./app:/app
+
+  pgsql:
+    image: postgres:11.0
+
+    container_name: pgsql
+
+    environment:
+      - POSTGRES_DB=camagru
+      - POSTGRES_USER=camagru
+      - POSTGRES_PASSWORD=camagru
+
+    volumes:
+      - ./database:/var/lib/postgresql/data
+      - ./db_dump:/db_dump
+
+
+
 

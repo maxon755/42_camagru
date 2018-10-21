@@ -1,8 +1,14 @@
 .*
 !.gitignore
 
+# Database volume
+database
+
 # Local data base dump
 db_dump
+
+# nginx logs
+nginx/logs
 
 # Controller for testing propose
 app/controllers/EmptyController.php
