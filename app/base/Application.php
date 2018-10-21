@@ -8,14 +8,14 @@ class Application
     protected static $config;
     protected static $appName;
     protected static $mode;
-    protected static $components;
+    protected static $viewComponents;
 
     public static function initApplication(array $config)
     {
-        self::$config       = $config;
-        self::$appName      = $config['appName'];
-        self::$mode         = $config['mode'];
-        self::$components   = $config['components'];
+        self::$config           = $config;
+        self::$appName          = $config['appName'];
+        self::$mode             = $config['mode'];
+        self::$viewComponents   = $config['viewComponents'];
     }
 
     protected function camelToSnake($camelString)

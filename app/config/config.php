@@ -16,7 +16,7 @@ $config = [
         'charset'   => 'utf8'
     ],
 
-    'components' => [
+    'viewComponents' => [
         'header' => [
             'path' =>  ROOT . '/template/header/header.php',
             'stylePath' => '/template/header/header.css'

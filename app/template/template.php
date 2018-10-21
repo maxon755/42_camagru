@@ -12,7 +12,7 @@
 
     <link rel="stylesheet" href="/template/template.css">
     <?php if ($useComponents): ?>
-        <?php foreach(self::$components as $component): ?>
+        <?php foreach(self::$viewComponents as $component): ?>
             <link rel="stylesheet" href="<?php echo $component['stylePath']; ?>">
         <?php endforeach; ?>
     <?php endif; ?>
@@ -23,7 +23,7 @@
 
 <?php
     if ($useComponents)
-        include(self::$components['header']['path']);
+        include(self::$viewComponents['header']['path']);
     include($renderUnit['markUp']);
 
 ?>

@@ -19,6 +19,7 @@ class InputChecker implements Checker
     const PW_DIGIT_ERROR    =   "The password must contain at least one digit";
 
     const DISMATCH_ERROR    =   "The value is not match the previous one";
+
     /**
      * @param array $inputFields
      */
