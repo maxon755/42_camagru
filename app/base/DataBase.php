@@ -10,31 +10,38 @@ class DataBase extends Application
 
     private static $dbInstance;
 
-    private function __construct()
+    private function __construct(array $config=null)
     {
-        $this->getConnection();
+        $this->getConnection($config);
     }
 
-    public static function getInstance($tableName)
+
+    /**
+     * @param string|null $tableName
+     * @param array|null $config
+     * @return DataBase
+     */
+    public static function getInstance(string $tableName=null, array $config=null): DataBase
     {
         if (!self::$dbInstance)
-            self::$dbInstance = new self();
+            self::$dbInstance = new self($config);
 
         self::$dbInstance->setTableName($tableName);
         return self::$dbInstance;
     }
 
-    private function getConnection()
+    private function getConnection(array $config=null): void
     {
-        $params = self::$config['db'];
+        $config = $config ? $config : self::$config['db'];
 
-        $host       = $params['host'];
-        $dbname     = $params['dbname'];
-        $user       = $params['user'];
-        $password   = $params['password'];
-        $charset    = $params['charset'];
+        $driver     = $config['driver'];
+        $host       = $config['host'];
+        $dbname     = $config['dbname'];
+        $user       = $config['user'];
+        $password   = $config['password'];
 
-        $dsn = "mysql:host={$host};dbname={$dbname};charset={$charset}";
+        $dsn = "{$driver}:host={$host};dbname={$dbname};user={$user};password={$password}";
+        echo $dsn . PHP_EOL;
         $options = [
             \PDO::ATTR_ERRMODE            => \PDO::ERRMODE_EXCEPTION,
             \PDO::ATTR_DEFAULT_FETCH_MODE => \PDO::FETCH_ASSOC,
@@ -99,4 +106,14 @@ class DataBase extends Application
 
         return $insertData;
     }
+
+    public function executeQuery(string $query): array
+    {
+        $stm = $this->pdo->prepare($query);
+        print_r($stm);
+        $stm->execute();
+        $dbData = $stm->fetchAll();
+        return $dbData;
+    }
+
 }

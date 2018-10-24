@@ -8,13 +8,7 @@ $config = [
      */
     'mode' => 'dev',
 
-    'db' => [
-        'host' 		=> 'localhost',
-        'dbname' 	=> 'camagru',
-        'user' 		=> 'root',
-        'password' 	=> 'root42',
-        'charset'   => 'utf8'
-    ],
+    'db' => include 'database.php',
 
     'viewComponents' => [
         'header' => [

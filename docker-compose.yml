@@ -5,6 +5,7 @@ services:
     image: nginx:latest
 
     container_name: nginx
+
     ports:
       - "80:80"
       - "443:443"
@@ -14,15 +15,18 @@ services:
       - ./nginx/logs:/var/log/nginx/
 
   php-fpm:
-    image: php:7.2-fpm
+    build: ./php-fpm
     container_name: "php-fpm"
     volumes:
       - ./app:/app
 
   pgsql:
-    image: postgres:11.0
+    image: postgres:9.6
 
     container_name: pgsql
+
+    ports:
+      - "5432:5432"
 
     environment:
       - POSTGRES_DB=camagru
