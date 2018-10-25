@@ -6,7 +6,7 @@ namespace app\components;
 class CaseTranslator
 {
     /**
-     * @param string $case
+     * @param string $case ('camel', 'snake', 'kebab')
      * @param array $strings
      * @return array
      */

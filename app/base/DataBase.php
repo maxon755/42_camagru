@@ -2,6 +2,7 @@
 
 namespace app\base;
 
+use app\components\CaseTranslator;
 
 class DataBase extends Application
 {
@@ -15,7 +16,6 @@ class DataBase extends Application
         $this->getConnection($config);
     }
 
-
     /**
      * @param string|null $tableName
      * @param array|null $config
@@ -26,10 +26,13 @@ class DataBase extends Application
         if (!self::$dbInstance)
             self::$dbInstance = new self($config);
 
-        self::$dbInstance->setTableName($tableName);
+        self::$dbInstance->useTable($tableName);
         return self::$dbInstance;
     }
 
+    /**
+     * @param array|null $config
+     */
     private function getConnection(array $config=null): void
     {
         $config = $config ? $config : self::$config['db'];
@@ -41,7 +44,6 @@ class DataBase extends Application
         $password   = $config['password'];
 
         $dsn = "{$driver}:host={$host};dbname={$dbname};user={$user};password={$password}";
-        echo $dsn . PHP_EOL;
         $options = [
             \PDO::ATTR_ERRMODE            => \PDO::ERRMODE_EXCEPTION,
             \PDO::ATTR_DEFAULT_FETCH_MODE => \PDO::FETCH_ASSOC,
@@ -50,7 +52,11 @@ class DataBase extends Application
         $this->pdo = new \PDO($dsn, $user, $password, $options);
     }
 
-    public function setTableName($tableName)
+    /**
+     * @param string $tableName
+     * @return DataBase
+     */
+    public function useTable(string $tableName): DataBase
     {
         $this->tableName = $tableName;
         return $this;
@@ -61,13 +67,13 @@ class DataBase extends Application
         return $this->tableName;
     }
 
-    public function selectAll()
+    public function selectAll(): array
     {
         $query = "SELECT * FROM $this->tableName;";
         $stm = $this->pdo->prepare($query);
         $stm->execute();
-        $dbData = $stm->fetchAll();
-        return $dbData;
+        $rowData = $stm->fetchAll();
+        return $rowData;
     }
 
     public function selectAllWhere($colunmName, $value)
@@ -79,12 +85,21 @@ class DataBase extends Application
         return $dbData;
     }
 
-    public function countWhere($colunmName, $value)
+    /**
+     * @param string $columnName
+     * @param string $value
+     * @return bool
+     */
+    public function rowExists(string $columnName, string $value): bool
     {
-        return !count($this->selectAllWhere($colunmName, $value));
+        return count($this->selectAllWhere($columnName, $value));
     }
 
-    public function insert($data)
+    /**
+     * @param array $data
+     * @return bool
+     */
+    public function insert(array $data): bool
     {
         $insertData = $this->prepareInsertData($data);
         $columns    = $insertData['columns'];
@@ -97,9 +112,13 @@ class DataBase extends Application
         return $stm->execute($values);
     }
 
-    private function prepareInsertData($data)
+    /**
+     * @param array $data
+     * @return array
+     */
+    private function prepareInsertData(array $data): array
     {
-        $keys = $this->arrayCamelToSnake(array_keys($data));
+        $keys = CaseTranslator::arrayTo('snake', array_keys($data));
         $insertData['columns'] = implode(', ', $keys);
         $insertData['holders'] = str_repeat('?, ', count($data) - 1) . '?';
         $insertData['values']  = array_values($data);
@@ -107,10 +126,13 @@ class DataBase extends Application
         return $insertData;
     }
 
+    /**
+     * @param string $query
+     * @return array
+     */
     public function executeQuery(string $query): array
     {
         $stm = $this->pdo->prepare($query);
-        print_r($stm);
         $stm->execute();
         $dbData = $stm->fetchAll();
         return $dbData;
