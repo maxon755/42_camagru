@@ -26,7 +26,9 @@ class DataBase extends Application
         if (!self::$dbInstance)
             self::$dbInstance = new self($config);
 
-        self::$dbInstance->useTable($tableName);
+        if ($tableName !== null) {
+            self::$dbInstance->useTable($tableName);
+        }
         return self::$dbInstance;
     }
 
@@ -67,32 +69,53 @@ class DataBase extends Application
         return $this->tableName;
     }
 
+    /**
+     * @return array
+     */
     public function selectAll(): array
     {
-        $query = "SELECT * FROM $this->tableName;";
+        $query = "SELECT * FROM \"$this->tableName\";";
         $stm = $this->pdo->prepare($query);
         $stm->execute();
         $rowData = $stm->fetchAll();
         return $rowData;
     }
 
-    public function selectAllWhere($colunmName, $value)
+    /**
+     * @param array $data
+     * @param string|null $operator
+     * @return array
+     */
+    public function selectAllWhere(array $data, string $operator=null): array
     {
-        $query = "SELECT * FROM $this->tableName WHERE $colunmName = ?;";
+        $whereString =  $this->prepareWhereData($data, $operator);
+        $query = "SELECT * FROM \"$this->tableName\" WHERE ${whereString};";
         $stm = $this->pdo->prepare($query);
-        $stm->execute(array($value));
+        $stm->execute(array_values($data));
         $dbData = $stm->fetchAll();
         return $dbData;
     }
 
     /**
-     * @param string $columnName
-     * @param string $value
+     * @param array $data
+     * @param string|null $operator
+     * @return string
+     */
+    private function prepareWhereData(array $data, string $operator=null)
+    {
+        if (count($data) > 1 && $operator === null) {
+            $operator = 'AND';
+        }
+        return implode(" = ? ${operator} ", array_keys($data)) . ' = ?';
+    }
+
+    /**
+     * @param array $data
      * @return bool
      */
-    public function rowExists(string $columnName, string $value): bool
+    public function rowExists(array $data): bool
     {
-        return count($this->selectAllWhere($columnName, $value));
+        return count($this->selectAllWhere($data));
     }
 
     /**
@@ -106,10 +129,25 @@ class DataBase extends Application
         $holders    = $insertData['holders'];
         $values     = $insertData['values'];
 
-        $query = "INSERT INTO $this->tableName ($columns) VALUES ($holders);";
+        $query = "INSERT INTO \"$this->tableName\" ($columns) VALUES ($holders);";
         $stm = $this->pdo->prepare($query);
 
         return $stm->execute($values);
+    }
+
+    /**
+     * @param array $data
+     * @return bool
+     */
+    public function insertIfNotExists(array $data): bool
+    {
+        $value = reset($data);
+        $column = key($data);
+
+        if (!$this->rowExists([$column => $value])) {
+            return $this->insert($data);
+        }
+        return false;
     }
 
     /**

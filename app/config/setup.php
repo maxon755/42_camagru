@@ -9,17 +9,6 @@ use app\base\Application;
 
 $config = require_once('database.php');
 
-function insert(DataBase $db, array $data)
-{
-    $value = reset($data);
-    $column = key($data);
-
-    if (!$db->rowExists($column, $value))
-    {
-        $db->insert($data);
-    }
-}
-
 $db = DataBase::getInstance(null, $config);
 
 $db->executeQuery('CREATE TABLE IF NOT EXISTS "User" (
@@ -34,17 +23,35 @@ $db->executeQuery('CREATE TABLE IF NOT EXISTS "User" (
   );'
 );
 
+$db->useTable('User');
 
-
-
-
-$db->useTable('tt');
-
-
-
-insert($db, [
-    'name'  => 'maks',
-    'age'   =>  24
+$db->insertIfNotExists([
+    'username'      => 'test_user',
+    'email'         => 'test_email@test.com',
+    'password'      => password_hash('test_password', PASSWORD_BCRYPT),
+    'first_name'    => 'test_name',
+    'is_active'     => 1,
 ]);
+
+$db->insertIfNotExists([
+    'username'      => 'test_user2',
+    'email'         => 'test_email2@test.com',
+    'password'      => password_hash('test_password', PASSWORD_BCRYPT),
+    'first_name'    => 'test_name2',
+    'is_active'     => 0,
+]);
+
+$db->selectAllWhere([
+        'username' => 'test_user',
+    ]);
+
+//
+//
+//$db->useTable('tt');
+//
+//insert($db, [
+//    'name'  => 'maks',
+//    'age'   =>  24
+//]);
 
 
