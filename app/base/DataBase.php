@@ -11,6 +11,10 @@ class DataBase extends Application
 
     private static $dbInstance;
 
+    /**
+     * DataBase constructor.
+     * @param array|null $config
+     */
     private function __construct(array $config=null)
     {
         $this->getConnection($config);
@@ -64,6 +68,9 @@ class DataBase extends Application
         return $this;
     }
 
+    /**
+     * @return string|null
+     */
     public function getTableName()
     {
         return $this->tableName;
@@ -75,10 +82,7 @@ class DataBase extends Application
     public function selectAll(): array
     {
         $query = "SELECT * FROM \"$this->tableName\";";
-        $stm = $this->pdo->prepare($query);
-        $stm->execute();
-        $rowData = $stm->fetchAll();
-        return $rowData;
+        return $this->executeQuery($query);
     }
 
     /**
@@ -90,10 +94,7 @@ class DataBase extends Application
     {
         $whereString =  $this->prepareWhereData($data, $operator);
         $query = "SELECT * FROM \"$this->tableName\" WHERE ${whereString};";
-        $stm = $this->pdo->prepare($query);
-        $stm->execute(array_values($data));
-        $dbData = $stm->fetchAll();
-        return $dbData;
+        return $this->executeQuery($query, array_values($data));
     }
 
     /**
@@ -107,15 +108,6 @@ class DataBase extends Application
             $operator = 'AND';
         }
         return implode(" = ? ${operator} ", array_keys($data)) . ' = ?';
-    }
-
-    /**
-     * @param array $data
-     * @return bool
-     */
-    public function rowExists(array $data): bool
-    {
-        return count($this->selectAllWhere($data));
     }
 
     /**
@@ -137,6 +129,20 @@ class DataBase extends Application
 
     /**
      * @param array $data
+     * @return array
+     */
+    private function prepareInsertData(array $data): array
+    {
+        $keys = CaseTranslator::arrayTo('snake', array_keys($data));
+        $insertData['columns'] = implode(', ', $keys);
+        $insertData['holders'] = str_repeat('?, ', count($data) - 1) . '?';
+        $insertData['values']  = array_values($data);
+
+        return $insertData;
+    }
+
+    /**
+     * @param array $data
      * @return bool
      */
     public function insertIfNotExists(array $data): bool
@@ -152,26 +158,21 @@ class DataBase extends Application
 
     /**
      * @param array $data
-     * @return array
+     * @return bool
      */
-    private function prepareInsertData(array $data): array
+    public function rowExists(array $data): bool
     {
-        $keys = CaseTranslator::arrayTo('snake', array_keys($data));
-        $insertData['columns'] = implode(', ', $keys);
-        $insertData['holders'] = str_repeat('?, ', count($data) - 1) . '?';
-        $insertData['values']  = array_values($data);
-
-        return $insertData;
+        return count($this->selectAllWhere($data));
     }
 
     /**
      * @param string $query
      * @return array
      */
-    public function executeQuery(string $query): array
+    public function executeQuery(string $query, array $data=null): array
     {
         $stm = $this->pdo->prepare($query);
-        $stm->execute();
+        $stm->execute($data);
         $dbData = $stm->fetchAll();
         return $dbData;
     }

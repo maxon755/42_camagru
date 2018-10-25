@@ -41,10 +41,6 @@ $db->insertIfNotExists([
     'is_active'     => 0,
 ]);
 
-$db->selectAllWhere([
-        'username' => 'test_user',
-    ]);
-
 //
 //
 //$db->useTable('tt');
