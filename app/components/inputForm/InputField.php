@@ -3,6 +3,8 @@
 namespace app\components\inputForm;
 
 
+use app\components\CaseTranslator;
+
 class InputField
 {
     private $name;
@@ -13,6 +15,7 @@ class InputField
     private $checks;
     private $validity;
     private $message;
+    private $placeholder;
 
     /**
      * InputField constructor.
@@ -38,6 +41,10 @@ class InputField
         $this->value = trim($value);
         $this->auxValue = $auxValue;
         $this->validity = true;
+        $this->placeholder = ucfirst(CaseTranslator::toHuman($name));
+        if ($this->required) {
+            $this->placeholder .= ' *';
+        }
     }
 
     /**
@@ -135,5 +142,13 @@ class InputField
     public function setMessage(string $message): void
     {
         $this->message = $message;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPlaceholder(): string
+    {
+        return $this->placeholder;
     }
 }

@@ -2,6 +2,7 @@
 
 namespace app\base;
 
+use app\components\CaseTranslator;
 
 class Model extends Application
 {
@@ -25,7 +26,7 @@ class Model extends Application
         $re = '/(?<=\\\\)(?<className>\w+)$/';
         preg_match($re, $tableName, $matches);
         $tableName = $matches['className'];
-        $tableName = $this->camelToSnake($tableName);
+        $tableName = CaseTranslator::toCamel($tableName);
 
         return $tableName;
     }

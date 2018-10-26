@@ -17,25 +17,4 @@ class Application
         self::$mode             = $config['mode'];
         self::$viewComponents   = $config['viewComponents'];
     }
-
-    protected function camelToSnake($camelString)
-    {
-        $re = '/(?<=[a-z])(?=[A-Z])/';
-        $stringParts = preg_split($re, $camelString);
-        $snakeString = implode('_', $stringParts);
-        $snakeString = strtolower($snakeString);
-
-        return $snakeString;
-    }
-
-    protected function arrayCamelToSnake($camelArray)
-    {
-        $snakeArray = [];
-
-        foreach ($camelArray as $camelString) {
-            $snakeArray[] = $this->camelToSnake($camelString);
-        }
-
-        return $snakeArray;
-    }
 }

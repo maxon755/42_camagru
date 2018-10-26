@@ -13,7 +13,7 @@
                        class="<?php echo $this->formName . '__input' ?>"
                        type="<?php echo $field->getContentType()?>"
                        name="<?php echo $field->getName()?>"
-                       placeholder="<?php echo $field->isRequired() ? $field->getName() . ' *' : $field->getName(); ?>"
+                       placeholder="<?php echo $field->getPlaceholder(); ?>"
                             <?php echo $field->isRequired() ? 'required' : '' ?>>
                 <p class="
                     <?php
