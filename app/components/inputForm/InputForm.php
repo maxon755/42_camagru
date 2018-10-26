@@ -37,6 +37,30 @@ class InputForm extends Application
         $this->validity = $inputChecker->check($this->inputFields);
     }
 
+    /**
+     * @param callable $checkFunction
+     */
+    public function checkAvailability(callable $checkFunction)
+    {
+        $uniqueFields = $this->getUniqueFields();
+        print_r($uniqueFields);
+    }
+
+    /**
+     * @return array
+     */
+    private function getUniqueFields(): array
+    {
+        $uniqueFields = [];
+        foreach ($this->inputFields as $field)
+        {
+            if ($field->isUnique()){
+                $uniqueFields[] = $field;
+            }
+        }
+        return $uniqueFields;
+    }
+
     public function render(): void
     {
         include(__DIR__ . DS . 'input-form.php');
@@ -68,4 +92,26 @@ class InputForm extends Application
     {
         return $this->validity;
     }
+
+    /**
+     * @param mixed $validity
+     */
+    public function setValidity($validity): void
+    {
+        $this->validity = $validity;
+    }
+
+    /**
+     * @return array
+     */
+    public function getInputFields(): array
+    {
+        return $this->inputFields;
+    }
+
+    public function getInputField(string $filedName): InputField
+    {
+        return $this->inputFields[$filedName];
+    }
+
 }

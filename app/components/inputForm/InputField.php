@@ -11,6 +11,7 @@ class InputField
     private $contentType;
     private $required;
     private $value;
+    private $unique;
     private $auxValue;
     private $checks;
     private $validity;
@@ -23,6 +24,7 @@ class InputField
      * @param string $contentType
      * @param bool $required
      * @param array $checks
+     * @param bool $unique
      * @param string|null $value
      * @param string|null $auxValue
      */
@@ -31,12 +33,14 @@ class InputField
         string  $contentType,
         bool    $required,
         array   $checks=[],
+        bool    $unique=false,
         string  $value=null,
         string  $auxValue=null)
     {
         $this->name = $name;
         $this->contentType = $contentType;
         $this->required = $required;
+        $this->unique = $unique;
         $this->checks = $checks;
         $this->value = trim($value);
         $this->auxValue = $auxValue;
@@ -150,5 +154,13 @@ class InputField
     public function getPlaceholder(): string
     {
         return $this->placeholder;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isUnique(): bool
+    {
+        return $this->unique;
     }
 }

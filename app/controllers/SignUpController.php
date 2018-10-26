@@ -7,8 +7,7 @@ use app\components\Debug;
 use app\components\InputChecker;
 use app\components\inputForm\InputField;
 use app\components\inputForm\InputForm;
-use app\models\PreUsers;
-use app\models\Users;
+use app\models\User;
 
 class SignUpController extends Controller
 {
@@ -23,7 +22,7 @@ class SignUpController extends Controller
                 'emptiness',
                 'length',
                 'word'
-            ]),
+            ], true),
             'first-name'=> new InputField('first-name', 'text', false, [
                 'length'
             ]),
@@ -34,7 +33,7 @@ class SignUpController extends Controller
                 'emptiness',
                 'length',
                 'email'
-            ]),
+            ], true),
             'password'  => new InputField('password', 'password', true, [
                 'emptiness',
                 'length',
@@ -44,7 +43,7 @@ class SignUpController extends Controller
                 'emptiness',
                 'length',
                 'equality'
-            ], null, $auxValue = 'password')
+            ], false, null, $auxValue = 'password')
         ]);
     }
 
@@ -62,7 +61,7 @@ class SignUpController extends Controller
     {
         $value  = $_POST['value'];
         $column = $_POST['type'];
-        $available  = (new Users())->checkAvailability($column, $value);
+        $available  = (new User())->checkAvailability([$column => $value]);
         echo json_encode(["available" => $available]);
     }
 
@@ -74,29 +73,19 @@ class SignUpController extends Controller
             'last-name'         => 'gayduk',
             'email'             => 'maksim.gayduk@gmail.com',
             'password'          => '1234aaZZ',
-            'repeat-password'   => '1234aaZZa',
+            'repeat-password'   => '1234aaZZ',
         ];
 
         $this->signUpForm->setValues($userInput);
         $this->signUpForm->validate(new InputChecker());
         if ($this->signUpForm->isValid())
         {
-            // check avalability
+            $userModel = new User();
+            $checkFunction  = function (array $data) use ($userModel) {
+                $userModel->checkAvailability($data);
+            };
+            $this->signUpForm->checkAvailability($checkFunction);
         }
         $this->renderForm();
-    }
-
-
-    private function isAvailable($userInput)
-    {
-        $username   = $userInput['username'];
-        $email      = $userInput['email'];
-
-        $users = new Users();
-
-        $available  = $users->checkAvailability('username', $username);
-        $available *= $users->checkAvailability('email', $email);
-
-        return $available;
     }
 }

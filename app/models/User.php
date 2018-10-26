@@ -4,7 +4,7 @@ namespace app\models;
 
 use app\base\Model;
 
-class Users extends Model
+class User extends Model
 {
 
     public static function getClassName()
@@ -12,9 +12,9 @@ class Users extends Model
         return __CLASS__;
     }
 
-    public function checkAvailability($column, $value)
+    public function checkAvailability(array $data): bool
     {
-        return  $count = $this->db->countWhere($column, $value);
+        return  $this->db->rowExists($data);
     }
 
 }
