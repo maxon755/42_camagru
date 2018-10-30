@@ -4,7 +4,7 @@ namespace app\controllers;
 
 use app\base\Controller;
 use app\components\Debug;
-use app\components\InputChecker;
+use app\components\inputForm\InputChecker;
 use app\components\inputForm\InputField;
 use app\components\inputForm\InputForm;
 use app\models\User;
@@ -61,14 +61,14 @@ class SignUpController extends Controller
     {
         $value  = $_POST['value'];
         $column = $_POST['type'];
-        $available  = (new User())->checkAvailability([$column => $value]);
+        $available  = (new User())->isInputAvailable([$column => $value]);
         echo json_encode(["available" => $available]);
     }
 
     public function actionPreConfirm()
     {
         $userInput = [
-            'username'          => 'pan_Z',
+            'username'          => 'test_usera',
             'first-name'        => 'maks',
             'last-name'         => 'gayduk',
             'email'             => 'maksim.gayduk@gmail.com',
@@ -76,16 +76,21 @@ class SignUpController extends Controller
             'repeat-password'   => '1234aaZZ',
         ];
 
-        $this->signUpForm->setValues($userInput);
-        $this->signUpForm->validate(new InputChecker());
-        if ($this->signUpForm->isValid())
-        {
-            $userModel = new User();
-            $checkFunction  = function (array $data) use ($userModel) {
-                $userModel->checkAvailability($data);
-            };
-            $this->signUpForm->checkAvailability($checkFunction);
+        $this->signUpForm->setFieldsValues($userInput);
+        $this->validateForm();
+        if ($this->signUpForm->isValid()) {
+//            header('Location: http://camagru/');
         }
-        $this->renderForm();
+        else {
+           $this->renderForm();
+        }
+    }
+
+    public function validateForm()
+    {
+        $this->signUpForm->validate(new InputChecker());
+        if ($this->signUpForm->isValid()) {
+            $this->signUpForm->checkAvailability((new User()));
+        }
     }
 }

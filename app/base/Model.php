@@ -26,7 +26,7 @@ class Model extends Application
         $re = '/(?<=\\\\)(?<className>\w+)$/';
         preg_match($re, $tableName, $matches);
         $tableName = $matches['className'];
-        $tableName = CaseTranslator::toCamel($tableName);
+        $tableName = CaseTranslator::toCap($tableName);
 
         return $tableName;
     }

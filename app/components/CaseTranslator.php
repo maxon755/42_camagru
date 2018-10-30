@@ -6,7 +6,7 @@ namespace app\components;
 class CaseTranslator
 {
     /**
-     * @param string $case ('camel', 'snake', 'kebab')
+     * @param string $case ('camel', 'cap', 'snake', 'kebab', 'human')
      * @param array $strings
      * @return array
      */
@@ -27,7 +27,16 @@ class CaseTranslator
      */
     static function toCamel(string $str): string
     {
-        return lcfirst(str_replace(['_', '-', ' '], '', ucwords($str, '_- ')));
+        return lcfirst(self::toCap($str));
+    }
+
+    /**
+     * @param string $str
+     * @return string
+     */
+    static function toCap(string $str): string
+    {
+        return str_replace(['_', '-', ' '], '', ucwords($str, '_- '));
     }
 
     /**

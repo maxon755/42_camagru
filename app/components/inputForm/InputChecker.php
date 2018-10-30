@@ -1,8 +1,7 @@
 <?php
 
-namespace app\components;
+namespace app\components\inputForm;
 
-use app\components\inputForm\InputField;
 
 class InputChecker implements Checker
 {

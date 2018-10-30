@@ -4,7 +4,6 @@ namespace app\components\inputForm;
 
 
 use app\base\Application;
-use app\components\Checker;
 
 class InputForm extends Application
 {
@@ -40,10 +39,18 @@ class InputForm extends Application
     /**
      * @param callable $checkFunction
      */
-    public function checkAvailability(callable $checkFunction)
+    public function checkAvailability(AvailabilityChecker $checker)
     {
         $uniqueFields = $this->getUniqueFields();
-        print_r($uniqueFields);
+        foreach ($uniqueFields as $field) {
+            $name = $field->getName();
+            $value = $field->getValue();
+            if (!$checker->isInputAvailable([$name => $value])) {
+                $field->setValidity(false);
+                $field->setMessage("The ${name} is unavailable");
+                $this->setValidity(false);
+            }
+        }
     }
 
     /**
@@ -69,7 +76,7 @@ class InputForm extends Application
     /**
      * @param array $values
      */
-    public function setValues(array $values): void
+    public function setFieldsValues(array $values): void
     {
         foreach ($values as $name => $value)
         {
