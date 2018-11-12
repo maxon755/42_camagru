@@ -22,4 +22,19 @@ class User extends Model implements AvailabilityChecker
         return  !$this->db->rowExists($data);
     }
 
+    /**
+     * @param array $data
+     * @return bool
+     */
+    public function insertToDb(array $data): bool
+    {
+        return $this->db->insertIfNotExists([
+            'username'      => $data['username'],
+            'email'         => $data['email'],
+            'password'      => $this->encryptPassword($data['password']),
+            'first-name'    => $data['first-name'],
+            'last-name'     => $data['last-name']
+        ]);
+    }
+
 }

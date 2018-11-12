@@ -121,4 +121,31 @@ class InputForm extends Application
         return $this->inputFields[$filedName];
     }
 
+    /**
+     * @return array
+     */
+    public function getValues(): array
+    {
+        $values = [];
+        foreach ($this->inputFields as $inputField) {
+            $values[$inputField->getName()] = $inputField->getValue();
+        }
+        return $values;
+    }
+
+    /**
+     * @param array $names
+     * @return array
+     */
+    public function getValuesByName(array $names): array
+    {
+        $values = [];
+        foreach ($names as $name) {
+            if (key_exists($name, $this->inputFields)) {
+                $values[$name] = $this->inputFields[$name]->getValue();
+            }
+        }
+        return $values;
+    }
+
 }

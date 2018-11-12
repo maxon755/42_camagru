@@ -68,8 +68,8 @@ class SignUpController extends Controller
     public function actionPreConfirm()
     {
         $userInput = [
-            'username'          => 'test_usera',
-            'first-name'        => 'maks',
+            'username'          => 'maks',
+            'first-name'        => '',
             'last-name'         => 'gayduk',
             'email'             => 'maksim.gayduk@gmail.com',
             'password'          => '1234aaZZ',
@@ -78,16 +78,17 @@ class SignUpController extends Controller
 
         $this->signUpForm->setFieldsValues($userInput);
         $this->validateForm();
-//        if ($this->signUpForm->isValid()) {
+        if ($this->signUpForm->isValid()) {
+            (new User())->insertToDb($this->signUpForm->getValues());
 //            header('Location: http://camagru/');
-//        }
-//        else {
-//           $this->renderForm();
-//        }
+        }
+        else {
+           $this->renderForm();
+        }
         $this->renderForm();
     }
 
-    public function validateForm()
+    public function validateForm(): void
     {
         $this->signUpForm->validate(new InputChecker());
         if ($this->signUpForm->isValid()) {
