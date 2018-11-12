@@ -7,3 +7,6 @@ RUN apt-get update && \
     docker-php-ext-configure pgsql -with-pgsql=/usr/local/pgsql && \
     docker-php-ext-install pdo pdo_pgsql
 
+RUN apt-get install -y ssmtp
+
+COPY php.ini /usr/local/etc/php

@@ -41,13 +41,15 @@ $db->insertIfNotExists([
     'is_active'     => 0,
 ]);
 
-//
-//
-//$db->useTable('tt');
-//
-//insert($db, [
-//    'name'  => 'maks',
-//    'age'   =>  24
-//]);
 
+$db->executeQuery('CREATE TABLE IF NOT EXISTS "tt" (
+    user_id         SERIAL PRIMARY KEY,
+    username        VARCHAR(32) NOT NULL UNIQUE
+  );'
+);
 
+$db->useTable('tt');
+
+$db->insertIfNotExists([
+    'username'  => 'maks',
+]);

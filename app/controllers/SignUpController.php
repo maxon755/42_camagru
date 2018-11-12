@@ -78,12 +78,13 @@ class SignUpController extends Controller
 
         $this->signUpForm->setFieldsValues($userInput);
         $this->validateForm();
-        if ($this->signUpForm->isValid()) {
+//        if ($this->signUpForm->isValid()) {
 //            header('Location: http://camagru/');
-        }
-        else {
-           $this->renderForm();
-        }
+//        }
+//        else {
+//           $this->renderForm();
+//        }
+        $this->renderForm();
     }
 
     public function validateForm()

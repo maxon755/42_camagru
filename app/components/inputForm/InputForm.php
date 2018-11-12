@@ -39,7 +39,7 @@ class InputForm extends Application
     /**
      * @param callable $checkFunction
      */
-    public function checkAvailability(AvailabilityChecker $checker)
+    public function checkAvailability(AvailabilityChecker $checker): void
     {
         $uniqueFields = $this->getUniqueFields();
         foreach ($uniqueFields as $field) {

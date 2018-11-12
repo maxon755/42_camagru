@@ -19,6 +19,7 @@ services:
     container_name: "php-fpm"
     volumes:
       - ./app:/app
+      - ./ssmtp:/etc/ssmtp
 
   pgsql:
     image: postgres:9.6
