@@ -41,8 +41,12 @@ class Model extends Application
         return password_hash($password, PASSWORD_BCRYPT);
     }
 
-    public function encryptValue($value)
+    /**
+     * @param array $data
+     * @return bool
+     */
+    public function rowExists(array $data): bool
     {
-        return md5($value);
+        return  $this->db->rowExists($data);
     }
 }

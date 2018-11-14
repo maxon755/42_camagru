@@ -102,12 +102,12 @@ class DataBase extends Application
      * @param string|null $operator
      * @return string
      */
-    private function prepareWhereData(array $data, string $operator=null)
-    {
+    private function prepareWhereData(array $data, string $operator=null): string {
+        $keys = CaseTranslator::arrayTo('snake', array_keys($data));
         if (count($data) > 1 && $operator === null) {
             $operator = 'AND';
         }
-        return implode(" = ? ${operator} ", array_keys($data)) . ' = ?';
+        return implode(" = ? ${operator} ", $keys) . ' = ?';
     }
 
     /**
@@ -127,7 +127,7 @@ class DataBase extends Application
         return $stm->execute($values);
     }
 
-    /**
+    /**`
      * @param array $data
      * @return array
      */
@@ -154,6 +154,33 @@ class DataBase extends Application
             return $this->insert($data);
         }
         return false;
+    }
+
+    public function update(array $setData, array $whereData, string $operator=null)
+    {
+        $setString = $this->prepareSetData($setData);
+        $whereString = $this->prepareWhereData($whereData, $operator);
+        $query = "UPDATE \"$this->tableName\" SET ${setString} WHERE ${whereString}";
+
+        return $this->executeQuery($query, array_values($whereData));
+    }
+
+    /**
+     * @param array $setData
+     * @return string
+     */
+    private function prepareSetData(array $setData) {
+        $shouldSeparate = count($setData) - 1;
+        $setString = '';
+        foreach ($setData as $column => $value) {
+            $setString .= $column . ' = ' . $value;
+            if ($shouldSeparate--) {
+                $setString .= ', ';
+
+            }
+        }
+
+        return $setString;
     }
 
     /**

@@ -20,7 +20,7 @@ $db->executeQuery('CREATE TABLE IF NOT EXISTS "User" (
     last_name       VARCHAR(32),
     is_active       BOOLEAN DEFAULT FALSE,
     activation_code VARCHAR(16),
-    activation_date TIMESTAMP DEFAULT current_timestamp
+    activation_date TIMESTAMP
   );'
 );
 

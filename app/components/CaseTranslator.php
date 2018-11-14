@@ -21,6 +21,18 @@ class CaseTranslator
         return $res;
     }
 
+    static function keysTo(string $case, array $strings): array
+    {
+        $method = 'to' . ucfirst($case);
+        $res = [];
+        foreach ($strings as $key => $str)
+        {
+            $translatedKey = call_user_func([self::class, $method], $key);
+            $res[$translatedKey] = $strings[$key];
+        }
+        return $res;
+    }
+
     /**
      * @param string $str
      * @return string

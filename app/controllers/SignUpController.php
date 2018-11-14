@@ -114,6 +114,12 @@ class SignUpController extends Controller
 
     public function actionActivate($activationCode)
     {
+        $userModel = new User();
 
+        $rowExists = $userModel->rowExists(['activation_code' => $activationCode]);
+        if ($rowExists) {
+            $userModel->activateAccount($activationCode);
+            echo 'success';
+        }
     }
 }
