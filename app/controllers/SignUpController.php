@@ -7,6 +7,7 @@ use app\components\Debug;
 use app\components\inputForm\InputChecker;
 use app\components\inputForm\InputField;
 use app\components\inputForm\InputForm;
+use app\components\Mailer;
 use app\models\User;
 
 class SignUpController extends Controller
@@ -79,13 +80,15 @@ class SignUpController extends Controller
         $this->signUpForm->setFieldsValues($userInput);
         $this->validateForm();
         if ($this->signUpForm->isValid()) {
-            (new User())->insertToDb($this->signUpForm->getValues());
+            $userInput = $this->signUpForm->getValues();
+            (new User())->insertToDb($userInput);
+            $this->sendActivationEmail($userInput['email']);
 //            header('Location: http://camagru/');
         }
         else {
            $this->renderForm();
         }
-        $this->renderForm();
+//        $this->renderForm();
     }
 
     public function validateForm(): void
@@ -94,5 +97,23 @@ class SignUpController extends Controller
         if ($this->signUpForm->isValid()) {
             $this->signUpForm->checkAvailability((new User()));
         }
+    }
+
+    /**
+     * @param string $email
+     * @return bool
+     */
+    private function sendActivationEmail(string $email): bool
+    {
+        $subject = "Account activation";
+        $activationCode = (new User())->getActivationCode($email);
+        $link = $_SERVER['HTTP_HOST'] . '/sign-up/activate/' . $activationCode;
+        $body = include(ROOT . DS . 'mails/activation.php');
+        return (new Mailer())->sendEmail($email, $subject, $body);
+    }
+
+    public function actionActivate($activationCode)
+    {
+
     }
 }

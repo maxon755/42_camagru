@@ -75,7 +75,7 @@ class Router
      */
     private function  getFullClassName($controllerName)
     {
-        return sprintf( $this->targetNameSpace . '%s', $controllerName);
+        return sprintf($this->targetNameSpace . '%s', $controllerName);
     }
 
     /**
@@ -109,8 +109,6 @@ class Router
             $controllerName = $this->getControllerName($segments);
             $actionName = $this->getActionName($segments);
             $controllerName = $this->getFullClassName($controllerName);
-            Debug::debugValue($controllerName, "Controller name");
-            Debug::debugValue($actionName, "Action");
 
             $controllerObject = new $controllerName;
 
