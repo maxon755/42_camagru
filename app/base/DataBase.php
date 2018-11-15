@@ -92,6 +92,7 @@ class DataBase extends Application
      */
     public function selectAllWhere(array $data, string $operator=null): array
     {
+        $data = CaseTranslator::keysTo('snake', $data);
         $whereString =  $this->prepareWhereData($data, $operator);
         $query = "SELECT * FROM \"$this->tableName\" WHERE ${whereString};";
         return $this->executeQuery($query, $data);
@@ -103,11 +104,10 @@ class DataBase extends Application
      * @return string
      */
     private function prepareWhereData(array $data, string $operator=null): string {
-        $keys = CaseTranslator::arrayTo('snake', array_keys($data));
         $shouldSeparate = count($data) - 1;
         $operator = $operator ?: 'AND';
         $res = '';
-        foreach ($keys as $key) {
+        foreach (array_keys($data) as $key) {
             $res .= $key . ' = :'. $key;
             if ($shouldSeparate--) {
                 $res .= ' ' . $operator . ' ';
@@ -123,13 +123,14 @@ class DataBase extends Application
      */
     public function insert(array $data): bool
     {
+        $data = CaseTranslator::keysTo('snake', $data);
         $insertData = $this->prepareInsertData($data);
         $columns    = $insertData['columns'];
         $holders    = $insertData['holders'];
-        $values     = $insertData['values'];
 
         $query = "INSERT INTO \"$this->tableName\" ($columns) VALUES ($holders);";
-        $this->executeQuery($query, $values, false);
+
+        return $this->executeQuery($query, $data, false);
     }
 
     /**`
@@ -138,10 +139,9 @@ class DataBase extends Application
      */
     private function prepareInsertData(array $data): array
     {
-        $keys = CaseTranslator::arrayTo('snake', array_keys($data));
+        $keys = array_keys($data);
         $insertData['columns'] = implode(', ', $keys);
-        $insertData['holders'] = str_repeat('?, ', count($data) - 1) . '?';
-        $insertData['values']  = array_values($data);
+        $insertData['holders'] = ':' . implode(', :', $keys);
 
         return $insertData;
     }
