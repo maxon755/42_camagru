@@ -122,9 +122,7 @@ class DataBase extends Application
         $values     = $insertData['values'];
 
         $query = "INSERT INTO \"$this->tableName\" ($columns) VALUES ($holders);";
-        $stm = $this->pdo->prepare($query);
-
-        return $stm->execute($values);
+        $this->executeQuery($query, $values, false);
     }
 
     /**`
@@ -162,7 +160,7 @@ class DataBase extends Application
         $whereString = $this->prepareWhereData($whereData, $operator);
         $query = "UPDATE \"$this->tableName\" SET ${setString} WHERE ${whereString}";
 
-        return $this->executeQuery($query, array_values($whereData));
+        return $this->executeQuery($query, array_values($whereData), false);
     }
 
     /**
@@ -176,7 +174,6 @@ class DataBase extends Application
             $setString .= $column . ' = ' . $value;
             if ($shouldSeparate--) {
                 $setString .= ', ';
-
             }
         }
 
@@ -196,12 +193,11 @@ class DataBase extends Application
      * @param string $query
      * @return array
      */
-    public function executeQuery(string $query, array $data=null): array
+    public function executeQuery(string $query, array $data=null, $fetch = true)
     {
         $stm = $this->pdo->prepare($query);
-        $stm->execute($data);
-        $dbData = $stm->fetchAll();
-        return $dbData;
+        $dbResult = $stm->execute($data);
+        return $fetch ? $stm->fetchAll() : $dbResult;
     }
 
 }

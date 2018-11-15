@@ -118,7 +118,7 @@ class SignUpController extends Controller
 
         $rowExists = $userModel->rowExists(['activation_code' => $activationCode]);
         if ($rowExists) {
-            $userModel->activateAccount($activationCode);
+            var_dump($userModel->activateAccount($activationCode));
             echo 'success';
         }
     }
