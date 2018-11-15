@@ -94,7 +94,7 @@ class DataBase extends Application
     {
         $whereString =  $this->prepareWhereData($data, $operator);
         $query = "SELECT * FROM \"$this->tableName\" WHERE ${whereString};";
-        return $this->executeQuery($query, array_values($data));
+        return $this->executeQuery($query, $data);
     }
 
     /**
@@ -104,10 +104,17 @@ class DataBase extends Application
      */
     private function prepareWhereData(array $data, string $operator=null): string {
         $keys = CaseTranslator::arrayTo('snake', array_keys($data));
-        if (count($data) > 1 && $operator === null) {
-            $operator = 'AND';
+        $shouldSeparate = count($data) - 1;
+        $operator = $operator ?: 'AND';
+        $res = '';
+        foreach ($keys as $key) {
+            $res .= $key . ' = :'. $key;
+            if ($shouldSeparate--) {
+                $res .= ' ' . $operator . ' ';
+            }
         }
-        return implode(" = ? ${operator} ", $keys) . ' = ?';
+
+        return $res;
     }
 
     /**
