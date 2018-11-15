@@ -161,13 +161,21 @@ class DataBase extends Application
         return false;
     }
 
+    /**
+     * @param array $setData
+     * @param array $whereData
+     * @param string|null $operator
+     * @return array
+     */
     public function update(array $setData, array $whereData, string $operator=null)
     {
+        $setData = CaseTranslator::keysTo('snake', $setData);
+        $whereData = CaseTranslator::keysTo('snake', $whereData);
         $setString = $this->prepareSetData($setData);
         $whereString = $this->prepareWhereData($whereData, $operator);
         $query = "UPDATE \"$this->tableName\" SET ${setString} WHERE ${whereString}";
 
-        return $this->executeQuery($query, array_values($whereData), false);
+        return $this->executeQuery($query, array_merge($setData, $whereData), false);
     }
 
     /**
@@ -178,7 +186,7 @@ class DataBase extends Application
         $shouldSeparate = count($setData) - 1;
         $setString = '';
         foreach ($setData as $column => $value) {
-            $setString .= $column . ' = ' . $value;
+            $setString .= $column . ' = :' . $column;
             if ($shouldSeparate--) {
                 $setString .= ', ';
             }
@@ -198,7 +206,7 @@ class DataBase extends Application
 
     /**
      * @param string $query
-     * @return array
+     * @return array|bool
      */
     public function executeQuery(string $query, array $data=null, $fetch = true)
     {
