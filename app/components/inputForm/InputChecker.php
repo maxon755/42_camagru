@@ -39,11 +39,9 @@ class InputChecker implements Checker
      */
     private function performChecks(InputField $inputField): bool
     {
-        foreach ($inputField->getChecks() as $checkName)
-        {
+        foreach ($inputField->getChecks() as $checkName) {
             $method = $this->getCheckMethod($checkName);
-            if (!(call_user_func(array($this, $method), $inputField)))
-            {
+            if (!(call_user_func(array($this, $method), $inputField))) {
                 return false;
             }
         }
@@ -65,11 +63,8 @@ class InputChecker implements Checker
      */
     private function checkEmptiness(InputField $inputField): bool
     {
-        if (empty($inputField->getValue()))
-        {
-            $inputField->setValidity(false);
-            $inputField->setMessage(self::EMPTY_FIELD);
-            return false;
+        if (empty($inputField->getValue())) {
+            return $this->setData($inputField, self::EMPTY_FIELD);
         }
         return true;
     }
@@ -80,11 +75,8 @@ class InputChecker implements Checker
      */
     private function checkLength(InputField $inputField): bool
     {
-        if (mb_strlen($inputField->getValue()) > self::MAX_LENGTH)
-        {
-            $inputField->setValidity(false);
-            $inputField->setMessage(self::LENGTH_ERROR);
-            return false;
+        if (mb_strlen($inputField->getValue()) > self::MAX_LENGTH) {
+            return $this->setData($inputField, self::LENGTH_ERROR);
         }
         return true;
     }
@@ -97,11 +89,8 @@ class InputChecker implements Checker
     {
         $re = '/^\w+$/';
 
-        if (!preg_match($re, $inputField->getValue()))
-        {
-            $inputField->setValidity(false);
-            $inputField->setMessage(self::INCORRECT_WORD);
-            return false;
+        if (!preg_match($re, $inputField->getValue())) {
+            return $this->setData($inputField, self::INCORRECT_WORD);
         }
         return true;
     }
@@ -114,11 +103,8 @@ class InputChecker implements Checker
     {
         $re = '/^.+@[a-z]+\.[a-z]+/';
 
-        if (!preg_match($re, $inputField->getValue()))
-        {
-            $inputField->setValidity(false);
-            $inputField->setMessage(self::INCORRECT_EMAIL);
-            return false;
+        if (!preg_match($re, $inputField->getValue())) {
+            return $this->setData($inputField, self::INCORRECT_EMAIL);
         }
         return true;
     }
@@ -131,35 +117,31 @@ class InputChecker implements Checker
     {
         $password = $inputField->getValue();
 
-        if (mb_strlen($password) < self::PW_MIN_LENGTH)
-        {
-            $inputField->setValidity(false);
-            $inputField->setMessage(self::PW_LENGTH_ERROR);
-            return false;
+        if (mb_strlen($password) < self::PW_MIN_LENGTH) {
+            return $this->setData($inputField, self::PW_LENGTH_ERROR);
         }
-        else if (!preg_match('/[А-ЯA-Z]/', $password))
-        {
-            $inputField->setValidity(false);
-            $inputField->setMessage(self::PW_CAPITAL_ERROR);
-            return false;
+        else if (!preg_match('/[А-ЯA-Z]/', $password)) {
+            return $this->setData($inputField, self::PW_CAPITAL_ERROR);
         }
-        else if (!preg_match('/[0-9]/', $password))
-        {
-            $inputField->setValidity(false);
-            $inputField->setMessage(self::PW_DIGIT_ERROR);
-            return false;
+        else if (!preg_match('/[0-9]/', $password)) {
+            return $this->setData($inputField, self::PW_DIGIT_ERROR);
         }
         return true;
     }
 
     private function checkEquality(InputField $inputField)
     {
-        if (strcmp($inputField->getValue(), $inputField->getAuxValue()))
-        {
-            $inputField->setValidity(false);
-            $inputField->setMessage(self::DISMATCH_ERROR);
-            return false;
+        if (strcmp($inputField->getValue(), $inputField->getAuxValue())) {
+            return $this->setData($inputField, self::DISMATCH_ERROR);
         }
         return true;
+    }
+
+    private function  setData(InputField $inputField, string $message): bool
+    {
+        $inputField->setValidity(false);
+        $inputField->setMessage($message);
+
+        return false;
     }
 }

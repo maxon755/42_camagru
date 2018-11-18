@@ -11,60 +11,6 @@ window.onload = function () {
         passwordField       : new InputField("sign_up__password"),
         repeatPasswordField : new InputField("sign_up__repeat-password")
     };
-
-    submitButton.addEventListener("click", function (event) {
-        event.preventDefault();
-
-        var validFields = true;
-
-        for (var key in inputFields){
-            if (inputFields[key].shouldSend) {
-                validFields *= inputFields[key].isAvailable;
-
-            }
-            if (inputFields[key].wasChecked()) {
-                validFields *= inputFields[key].isValid();
-                continue ;
-            }
-            validFields *= inputFields[key].check();
-        }
-
-        if (!validFields)
-            return ;
-
-
-        var userInput = {
-            'username': "maks",
-            'password': "7777",
-            'email': "maksim.gayduk@gmail.com",
-            'firstName': "Максим",
-            'lastName': "Гайдук"
-        }
-        console.log("clicked");
-        sendUserInputToServer(userInput);
-    });
-
-    function sendUserInputToServer(userInput) {
-        var formData    = new FormData();
-        var xhr         = new XMLHttpRequest();
-
-
-        (function (xhr) {
-            xhr.onload = function () {
-                console.log(this.responseText);
-                try {
-                    var response = JSON.parse(this.responseText);
-                }
-                catch (e) {
-                    return;
-                }
-            };
-        }(xhr));
-
-        formData.append('userInput', JSON.stringify(userInput));
-        xhr.open('post', 'confirm');
-        xhr.send(formData);
-    };
 }
 
 
@@ -92,7 +38,6 @@ function InputField(elementId, shouldSend) {
 
             if (self.check() && self.shouldSend) {
                 self.ajaxTimerId = setTimeout(function() {
-                    console.log('qqq');
                     self.checkAvailability();
                 }, 1500);
             }
@@ -118,7 +63,6 @@ function InputField(elementId, shouldSend) {
 
         (function (xhr, inputField, validationField) {
             xhr.onload = function () {
-                console.log(this.responseText);
                 try {
                     var response = JSON.parse(this.responseText);
                 }
@@ -134,7 +78,7 @@ function InputField(elementId, shouldSend) {
 
         formData.append('type', self.type);
         formData.append('value', inputValue);
-        xhr.open('post', 'check-availability');
+        xhr.open('post', '/sign-up/check-availability');
         xhr.send(formData);
     };
 

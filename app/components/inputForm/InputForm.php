@@ -10,8 +10,10 @@ class InputForm extends Application
     private $formName;
     private $tittle;
     private $action;
+    private $method;
     private $inputFields;
     private $validity;
+    private $submitted = false;
 
     /**
      * InputForm constructor.
@@ -20,11 +22,17 @@ class InputForm extends Application
      * @param array $inputFields ['fieldName' => [validation conditions]]
      * @param array $inputFields
      */
-    public function __construct(string $formName, string $tittle, string $action, array $inputFields)
+    public function __construct(
+        string $formName,
+        string $tittle,
+        string $action,
+        string $method,
+        array $inputFields)
     {
         $this->formName = $formName;
         $this->tittle = $tittle;
         $this->action = $action;
+        $this->method = $method;
         $this->inputFields = $inputFields;
     }
 
@@ -148,4 +156,11 @@ class InputForm extends Application
         return $values;
     }
 
+    /**
+     * @param bool $submitted
+     */
+    public function setSubmitted(bool $submitted): void
+    {
+        $this->submitted = $submitted;
+    }
 }

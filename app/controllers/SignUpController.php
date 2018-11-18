@@ -18,7 +18,7 @@ class SignUpController extends Controller
 
     public function __construct()
     {
-        $this->signUpForm = new InputForm('sign_up', 'Sign Up', 'pre-confirm', [
+        $this->signUpForm = new InputForm('sign_up', 'Sign Up', '/sign-up/confirm', 'post', [
             'username'  => new InputField('username', 'text', true, [
                 'emptiness',
                 'length',
@@ -76,13 +76,16 @@ class SignUpController extends Controller
 //            'password'          => '1234aaZZ',
 //            'repeat-password'   => '1234aaZZ',
 //        ];
-        if (isset($_POST['userInput'])) {
-            $userInput = json_decode($_POST['userInput'], true);
-        } else {
-            $userInput = $_POST;
-        }
+//        if (isset($_POST['userInput'])) {
+//            $userInput = json_decode($_POST['userInput'], true);
+//        } else {
+//            $userInput = $_POST;
+//        }
+        $userInput = $_POST;
+
         var_dump($userInput);
 
+        $this->signUpForm->setSubmitted(true);
         $this->signUpForm->setFieldsValues($userInput);
         $this->validateForm();
         if ($this->signUpForm->isValid()) {

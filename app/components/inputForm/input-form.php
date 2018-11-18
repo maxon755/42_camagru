@@ -1,5 +1,5 @@
 
-<form class="<?php echo $this->formName ?>" action="<?php echo $this->action ?>" method="POST">
+<form class="<?php echo $this->formName ?>" action="<?php echo $this->action?>" method="<?php echo $this->method?>">
 
     <h2 class="<?php echo $this->formName . '__header' ?>"><?php echo $this->tittle?></h2>
 
@@ -10,19 +10,14 @@
         <?php foreach($this->inputFields as $field): ?>
             <div class="<?php echo $this->formName . '__unit' ?>">
                 <input id="<?php echo $this->formName . '__' . $field->getName()?>"
-                       class="<?php echo $this->formName . '__input' ?>"
+                       class="<?php echo $this->formName . '__input ';
+                                    echo $this->submitted ? $field->isValid() ? 'valid-input' : 'invalid-input' : '' ?>"
                        type="<?php echo $field->getContentType()?>"
                        name="<?php echo $field->getName()?>"
-                       placeholder="<?php echo $field->getPlaceholder(); ?>"
-                            <?php echo $field->isRequired() ? 'required' : '' ?>>
-                <p class="
-                    <?php
-                        echo $field->isValid()
-                        ? "sign_up__validation"
-                        : "sign_up__validation invalid-message";
-                    ?>
-                ">
-                    <?php echo $field->isValid() ? '' : $field->getMessage(); ?>
+                       value="<?php echo $field->getValue() ? $field->getValue() : ''?>"
+                       placeholder="<?php echo $field->getPlaceholder(); ?>">
+                <p class="sign_up__validation <?php echo $field->isValid() ? '' : "invalid-message"; ?>">
+                    <?php echo $field->isValid() ? '' : $field->getMessage();?>
                 </p>
             </div>
         <?php endforeach; ?>
