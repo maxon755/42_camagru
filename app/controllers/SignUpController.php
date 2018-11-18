@@ -68,6 +68,8 @@ class SignUpController extends Controller
 
     public function actionConfirm()
     {
+        $userInput = $_POST;
+
 //        $userInput = [
 //            'username'          => 'maks',
 //            'first-name'        => '',
@@ -76,15 +78,12 @@ class SignUpController extends Controller
 //            'password'          => '1234aaZZ',
 //            'repeat-password'   => '1234aaZZ',
 //        ];
-//        if (isset($_POST['userInput'])) {
-//            $userInput = json_decode($_POST['userInput'], true);
-//        } else {
-//            $userInput = $_POST;
-//        }
-        $userInput = $_POST;
 
-        var_dump($userInput);
+        //  maksgayduk@yandex.ru
+        // maksim.gayduk@gmail.com
 
+        $this->sendActivationEmail($userInput['email']);
+        exit;
         $this->signUpForm->setSubmitted(true);
         $this->signUpForm->setFieldsValues($userInput);
         $this->validateForm();
@@ -118,6 +117,7 @@ class SignUpController extends Controller
         $activationCode = (new User())->getActivationCode($email);
         $link = $_SERVER['HTTP_HOST'] . '/sign-up/activate/' . $activationCode;
         $body = include(ROOT . DS . 'mails/activation.php');
+
         return (new Mailer())->sendEmail($email, $subject, $body);
     }
 
