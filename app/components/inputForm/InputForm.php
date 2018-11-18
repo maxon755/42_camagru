@@ -80,14 +80,14 @@ class InputForm extends Application
     {
         foreach ($values as $name => $value)
         {
-            if (isset($this->inputFields[$name]))
+            if (!isset($this->inputFields[$name])) {
+                continue ;
+            }
+            $this->inputFields[$name]->setValue($value);
+            if (($auxSource = $this->inputFields[$name]->getAuxValue()) !== null)
             {
-                $this->inputFields[$name]->setValue($value);
-                if (($auxSource = $this->inputFields[$name]->getAuxValue()) != null)
-                {
-                    $auxValue = $this->inputFields[$auxSource]->getValue();
-                    $this->inputFields[$name]->setAuxValue($auxValue);
-                }
+                $auxValue = $this->inputFields[$auxSource]->getValue();
+                $this->inputFields[$name]->setAuxValue($auxValue);
             }
         }
     }

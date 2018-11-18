@@ -66,16 +66,22 @@ class SignUpController extends Controller
         echo json_encode(["available" => $available]);
     }
 
-    public function actionPreConfirm()
+    public function actionConfirm()
     {
-        $userInput = [
-            'username'          => 'maks',
-            'first-name'        => '',
-            'last-name'         => 'gayduk',
-            'email'             => 'maksim.gayduk@gmail.com',
-            'password'          => '1234aaZZ',
-            'repeat-password'   => '1234aaZZ',
-        ];
+//        $userInput = [
+//            'username'          => 'maks',
+//            'first-name'        => '',
+//            'last-name'         => 'gayduk',
+//            'email'             => 'maksim.gayduk@gmail.com',
+//            'password'          => '1234aaZZ',
+//            'repeat-password'   => '1234aaZZ',
+//        ];
+        if (isset($_POST['userInput'])) {
+            $userInput = json_decode($_POST['userInput'], true);
+        } else {
+            $userInput = $_POST;
+        }
+        var_dump($userInput);
 
         $this->signUpForm->setFieldsValues($userInput);
         $this->validateForm();
@@ -120,6 +126,8 @@ class SignUpController extends Controller
         if ($rowExists) {
             var_dump($userModel->activateAccount($activationCode));
             echo 'success';
+        } else {
+            echo 'Something going wrong';
         }
     }
 }

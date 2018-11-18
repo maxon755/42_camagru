@@ -1,48 +1,48 @@
 window.onload = function () {
     "use strict";
 
-    /* РЕГИСТРО ЗАВИСИМОСТЬ В ВЫБОРКЕ*/
-
-    var submitButton = document.getElementById("signup__submit");
+    var submitButton = document.getElementById("sign_up__submit");
 
     var inputFields = {
-        usernameField       : new InputField("signup__username", true),
-        firstNameField      : new InputField("signup__first-name"),
-        lastNameField       : new InputField("signup__last-name"),
-        emailField          : new InputField("signup__email", true),
-        passwordField       : new InputField("signup__password"),
-        repeatPasswordField : new InputField("signup__repeat-password")
+        usernameField       : new InputField("sign_up__username", true),
+        firstNameField      : new InputField("sign_up__first-name"),
+        lastNameField       : new InputField("sign_up__last-name"),
+        emailField          : new InputField("sign_up__email", true),
+        passwordField       : new InputField("sign_up__password"),
+        repeatPasswordField : new InputField("sign_up__repeat-password")
     };
 
-    // submitButton.addEventListener("click", function (event) {
-    //     event.preventDefault();
-    //
-    //     var validFields = true;
-    //
-    //     for (var key in inputFields){
-    //         if (inputFields[key].shouldSend)
-    //             validFields *= inputFields[key].isAvailable;
-    //
-    //         if (inputFields[key].wasChecked()) {
-    //             validFields *= inputFields[key].isValid();
-    //             continue ;
-    //         }
-    //         validFields *= inputFields[key].check();
-    //     }
-    //
-    //     if (!validFields)
-    //         return ;
-    //
-    //     var userInput = {
-    //         'username': "Max",
-    //         'password': "7777",
-    //         'email': "maksim.gayduk@gmail.com",
-    //         'firstName': "Максим",
-    //         'lastName': "Гайдук"
-    //     }
-    //     console.log("clicked");
-    //     sendUserInputToServer(userInput);
-    // });
+    submitButton.addEventListener("click", function (event) {
+        event.preventDefault();
+
+        var validFields = true;
+
+        for (var key in inputFields){
+            if (inputFields[key].shouldSend) {
+                validFields *= inputFields[key].isAvailable;
+
+            }
+            if (inputFields[key].wasChecked()) {
+                validFields *= inputFields[key].isValid();
+                continue ;
+            }
+            validFields *= inputFields[key].check();
+        }
+
+        if (!validFields)
+            return ;
+
+
+        var userInput = {
+            'username': "maks",
+            'password': "7777",
+            'email': "maksim.gayduk@gmail.com",
+            'firstName': "Максим",
+            'lastName': "Гайдук"
+        }
+        console.log("clicked");
+        sendUserInputToServer(userInput);
+    });
 
     function sendUserInputToServer(userInput) {
         var formData    = new FormData();
@@ -62,7 +62,7 @@ window.onload = function () {
         }(xhr));
 
         formData.append('userInput', JSON.stringify(userInput));
-        xhr.open('post', 'sign-up/pre-confirm');
+        xhr.open('post', 'confirm');
         xhr.send(formData);
     };
 }
@@ -75,11 +75,11 @@ function InputField(elementId, shouldSend) {
     this.shouldSend         = shouldSend;
     this.elementId          = elementId;
     this.element            = document.getElementById(elementId);
-    this.type               = elementId.split('_')[2];
+    this.type               = elementId.split('__')[1];
     this.validationField    = this.element.nextElementSibling;
     this.isAvailable        = false;
 
-    var inputChecker = new InputChecker("signup__password");
+    var inputChecker = new InputChecker("sign_up__password");
 
     this.checkValue = inputChecker.getRelatedCheckingMethod(elementId);
 
@@ -91,9 +91,10 @@ function InputField(elementId, shouldSend) {
         self.inputTimerId = setTimeout(function () {
 
             if (self.check() && self.shouldSend) {
-                // self.ajaxTimerId = setTimeout(function() {
-                //     self.checkAvailability();
-                // }, 1500);
+                self.ajaxTimerId = setTimeout(function() {
+                    console.log('qqq');
+                    self.checkAvailability();
+                }, 1500);
             }
         }, 1000);
     });
@@ -133,7 +134,7 @@ function InputField(elementId, shouldSend) {
 
         formData.append('type', self.type);
         formData.append('value', inputValue);
-        xhr.open('post', 'sign-up/check-availability');
+        xhr.open('post', 'check-availability');
         xhr.send(formData);
     };
 
@@ -178,31 +179,34 @@ function InputChecker(passwordFieldId) {
 
     this.passwordFieldId = passwordFieldId;
 
-    var MAX_LENGTH = 32;
+    var MAX_LENGTH      = 32;
+    var PW_MIN_LENGTH   = 8;
 
-    var EMPTY_FIELD = "Empty field.";
-    var LENGTH_ERROR = "Maximum field length is " + MAX_LENGTH + " characters";
-    var INCORRECT_USERNAME = "Incorrenct username. " +
+    var EMPTY_FIELD         = "Empty field.";
+
+    var LENGTH_ERROR        = "Maximum field length is " + MAX_LENGTH + " characters";
+    var INCORRECT_USERNAME  = "Incorrenct username. " +
         "It should be an alphanumeric ASCII word. " +
         "Optionally splitted with an underscore.";
-    var INCORRECT_EMAIL = "Incorect email";
-    var INCORRECT_LENGTH = "Minimum length is 8 symbols";
-    var CAPITAL_ERROR = "The password must contain at least " +
-        "one capital letter";
-    var DIGIT_ERROR = "The password must contain at least " +
-        "one digit";
-    var DISMATCH_ERROR = "The password is not match the previous one";
-    var EQUAL_PASSWORDS = "The passwords are equal";
+
+    var INCORRECT_EMAIL     = "Incorect email";
+
+    var PW_LENGTH_ERROR     = "Minimum length is " + PW_MIN_LENGTH + " symbols";
+    var PW_CAPITAL_ERROR    = "The password must contain at least one capital letter";
+    var PW_DIGIT_ERROR      = "The password must contain at least one digit";
+
+    var DISMATCH_ERROR      = "The password is not match the previous one";
+    var EQUAL_PASSWORDS     = "The passwords are equal";
 
     function formResponse(status, message) {
         return {
-            status: status,
-            message: message
+            status  : status,
+            message : message
         }
     };
 
     function getCorrectMethodName(elementId) {
-        var methodName = elementId.split('_')[2];
+        var methodName = elementId.split('__')[1];
         methodName = methodName.replace(/\b\w/g, function(l) {
             return l.toUpperCase()
         });
@@ -264,13 +268,13 @@ function InputChecker(passwordFieldId) {
             return formResponse(false, lengthError);
 
         if (password.length < 8)
-            return formResponse(false, INCORRECT_LENGTH);
+            return formResponse(false, PW_LENGTH_ERROR);
 
         if (!password.match(/[А-ЯA-Z]/))
-            return formResponse(false, CAPITAL_ERROR);
+            return formResponse(false, PW_CAPITAL_ERROR);
 
         if (!password.match(/[0-9]/))
-            return formResponse(false, DIGIT_ERROR);
+            return formResponse(false, PW_DIGIT_ERROR);
 
         return formResponse(true, "");
     };
