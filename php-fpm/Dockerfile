@@ -8,12 +8,11 @@ RUN apt-get update && \
 RUN apt-get install -y ssmtp
 
 COPY php.ini /usr/local/etc/php
-COPY ssmtp.conf /etc/ssmtp/ssmtp.conf
-COPY revaliases /etc/ssmtp/revaliases
-COPY ssmtp.env  /etc/ssmtp/ssmtp.env
 
-COPY ssmtp.sh /etc/ssmtp/ssmtp.sh
-RUN chmod 777 /etc/ssmtp/ssmtp.sh
-RUN /etc/ssmtp/ssmtp.sh
+COPY php-camagru-entrypoint /usr/local/bin
 
 WORKDIR /app
+
+ENTRYPOINT ["php-camagru-entrypoint"]
+CMD ["php-fpm"]
+

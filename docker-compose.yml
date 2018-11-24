@@ -19,6 +19,8 @@ services:
     container_name: "php-fpm"
     volumes:
       - ./app:/app
+    env_file:
+      - php-fpm/.env
 
   pgsql:
     image: postgres:9.6
