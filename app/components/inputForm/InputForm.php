@@ -45,7 +45,7 @@ class InputForm extends Application
     }
 
     /**
-     * @param callable $checkFunction
+     * @param AvailabilityChecker $checker
      */
     public function checkAvailability(AvailabilityChecker $checker): void
     {
@@ -59,6 +59,26 @@ class InputForm extends Application
                 $this->setValidity(false);
             }
         }
+    }
+
+    /**
+     * @param CredentialsChecker $checker
+     * @return bool
+     */
+    public function checkCredentials(CredentialsChecker $checker): bool
+    {
+
+        $data = $this->getValues();
+        if (!$checker->checkCredentials($data)) {
+            $this->setValidity(false);
+            foreach ($this->inputFields as $field) {
+                $field->setValidity(false);
+            }
+            $lastField = end($this->inputFields);
+            $lastField->setMessage('Incorrect username/password');
+            return false;
+        }
+        return true;
     }
 
     /**

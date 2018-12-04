@@ -86,10 +86,14 @@ class SignUpController extends Controller
         exit;
         $this->signUpForm->setSubmitted(true);
         $this->signUpForm->setFieldsValues($userInput);
-        $this->validateForm();
+        $this->signUpForm->validate(new InputChecker());
+        $userModel = new User();
+        if ($this->signUpForm->isValid()) {
+            $this->signUpForm->checkAvailability($userModel);
+        }
         if ($this->signUpForm->isValid()) {
             $userInput = $this->signUpForm->getValues();
-            (new User())->insertToDb($userInput);
+            $userModel->insertToDb($userInput);
             $this->sendActivationEmail($userInput['email']);
 //            header('Location: http://camagru/');
         }
@@ -97,14 +101,6 @@ class SignUpController extends Controller
            $this->renderForm();
         }
 //        $this->renderForm();
-    }
-
-    public function validateForm(): void
-    {
-        $this->signUpForm->validate(new InputChecker());
-        if ($this->signUpForm->isValid()) {
-            $this->signUpForm->checkAvailability((new User()));
-        }
     }
 
     /**

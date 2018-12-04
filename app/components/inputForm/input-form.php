@@ -16,7 +16,7 @@
                        name="<?php echo $field->getName()?>"
                        value="<?php echo $field->getValue() ? $field->getValue() : ''?>"
                        placeholder="<?php echo $field->getPlaceholder(); ?>">
-                <p class="sign_up__validation <?php echo $field->isValid() ? '' : "invalid-message"; ?>">
+                <p class="<?php echo $this->formName . '__validation '; echo $field->isValid() ? '' : "invalid-message"; ?>">
                     <?php echo $field->isValid() ? '' : $field->getMessage();?>
                 </p>
             </div>

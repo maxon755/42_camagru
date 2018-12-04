@@ -17,11 +17,7 @@ require_once(ROOT . '/components/Router.php');
 $config = require_once(ROOT . '/config/config.php');
 Application::initApplication($config);
 
-//$db = new \app\base\DataBase("users");
-//var_dump($db);
-//
-//$data = $db->selectAllWhere('username', 'Mega_Vasiliy');
-//var_dump($data);
+session_start();
 
 $router = new Router();
 $router->run();

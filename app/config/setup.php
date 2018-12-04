@@ -43,14 +43,14 @@ $db->insertIfNotExists([
 ]);
 
 
-$db->executeQuery('CREATE TABLE IF NOT EXISTS "tt" (
-    user_id         SERIAL PRIMARY KEY,
-    username        VARCHAR(32) NOT NULL UNIQUE
-  );'
-);
-
-$db->useTable('tt');
-
-$db->insertIfNotExists([
-    'username'  => 'maks',
-]);
+//$db->executeQuery('CREATE TABLE IF NOT EXISTS "tt" (
+//    user_id         SERIAL PRIMARY KEY,
+//    username        VARCHAR(32) NOT NULL UNIQUE
+//  );'
+//);
+//
+//$db->useTable('tt');
+//
+//$db->insertIfNotExists([
+//    'username'  => 'maks',
+//]);

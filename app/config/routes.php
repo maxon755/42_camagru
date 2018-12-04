@@ -1,9 +1,10 @@
 <?php
 
 return array(
-    '^empty/(.+)$'      => 'Empty/$1',
+	'^$'                => 'Ribbon/index',
     '^login$'           => 'Login/index',
-    '^sign-up/(.+)$'    => 'SignUp/$1',
+    '^login/(.+)$'      => 'Login/$1',
     '^sign-up$'         => 'SignUp/index',
-	'^$'                => 'Ribbon/index'
+    '^sign-up/(.+)$'    => 'SignUp/$1',
+    '^empty/(.+)$'      => 'Empty/$1',
 );

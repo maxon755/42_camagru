@@ -90,11 +90,12 @@ class DataBase extends Application
      * @param string|null $operator
      * @return array
      */
-    public function selectAllWhere(array $data, string $operator=null): array
+    public function selectAllWhere(array $data, string $operator = null): array
     {
         $data = CaseTranslator::keysTo('snake', $data);
         $whereString =  $this->prepareWhereData($data, $operator);
         $query = "SELECT * FROM \"$this->tableName\" WHERE ${whereString};";
+
         return $this->executeQuery($query, $data);
     }
 
@@ -103,7 +104,7 @@ class DataBase extends Application
      * @param string|null $operator
      * @return string
      */
-    private function prepareWhereData(array $data, string $operator=null): string {
+    private function prepareWhereData(array $data, string $operator = null): string {
         $shouldSeparate = count($data) - 1;
         $operator = $operator ?: 'AND';
         $res = '';
@@ -167,7 +168,7 @@ class DataBase extends Application
      * @param string|null $operator
      * @return array
      */
-    public function update(array $setData, array $whereData, string $operator=null)
+    public function update(array $setData, array $whereData, string $operator = null)
     {
         $setData = CaseTranslator::keysTo('snake', $setData);
         $whereData = CaseTranslator::keysTo('snake', $whereData);
@@ -199,16 +200,19 @@ class DataBase extends Application
      * @param array $data
      * @return bool
      */
-    public function rowExists(array $data): bool
+    public function rowExists(array $data, string $operator = 'and'): bool
     {
-        return count($this->selectAllWhere($data));
+        $data = CaseTranslator::keysTo('snake', $data);
+        $whereString =  $this->prepareWhereData($data, $operator);
+        $query = "SELECT count(*) FROM \"$this->tableName\" WHERE ${whereString};";
+        return $this->executeQuery($query, $data)[0]['count'];
     }
 
     /**
      * @param string $query
      * @return array|bool
      */
-    public function executeQuery(string $query, array $data=null, $fetch = true)
+    public function executeQuery(string $query, array $data = null, $fetch = true)
     {
         $stm = $this->pdo->prepare($query);
         $dbResult = $stm->execute($data);
