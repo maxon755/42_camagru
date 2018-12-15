@@ -1,18 +1,19 @@
 #!/usr/bin/env bash
 
 cat <<- SSMTP_CONF > /etc/ssmtp/ssmtp.conf
-    root=$SSMTP_LOGIN
-    mailhub=$SSMTP_HUB:SSMTP_PORT
-    hostname=camagru
-    FromLineOverride=YES
-    useSTARTTLS=YES
-    AuthUser=$SSMTP_LOGIN
-    AuthPass=$SSMTP_PASSWORD
+root=$SSMTP_LOGIN
+mailhub=$SSMTP_HUB:$SSMTP_PORT
+hostname=camagru
+FromLineOverride=YES
+useSTARTTLS=YES
+AuthUser=$SSMTP_LOGIN
+AuthPass=$SSMTP_PASSWORD
+debug=yes
 SSMTP_CONF
 
 
 cat <<- REVALIASES > /etc/ssmtp/revaliases
-    root:$SSMTP_LOGIN:$SSMTP_HUB:$SSMTP_PORT
+root:$SSMTP_LOGIN:$SSMTP_HUB:$SSMTP_PORT
 REVALIASES
 
 

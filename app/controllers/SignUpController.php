@@ -3,11 +3,8 @@
 namespace app\controllers;
 
 use app\base\Controller;
-use app\components\Debug;
-use app\components\inputForm\InputChecker;
-use app\components\inputForm\InputField;
-use app\components\inputForm\InputForm;
 use app\components\Mailer;
+use app\models\SignUpForm;
 use app\models\User;
 
 class SignUpController extends Controller
@@ -18,34 +15,7 @@ class SignUpController extends Controller
 
     public function __construct()
     {
-        $this->signUpForm = new InputForm('sign_up', 'Sign Up', '/sign-up/confirm', 'post', [
-            'username'  => new InputField('username', 'text', true, [
-                'emptiness',
-                'length',
-                'word'
-            ], true),
-            'first-name'=> new InputField('first-name', 'text', false, [
-                'length'
-            ]),
-            'last-name' => new InputField('last-name', 'text', false, [
-                'length'
-            ]),
-            'email'     => new InputField('email', 'email', true, [
-                'emptiness',
-                'length',
-                'email'
-            ], true),
-            'password'  => new InputField('password', 'password', true, [
-                'emptiness',
-                'length',
-                'password'
-            ]),
-            'repeat-password' => new InputField('repeat-password', 'password', true, [
-                'emptiness',
-                'length',
-                'equality'
-            ], false, null, $auxValue = 'password')
-        ]);
+        $this->signUpForm = new SignUpForm();
     }
 
     private function renderForm()
@@ -70,37 +40,24 @@ class SignUpController extends Controller
     {
         $userInput = $_POST;
 
-//        $userInput = [
-//            'username'          => 'maks',
-//            'first-name'        => '',
-//            'last-name'         => 'gayduk',
-//            'email'             => 'maksim.gayduk@gmail.com',
-//            'password'          => '1234aaZZ',
-//            'repeat-password'   => '1234aaZZ',
-//        ];
+        $userInput = [
+            'username'          => 'maks',
+            'first-name'        => '',
+            'last-name'         => 'gayduk',
+            'email'             => 'maksim.gayduk@gmail.com',
+            'password'          => '1234aaZZ',
+            'repeat-password'   => '1234aaZZ',
+        ];
 
-        //  maksgayduk@yandex.ru
-        // maksim.gayduk@gmail.com
+        $result = $this->signUpForm->confirm($userInput);
 
-        $this->sendActivationEmail($userInput['email']);
-        exit;
-        $this->signUpForm->setSubmitted(true);
-        $this->signUpForm->setFieldsValues($userInput);
-        $this->signUpForm->validate(new InputChecker());
-        $userModel = new User();
-        if ($this->signUpForm->isValid()) {
-            $this->signUpForm->checkAvailability($userModel);
-        }
-        if ($this->signUpForm->isValid()) {
-            $userInput = $this->signUpForm->getValues();
-            $userModel->insertToDb($userInput);
+        if ($result) {
             $this->sendActivationEmail($userInput['email']);
-//            header('Location: http://camagru/');
+            header('Location: http://camagru/');
         }
         else {
            $this->renderForm();
         }
-//        $this->renderForm();
     }
 
     /**
@@ -117,13 +74,15 @@ class SignUpController extends Controller
         return (new Mailer())->sendEmail($email, $subject, $body);
     }
 
-    public function actionActivate($activationCode)
+    /**
+     * @param string $activationCode
+     */
+    public function actionActivate(string $activationCode): void
     {
         $userModel = new User();
 
         $rowExists = $userModel->rowExists(['activation_code' => $activationCode]);
-        if ($rowExists) {
-            var_dump($userModel->activateAccount($activationCode));
+        if ($rowExists && $userModel->activateAccount($activationCode)) {
             echo 'success';
         } else {
             echo 'Something going wrong';

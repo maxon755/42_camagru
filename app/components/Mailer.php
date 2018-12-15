@@ -19,6 +19,11 @@ class Mailer
             'Content-Type: text/html; charset=utf-8' . "\r\n" .
             'Content-Transfer-Encoding: quoted-printable';
 
-        return mail($to, $subject, $body, $headers);
+        echo $to;
+
+        $res = mail($to, $subject, $body, $headers);
+
+        echo $res ? 'sss' : 'fff';
+        return $res;
     }
 }
