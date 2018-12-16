@@ -150,6 +150,14 @@ class InputForm extends Application
     }
 
     /**
+     * @param string $fieldName
+     * @return string
+     */
+    public function getValue(string $fieldName): string {
+        return $this->getInputField($fieldName)->getValue();
+    }
+
+    /**
      * @return array
      */
     public function getValues(): array

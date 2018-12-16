@@ -62,8 +62,9 @@ class User extends Model implements AvailabilityChecker, CredentialsChecker
     public function checkCredentials(array $data): bool
     {
         $row = $this->db->selectAllWhere([
-            'username' => $data['username']
-        ]);
+            'username'  => $data['username'],
+            'is_active' => true,
+        ], 'AND');
         if (empty($row)) {
             return false;
         }

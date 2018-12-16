@@ -7,6 +7,7 @@ use app\components\Debug;
 use app\components\inputForm\InputChecker;
 use app\components\inputForm\InputField;
 use app\components\inputForm\InputForm;
+use app\models\LoginForm;
 use app\models\User;
 
 class LoginController extends Controller
@@ -17,14 +18,7 @@ class LoginController extends Controller
 
     public function __construct()
     {
-        $this->loginForm = new InputForm('login', 'Log In', '/login/confirm', 'post', [
-            'username'  => new InputField('username', 'text', true, [
-                'emptiness',
-            ], true),
-            'password'  => new InputField('password', 'password', true, [
-                'emptiness',
-            ]),
-        ]);
+        $this->loginForm = new LoginForm();
     }
 
     public function actionIndex()
@@ -41,13 +35,8 @@ class LoginController extends Controller
     {
         $userInput = $_POST;
 
-        $this->loginForm->setSubmitted(true);
-        $this->loginForm->setFieldsValues($userInput);
-        $this->loginForm->validate(new InputChecker());
-        $userModel = new User();
-        if ($this->loginForm->isValid() &&
-            $this->loginForm->checkCredentials($userModel)) {
-            $_SESSION['username'] = $this->loginForm->getInputField('username')->getValue();
+        if ($this->loginForm->isInputCorrect($userInput)) {
+            $_SESSION['username'] = $this->loginForm->getValue('username');
             header('Location: /');
         }
         else {
