@@ -7,5 +7,6 @@ return array(
     '^logout$'          => 'Login/logout',
     '^sign-up$'         => 'SignUp/index',
     '^sign-up/(.+)$'    => 'SignUp/$1',
+    '^user/(.+)$'       => 'User/index/$1',
     '^empty/(.+)$'      => 'Empty/$1',
 );
