@@ -3,18 +3,17 @@
 namespace app\controllers;
 
 use app\base\Controller;
-use app\components\Debug;
-use app\components\inputForm\InputChecker;
-use app\components\inputForm\InputField;
-use app\components\inputForm\InputForm;
+use app\components\LogStateHandler;
 use app\models\LoginForm;
-use app\models\Client;
+
 
 class LoginController extends Controller
 {
     private $loginForm;
 
     private const VIEW_NAME = 'login';
+
+    use LogStateHandler;
 
     public function __construct()
     {
@@ -36,11 +35,16 @@ class LoginController extends Controller
         $userInput = $_POST;
 
         if ($this->loginForm->isInputCorrect($userInput)) {
-            $_SESSION['username'] = $this->loginForm->getValue('username');
+            $this->login($this->loginForm->getValue('username'));
             header('Location: /');
         }
         else {
             $this->renderForm();
         }
+    }
+
+    public function actionLogout()
+    {
+        $this->logout();
     }
 }

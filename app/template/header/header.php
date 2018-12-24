@@ -7,5 +7,5 @@
         <p class="__login">Log in</p>
     </a>
 
-    <?php echo $_SESSION['username'] ?>
+    <?php echo $_COOKIE['username'] ?? '' ?>
 </header>

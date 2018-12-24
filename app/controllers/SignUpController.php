@@ -3,6 +3,7 @@
 namespace app\controllers;
 
 use app\base\Controller;
+use app\components\LogStateHandler;
 use app\components\Mailer;
 use app\models\SignUpForm;
 use app\models\Client;
@@ -12,6 +13,8 @@ class SignUpController extends Controller
     private $signUpForm;
 
     const VIEW_NAME = 'sign-up';
+
+    use LogStateHandler;
 
     public function __construct()
     {
@@ -53,7 +56,7 @@ class SignUpController extends Controller
 
         if ($result) {
             $this->sendActivationEmail($userInput['email']);
-            header('Location: http://camagru/');
+            header('Location: /');
         }
         else {
            $this->renderForm();
@@ -79,10 +82,13 @@ class SignUpController extends Controller
      */
     public function actionActivate(string $activationCode): void
     {
-        $userModel = new Client();
+        $clientModel = new Client();
 
-        $rowExists = $userModel->rowExists(['activation_code' => $activationCode]);
-        if ($rowExists && $userModel->activateAccount($activationCode)) {
+        $clientData = $clientModel->getRowWhere(['activation_code' => $activationCode]);
+
+        if (!empty($clientData)
+            && $clientModel->activateAccount($activationCode)
+            && $this->login($clientData['username'])) {
             echo 'success';
         } else {
             echo 'Something going wrong';

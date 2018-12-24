@@ -15,12 +15,18 @@ class Model extends Application
         $this->db = DataBase::getInstance($this->tableName);
     }
 
-    public static function getClassName()
+    /**
+     * @return string
+     */
+    public static function getClassName(): string
     {
         return __CLASS__;
     }
 
-    private function computeTableName()
+    /**
+     * @return string
+     */
+    private function computeTableName(): string
     {
         $tableName = static::getClassName();
         $re = '/(?<=\\\\)(?<className>\w+)$/';
@@ -31,12 +37,19 @@ class Model extends Application
         return $tableName;
     }
 
-    public function getTableName()
+    /**
+     * @return string
+     */
+    public function getTableName(): string
     {
         return $this->tableName;
     }
 
-    public function encryptPassword($password)
+    /**
+     * @param string $password
+     * @return string
+     */
+    public function encryptPassword(string $password): string
     {
         return password_hash($password, PASSWORD_BCRYPT);
     }
@@ -48,5 +61,25 @@ class Model extends Application
     public function rowExists(array $data): bool
     {
         return  $this->db->rowExists($data);
+    }
+
+    /**
+     * @param array $data
+     * @return array
+     */
+    public function getRowWhere(array $data): array
+    {
+        $result = $this->db->selectAllWhere($data);
+
+        return !empty($result) ? $result[0] : $result ;
+    }
+
+    /**
+     * @param array $data
+     * @return array
+     */
+    public function getRowsWhere(array $data): array
+    {
+        return $this->db->selectAllWhere($data)[0];
     }
 }

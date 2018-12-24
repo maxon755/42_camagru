@@ -49,13 +49,13 @@ class SignUpForm extends InputForm
         $this->setSubmitted(true);
         $this->setFieldsValues($userInput);
         $this->validate(new InputChecker());
-        $userModel = new Client();
+        $clientModel = new Client();
         if ($this->isValid()) {
-            $this->checkAvailability($userModel);
+            $this->checkAvailability($clientModel);
         }
         if ($this->isValid()) {
             $userInput = $this->getValues();
-            $userModel->insertToDb($userInput);
+            $clientModel->insertToDb($userInput);
         }
         return $this->isValid();
     }

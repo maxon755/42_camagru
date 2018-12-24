@@ -9,7 +9,7 @@ use app\components\inputForm\CredentialsChecker;
 class Client extends Model implements AvailabilityChecker, CredentialsChecker
 {
 
-    public static function getClassName()
+    public static function getClassName(): string
     {
         return __CLASS__;
     }
