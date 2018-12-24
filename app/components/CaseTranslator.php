@@ -2,7 +2,10 @@
 
 namespace app\components;
 
-
+/**
+ * Class CaseTranslator
+ * @package app\components
+ */
 class CaseTranslator
 {
     /**
@@ -21,6 +24,13 @@ class CaseTranslator
         return $res;
     }
 
+    /**
+     * @param string $case
+     * @param array $strings
+     * @return array
+     *
+     * Converts keys of array to specified case and returns it.
+     */
     static function keysTo(string $case, array $strings): array
     {
         $method = 'to' . ucfirst($case);
@@ -36,6 +46,8 @@ class CaseTranslator
     /**
      * @param string $str
      * @return string
+     *
+     * lowerCamelCase
      */
     static function toCamel(string $str): string
     {
@@ -45,6 +57,8 @@ class CaseTranslator
     /**
      * @param string $str
      * @return string
+     *
+     * CapWords
      */
     static function toCap(string $str): string
     {
@@ -54,6 +68,8 @@ class CaseTranslator
     /**
      * @param string $str
      * @return string
+     *
+     * snake_case
      */
     static function toSnake(string $str): string
     {
@@ -63,6 +79,8 @@ class CaseTranslator
     /**
      * @param string $str
      * @return string
+     *
+     * kebab-case
      */
     static function  toKebab(string $str): string
     {
@@ -72,6 +90,8 @@ class CaseTranslator
     /**
      * @param string $str
      * @return string
+     *
+     * human case
      */
     static function  toHuman(string $str): string
     {
