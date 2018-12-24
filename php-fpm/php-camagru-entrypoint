@@ -16,6 +16,10 @@ cat <<- REVALIASES > /etc/ssmtp/revaliases
 root:$SSMTP_LOGIN:$SSMTP_HUB:$SSMTP_PORT
 REVALIASES
 
+cat <<- XDEBUG_CONFIG >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+xdebug.remote_host=$XDEBUG_REMOTE_HOST
+xdebug.remote_enable=1
+XDEBUG_CONFIG
 
 if [ "${1#-}" != "$1" ]; then
     set -- php-fpm "$@"
