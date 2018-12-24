@@ -5,7 +5,7 @@ namespace app\controllers;
 use app\base\Controller;
 use app\components\Mailer;
 use app\models\SignUpForm;
-use app\models\User;
+use app\models\Client;
 
 class SignUpController extends Controller
 {
@@ -32,7 +32,7 @@ class SignUpController extends Controller
     {
         $value  = $_POST['value'];
         $column = $_POST['type'];
-        $available  = (new User())->isInputAvailable([$column => $value]);
+        $available  = (new Client())->isInputAvailable([$column => $value]);
         echo json_encode(["available" => $available]);
     }
 
@@ -67,7 +67,7 @@ class SignUpController extends Controller
     private function sendActivationEmail(string $email): bool
     {
         $subject = "Account activation";
-        $activationCode = (new User())->getActivationCode($email);
+        $activationCode = (new Client())->getActivationCode($email);
         $link = $_SERVER['HTTP_HOST'] . '/sign-up/activate/' . $activationCode;
         $body = include(ROOT . DS . 'mails/activation.php');
 
@@ -79,7 +79,7 @@ class SignUpController extends Controller
      */
     public function actionActivate(string $activationCode): void
     {
-        $userModel = new User();
+        $userModel = new Client();
 
         $rowExists = $userModel->rowExists(['activation_code' => $activationCode]);
         if ($rowExists && $userModel->activateAccount($activationCode)) {

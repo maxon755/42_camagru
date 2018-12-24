@@ -6,7 +6,7 @@ use app\base\Model;
 use app\components\inputForm\AvailabilityChecker;
 use app\components\inputForm\CredentialsChecker;
 
-class User extends Model implements AvailabilityChecker, CredentialsChecker
+class Client extends Model implements AvailabilityChecker, CredentialsChecker
 {
 
     public static function getClassName()

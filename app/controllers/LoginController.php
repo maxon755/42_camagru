@@ -8,7 +8,7 @@ use app\components\inputForm\InputChecker;
 use app\components\inputForm\InputField;
 use app\components\inputForm\InputForm;
 use app\models\LoginForm;
-use app\models\User;
+use app\models\Client;
 
 class LoginController extends Controller
 {

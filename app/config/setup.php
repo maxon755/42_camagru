@@ -11,7 +11,7 @@ $config = require_once('database.php');
 
 $db = DataBase::getInstance(null, $config);
 
-$db->executeQuery('CREATE TABLE IF NOT EXISTS "User" (
+$db->executeQuery('CREATE TABLE IF NOT EXISTS client (
     user_id         SERIAL PRIMARY KEY,
     username        VARCHAR(32) NOT NULL UNIQUE,
     email           VARCHAR(32) NOT NULL UNIQUE,
@@ -24,12 +24,12 @@ $db->executeQuery('CREATE TABLE IF NOT EXISTS "User" (
   );'
 );
 
-$db->useTable('User');
+$db->useTable('client');
 
 $db->insertIfNotExists([
     'username'      => 'test_user',
     'email'         => 'test_email@test.com',
-    'password'      => password_hash('test_password', PASSWORD_BCRYPT),
+    'password'      => password_hash('random', PASSWORD_BCRYPT),
     'first_name'    => 'test_name',
     'is_active'     => 1,
 ]);
@@ -37,7 +37,7 @@ $db->insertIfNotExists([
 $db->insertIfNotExists([
     'username'      => 'test_user2',
     'email'         => 'test_email2@test.com',
-    'password'      => password_hash('test_password', PASSWORD_BCRYPT),
+    'password'      => password_hash('random', PASSWORD_BCRYPT),
     'first_name'    => 'test_name2',
     'is_active'     => 0,
 ]);

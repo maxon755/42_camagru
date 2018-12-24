@@ -25,6 +25,6 @@ class LoginForm extends InputForm
         $this->setSubmitted(true);
         $this->setFieldsValues($userInput);
         $this->validate(new InputChecker());
-        return $this->isValid() ? $this->checkCredentials(new User()) : false;
+        return $this->isValid() ? $this->checkCredentials(new Client()) : false;
     }
 }

@@ -81,7 +81,7 @@ class DataBase extends Application
      */
     public function selectAll(): array
     {
-        $query = "SELECT * FROM \"$this->tableName\";";
+        $query = "SELECT * FROM $this->tableName;";
         return $this->executeQuery($query);
     }
 
@@ -94,7 +94,7 @@ class DataBase extends Application
     {
         $data = CaseTranslator::keysTo('snake', $data);
         $whereString =  $this->prepareWhereData($data, $operator);
-        $query = "SELECT * FROM \"$this->tableName\" WHERE ${whereString};";
+        $query = "SELECT * FROM $this->tableName WHERE ${whereString};";
 
         return $this->executeQuery($query, $data);
     }
@@ -129,7 +129,7 @@ class DataBase extends Application
         $columns    = $insertData['columns'];
         $holders    = $insertData['holders'];
 
-        $query = "INSERT INTO \"$this->tableName\" ($columns) VALUES ($holders);";
+        $query = "INSERT INTO $this->tableName ($columns) VALUES ($holders);";
 
         return $this->executeQuery($query, $data, false);
     }
@@ -174,7 +174,7 @@ class DataBase extends Application
         $whereData = CaseTranslator::keysTo('snake', $whereData);
         $setString = $this->prepareSetData($setData);
         $whereString = $this->prepareWhereData($whereData, $operator);
-        $query = "UPDATE \"$this->tableName\" SET ${setString} WHERE ${whereString}";
+        $query = "UPDATE $this->tableName SET ${setString} WHERE ${whereString}";
 
         return $this->executeQuery($query, array_merge($setData, $whereData), false);
     }
@@ -204,12 +204,14 @@ class DataBase extends Application
     {
         $data = CaseTranslator::keysTo('snake', $data);
         $whereString =  $this->prepareWhereData($data, $operator);
-        $query = "SELECT count(*) FROM \"$this->tableName\" WHERE ${whereString};";
+        $query = "SELECT count(*) FROM $this->tableName WHERE ${whereString};";
         return $this->executeQuery($query, $data)[0]['count'];
     }
 
     /**
      * @param string $query
+     * @param array|null $data
+     * @param bool $fetch
      * @return array|bool
      */
     public function executeQuery(string $query, array $data = null, $fetch = true)
