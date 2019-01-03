@@ -1,4 +1,14 @@
-#user__video, #user__canvas {
-    width: 600px;
-    height: 420px;
+#user__video {
+    /*width: 640px;*/
+}
+
+#user_capture {
+    position: relative;
+    /*width: 640px;*/
+
+}
+
+#user__canvas {
+    position: absolute;
+    left: 0;
 }
