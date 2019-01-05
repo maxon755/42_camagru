@@ -8,9 +8,13 @@ window.onload = function () {
     let context = canvas.getContext('2d');
     let startButton = document.getElementById('user__start-button');
     let stopButton = document.getElementById('user__stop-button');
+    let filters = document.getElementById('user__filters');
 
     let width = 640;
     let height = 480;
+
+    canvas.setAttribute('width', width);
+    canvas.setAttribute('height', height);
 
     let streaming = false;
 
@@ -54,6 +58,8 @@ window.onload = function () {
 
                 capture.style.width = width + 'px';
                 capture.style.height = height + 'px';
+                canvas.setAttribute('width', width);
+                canvas.setAttribute('height', height);
 
                 streaming = true;
             }
@@ -73,8 +79,6 @@ window.onload = function () {
 
             mems.onload = function() {
                 clearCanvas();
-                canvas.width = width;
-                canvas.height = height;
                 context.drawImage(video, 0, 0, width, height);
                 context.drawImage(mems, 0, 0, width, height);
             }
@@ -87,6 +91,9 @@ window.onload = function () {
     }
 
     function stopStream() {
+        if (!video.srcObject) {
+            return;
+        }
         if (streaming) {
             toggleStartButton();
         }
@@ -116,16 +123,25 @@ window.onload = function () {
         event.dataTransfer.setData("text", event.target.id);
     };
 
-    canvas.ondragover = function(event) {
-        console.log('ondragover');
+    filters.ondragover = function(event) {
         event.preventDefault();
     };
 
-    canvas.ondrop = function(event) {
+    filters.ondrop = function(event) {
         event.preventDefault();
-        let data = event.dataTransfer.getData("text");
-        let image = document.getElementById(data);
+        let imageId = event.dataTransfer.getData("text");
+        let image = document.getElementById(imageId).cloneNode(true);
 
-        context.drawImage(image, 20, 20);
-    }
+        image.setAttribute('draggable', 'true');
+        image.onmousedown = function () {
+            console.log('hello');
+        };
+
+        // let imageWidth = parseInt(getComputedStyle(image).width);
+        // let imageHeight = parseInt(getComputedStyle(image).height);
+
+        // context.drawImage(image, 0, 0, imageWidth, imageHeight);
+        filters.appendChild(image);
+    };
+
 };

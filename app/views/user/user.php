@@ -9,6 +9,7 @@
 <div id="user__capture">
     <video id="user__video"></video>
     <canvas id="user__canvas"></canvas>
+    <div id="user__filters"></div>
 </div>
 
 <button id="user__start-button" class="user__button">

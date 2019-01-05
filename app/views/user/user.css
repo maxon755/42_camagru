@@ -1,8 +1,3 @@
-#user__video, #user__canvas {
-    width: 100%;
-    height: 100%;
-}
-
 #user__capture {
     position: relative;
 
@@ -37,4 +32,13 @@ span.fa-camera {
 
 #user__toolbar image {
     z-index: 500;
+}
+
+#user__filters {
+    position: absolute;
+    width: 640px;
+    height: 480px;
+
+    left: 0;
+    top: 0;
 }
