@@ -11,7 +11,10 @@
     <canvas id="user__canvas"></canvas>
 </div>
 
-<button id="user__start-button">
+<button id="user__start-button" class="user__button">
     <span class="fas fa-play-circle fa-3x"></span>
     <span class="fas fa-camera fa-3x"></span>
+</button>
+<button id="user__stop-button" class="user__button">
+    <span class="fas fa-stop-circle fa-3x"></span>
 </button>

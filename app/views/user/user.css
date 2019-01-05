@@ -23,7 +23,7 @@ img {
     width: 150px;
 }
 
-#user__start-button {
+.user__button {
     width: 60px;
     height: 60px;
 

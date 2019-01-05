@@ -5,16 +5,12 @@ window.onload = function () {
     let canvas = document.getElementById('user__canvas');
     let context = canvas.getContext('2d');
     let startButton = document.getElementById('user__start-button');
+    let stopButton = document.getElementById('user__stop-button');
 
     let width = 640;
     let height = 480;
 
     let streaming = false;
-
-    // video.setAttribute('width', width);
-    // video.setAttribute('height', height);
-    // canvas.setAttribute('width', width);
-    // canvas.setAttribute('height', height);
 
     startButton.addEventListener('click', function () {
         clearCanvas();
@@ -42,7 +38,7 @@ window.onload = function () {
     function streamWebCam(stream) {
         video.srcObject = stream;
 
-        video.oncanplay = function(e) {
+        video.oncanplay = function() {
             if (!streaming) {
                 console.log('canplay');
                 height = video.videoHeight / (video.videoWidth/width);
@@ -54,10 +50,6 @@ window.onload = function () {
                 capture.style.width = width + 'px';
                 capture.style.height = height + 'px';
 
-                // capture.setAttribute('width', width);
-                // capture.setAttribute('height', height);
-                // canvas.setAttribute('width', width);
-                // canvas.setAttribute('height', height);
                 streaming = true;
             }
         };
@@ -67,6 +59,11 @@ window.onload = function () {
             video.play();
         };
     }
+
+    stopButton.addEventListener('click', function () {
+        stopStream();
+        clearCanvas();
+    });
 
     function takePicture() {
         if (width && height) {
