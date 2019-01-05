@@ -34,3 +34,7 @@ img {
 span.fa-camera {
     display: none;
 }
+
+#user__toolbar image {
+    z-index: 500;
+}

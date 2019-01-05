@@ -1,8 +1,8 @@
 <?php echo 'page of ' . $parameters['username'] ?>
 
-<div>
+<div id="user__toolbar">
     <div>
-        <img src="/views/user/assets/troll-face.png" alt="Troll face">
+        <img id="user__troll-face" src="/views/user/assets/troll-face.png" alt="Troll face" draggable="true">
     </div>
 </div>
 

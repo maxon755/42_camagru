@@ -1,5 +1,7 @@
 window.onload = function () {
 
+    // WebCam Stream control block
+
     let capture = document.getElementById('user__capture');
     let video = document.getElementById('user__video');
     let canvas = document.getElementById('user__canvas');
@@ -13,14 +15,14 @@ window.onload = function () {
     let streaming = false;
 
     startButton.addEventListener('click', function () {
-        clearCanvas();
         toggleStartButton();
 
         if (!streaming) {
-            getWebCamAccess()
+            clearCanvas();
+            getWebCamAccess();
         } else {
             takePicture();
-            stopStream();
+            streaming = false;
         }
     });
 
@@ -29,18 +31,21 @@ window.onload = function () {
             video: true,
             audio: false
         })
-        .then(streamWebCam)
-        .catch(function () {
-            console.log('something wrong');
-        })
+            .then(streamWebCam)
+            .catch(function () {
+                console.log('something wrong');
+            })
     }
 
     function streamWebCam(stream) {
         video.srcObject = stream;
 
+        video.onloadedmetadata = function(e) {
+            video.play();
+        };
+
         video.oncanplay = function() {
             if (!streaming) {
-                console.log('canplay');
                 height = video.videoHeight / (video.videoWidth/width);
 
                 if (isNaN(height)) {
@@ -53,11 +58,6 @@ window.onload = function () {
                 streaming = true;
             }
         };
-
-        video.onloadedmetadata = function(e) {
-            console.log('loaded meta data');
-            video.play();
-        };
     }
 
     stopButton.addEventListener('click', function () {
@@ -67,17 +67,29 @@ window.onload = function () {
 
     function takePicture() {
         if (width && height) {
-            canvas.width = width;
-            canvas.height = height;
-            context.drawImage(video, 0, 0, width, height);
+            let memsUrl = canvas.toDataURL();
+            let mems = new Image();
+            mems.src = memsUrl;
+
+            mems.onload = function() {
+                clearCanvas();
+                canvas.width = width;
+                canvas.height = height;
+                context.drawImage(video, 0, 0, width, height);
+                context.drawImage(mems, 0, 0, width, height);
+            }
         }
-    }
+    };
+
 
     function clearCanvas() {
         context.clearRect(0, 0, canvas.width, canvas.height);
     }
 
     function stopStream() {
+        if (streaming) {
+            toggleStartButton();
+        }
         video.srcObject.getTracks()[0].stop();
         streaming = false;
     }
@@ -94,5 +106,26 @@ window.onload = function () {
             circle.style.display = "inline-block";
             camera.style.display = "none";
         }
+    }
+
+    // Drag`n`Drop control block
+
+    let troll = document.getElementById('user__troll-face');
+
+    troll.ondragstart = function(event) {
+        event.dataTransfer.setData("text", event.target.id);
+    };
+
+    canvas.ondragover = function(event) {
+        console.log('ondragover');
+        event.preventDefault();
+    };
+
+    canvas.ondrop = function(event) {
+        event.preventDefault();
+        let data = event.dataTransfer.getData("text");
+        let image = document.getElementById(data);
+
+        context.drawImage(image, 20, 20);
     }
 };

@@ -11,7 +11,7 @@ window.onload = function () {
         passwordField       : new InputField("sign_up__password"),
         repeatPasswordField : new InputField("sign_up__repeat-password")
     };
-}
+};
 
 
 function InputField(elementId, shouldSend) {
