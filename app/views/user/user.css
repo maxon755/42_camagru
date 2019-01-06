@@ -34,7 +34,7 @@ span.fa-camera {
     z-index: 500;
 }
 
-#user__filters {
+#user__filter-container {
     position: absolute;
     width: 640px;
     height: 480px;

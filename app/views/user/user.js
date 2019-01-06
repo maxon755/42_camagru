@@ -8,7 +8,8 @@ window.onload = function () {
     let context = canvas.getContext('2d');
     let startButton = document.getElementById('user__start-button');
     let stopButton = document.getElementById('user__stop-button');
-    let filters = document.getElementById('user__filters');
+    let saveButton = document.getElementById('user__save-button');
+    let filters = document.getElementById('user__filter-container');
 
     let width = 640;
     let height = 480;
@@ -24,9 +25,12 @@ window.onload = function () {
         if (!streaming) {
             clearCanvas();
             getWebCamAccess();
+            saveButton.disabled = true;
+
         } else {
             takePicture();
             streaming = false;
+            saveButton.disabled = false;
         }
     });
 
@@ -73,24 +77,62 @@ window.onload = function () {
 
     function takePicture() {
         if (width && height) {
-            let memsUrl = canvas.toDataURL();
-            let mems = new Image();
-            mems.src = memsUrl;
-
-            mems.onload = function() {
-                clearCanvas();
-                context.drawImage(video, 0, 0, width, height);
-                context.drawImage(mems, 0, 0, width, height);
-            }
+            context.drawImage(video, 0, 0, width, height);
         }
-    };
+    }
+
+    saveButton.addEventListener('click', function () {
+        saveCanvasContent();
+    });
 
 
     function clearCanvas() {
         context.clearRect(0, 0, canvas.width, canvas.height);
     }
 
+    function saveCanvasContent() {
+        let images = filters.getElementsByTagName('img');
+
+        drawImages(images);
+        removeHtmlCollection(images);
+        saveResultImage();
+    }
+
+    function drawImages(images) {
+        for (let i = 0; i < images.length; i++) {
+            context.drawImage(
+                images[i],
+                images[i].offsetLeft,
+                images[i].offsetTop,
+                images[i].clientWidth,
+                images[i].clientHeight
+            );
+        }
+    }
+
+    function saveResultImage() {
+        let container = document.getElementById('tmp-cont');
+        let src = canvas.toDataURL("image/jpeg", 0.25);
+        let img = new Image();
+
+        img.src = src;
+
+        img.onload = function () {
+            img.style.width = img.width + 'px';
+            img.style.height = img.height + 'px';
+            container.appendChild(img);
+        };
+
+    }
+
+    function removeHtmlCollection(collection) {
+        for (let i = collection.length - 1; i >= 0; --i) {
+            collection[i].remove();
+        }
+    }
+
     function stopStream() {
+        saveButton.disabled = true;
         if (!video.srcObject) {
             return;
         }
