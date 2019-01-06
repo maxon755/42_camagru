@@ -162,7 +162,11 @@ window.onload = function () {
     let troll = document.getElementById('user__troll-face');
 
     troll.ondragstart = function(event) {
-        event.dataTransfer.setData("text", event.target.id);
+        event.dataTransfer.setData("text/json", JSON.stringify({
+            'isNew': true,
+            'id': event.target.id,
+            'mouseOffset': getMouseOffset(event),
+        }));
     };
 
     filters.ondragover = function(event) {
@@ -171,19 +175,63 @@ window.onload = function () {
 
     filters.ondrop = function(event) {
         event.preventDefault();
-        let imageId = event.dataTransfer.getData("text");
-        let image = document.getElementById(imageId).cloneNode(true);
+        console.log(event.dataTransfer.getData("text/json"));
+        let data = JSON.parse(event.dataTransfer.getData("text/json"));
 
-        image.setAttribute('draggable', 'true');
-        image.onmousedown = function () {
-            console.log('hello');
-        };
-
-        // let imageWidth = parseInt(getComputedStyle(image).width);
-        // let imageHeight = parseInt(getComputedStyle(image).height);
-
-        // context.drawImage(image, 0, 0, imageWidth, imageHeight);
-        filters.appendChild(image);
+        if (data.isNew) {
+            insertImageToFilters(data);
+        } else {
+            moveFilter(data);
+        }
     };
 
+    function insertImageToFilters(data) {
+        let image = document.getElementById(data.id).cloneNode(true);
+        image.setAttribute('draggable', 'true');
+        image.id = 'filter-' + filters.childElementCount;
+        setElementPosition(event, image, data.mouseOffset);
+
+        image.ondragstart = function(event) {
+            event.dataTransfer.setData("text/json", JSON.stringify({
+                'isNew': false,
+                'id': event.target.id,
+                'mouseOffset': getMouseOffset(event),
+            }));
+        };
+        filters.appendChild(image);
+    }
+
+    function moveFilter(data) {
+        let filter = document.getElementById(data.id);
+
+        setElementPosition(event, filter, data.mouseOffset);
+    }
+
+    function setElementPosition(event, element, mouseOffset) {
+        element.style.position = 'absolute';
+        element.style.left = (event.pageX - capture.offsetLeft - mouseOffset.x) + 'px';
+        element.style.top = (event.pageY - capture.offsetTop - mouseOffset.y) + 'px';
+    }
+
+    function getMouseOffset(event) {
+        let elementPosition	= getElementPosition(event);
+        return {
+            x : event.pageX - elementPosition.x,
+            y : event.pageY - elementPosition.y
+        }
+    }
+
+    function getElementPosition(event){
+        let x = event.target.offsetLeft;
+        let y  = event.target.offsetTop;
+        let parent = event.target.offsetParent;
+
+        while (parent){
+            x += parent.offsetLeft;
+            y += parent.offsetTop;
+            parent = parent.offsetParent;
+        }
+
+        return { x, y }
+    }
 };
