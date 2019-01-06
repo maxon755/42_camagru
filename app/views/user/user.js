@@ -169,13 +169,13 @@ window.onload = function () {
         }));
     };
 
-    filters.ondragover = function(event) {
+    filters.ondragover = function() {
         event.preventDefault();
     };
 
     filters.ondrop = function(event) {
         event.preventDefault();
-        console.log(event.dataTransfer.getData("text/json"));
+        event.stopPropagation();
         let data = JSON.parse(event.dataTransfer.getData("text/json"));
 
         if (data.isNew) {
@@ -234,4 +234,15 @@ window.onload = function () {
 
         return { x, y }
     }
+
+    document.body.ondrop = function(event) {
+        event.preventDefault();
+
+        let data = JSON.parse(event.dataTransfer.getData("text/json"));
+        document.getElementById(data.id).remove();
+    };
+
+    document.body.ondragover = function() {
+        event.preventDefault();
+    };
 };
