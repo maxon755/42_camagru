@@ -9,7 +9,8 @@ window.onload = function () {
     let startButton = document.getElementById('user__start-button');
     let stopButton = document.getElementById('user__stop-button');
     let saveButton = document.getElementById('user__save-button');
-    let filters = document.getElementById('user__filter-container');
+    let filterContainer = document.getElementById('user__filter-container');
+    let toolbar = document.getElementById('user__toolbar');
 
     let width = 640;
     let height = 480;
@@ -91,7 +92,7 @@ window.onload = function () {
     }
 
     function saveCanvasContent() {
-        let images = filters.getElementsByTagName('img');
+        let images = filterContainer.getElementsByTagName('img');
 
         drawImages(images);
         removeHtmlCollection(images);
@@ -159,21 +160,23 @@ window.onload = function () {
 
     // Drag`n`Drop control block
 
-    let troll = document.getElementById('user__troll-face');
+    let filters = toolbar.getElementsByTagName('img');
 
-    troll.ondragstart = function(event) {
-        event.dataTransfer.setData("text/json", JSON.stringify({
-            'isNew': true,
-            'id': event.target.id,
-            'mouseOffset': getMouseOffset(event),
-        }));
-    };
+    for (let i = 0; i < filters.length; i++) {
+        filters[i].ondragstart = function(event) {
+            event.dataTransfer.setData("text/json", JSON.stringify({
+                'isNew': true,
+                'id': event.target.id,
+                'mouseOffset': getMouseOffset(event),
+            }));
+        };
+    }
 
-    filters.ondragover = function() {
+    filterContainer.ondragover = function() {
         event.preventDefault();
     };
 
-    filters.ondrop = function(event) {
+    filterContainer.ondrop = function(event) {
         event.preventDefault();
         event.stopPropagation();
         let data = JSON.parse(event.dataTransfer.getData("text/json"));
@@ -188,7 +191,7 @@ window.onload = function () {
     function insertImageToFilters(data) {
         let image = document.getElementById(data.id).cloneNode(true);
         image.setAttribute('draggable', 'true');
-        image.id = 'filter-' + filters.childElementCount;
+        image.id = 'filter-' + filterContainer.childElementCount;
         setElementPosition(event, image, data.mouseOffset);
 
         image.ondragstart = function(event) {
@@ -198,7 +201,7 @@ window.onload = function () {
                 'mouseOffset': getMouseOffset(event),
             }));
         };
-        filters.appendChild(image);
+        filterContainer.appendChild(image);
     }
 
     function moveFilter(data) {

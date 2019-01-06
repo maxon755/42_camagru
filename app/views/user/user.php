@@ -3,6 +3,7 @@
 <div id="user__toolbar">
     <div>
         <img id="user__troll-face" src="/views/user/assets/troll-face.png" alt="Troll face" draggable="true">
+        <img id="user__troll-face-red" src="/views/user/assets/troll-face-red.png" alt="Troll face" draggable="true">
     </div>
 </div>
 
