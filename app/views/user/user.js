@@ -1,16 +1,17 @@
 window.onload = function () {
+    "use strict";
+
+    const capture = document.getElementById('user__capture');
+    const video = document.getElementById('user__video');
+    const canvas = document.getElementById('user__canvas');
+    const context = canvas.getContext('2d');
+    const startButton = document.getElementById('user__start-button');
+    const stopButton = document.getElementById('user__stop-button');
+    const saveButton = document.getElementById('user__save-button');
+    const filterContainer = document.getElementById('user__filter-container');
+    const toolbar = document.getElementById('user__toolbar');
 
     // WebCam Stream control block
-
-    let capture = document.getElementById('user__capture');
-    let video = document.getElementById('user__video');
-    let canvas = document.getElementById('user__canvas');
-    let context = canvas.getContext('2d');
-    let startButton = document.getElementById('user__start-button');
-    let stopButton = document.getElementById('user__stop-button');
-    let saveButton = document.getElementById('user__save-button');
-    let filterContainer = document.getElementById('user__filter-container');
-    let toolbar = document.getElementById('user__toolbar');
 
     let width = 640;
     let height = 480;
@@ -165,9 +166,9 @@ window.onload = function () {
     for (let i = 0; i < filters.length; i++) {
         filters[i].ondragstart = function(event) {
             event.dataTransfer.setData("text/json", JSON.stringify({
-                'isNew': true,
-                'id': event.target.id,
-                'mouseOffset': getMouseOffset(event),
+                isNew: true,
+                id: event.target.id,
+                mouseOffset: getMouseOffset(event),
             }));
         };
     }
