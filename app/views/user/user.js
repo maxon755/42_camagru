@@ -197,11 +197,13 @@ window.onload = function () {
 
         image.ondragstart = function(event) {
             event.dataTransfer.setData("text/json", JSON.stringify({
-                'isNew': false,
-                'id': event.target.id,
-                'mouseOffset': getMouseOffset(event),
+                isNew: false,
+                id: event.target.id,
+                mouseOffset: getMouseOffset(event),
             }));
         };
+
+        image.flexible();
         filterContainer.appendChild(image);
     }
 
@@ -243,7 +245,10 @@ window.onload = function () {
         event.preventDefault();
 
         let data = JSON.parse(event.dataTransfer.getData("text/json"));
-        document.getElementById(data.id).remove();
+
+        if (data.isNew === false) {
+            document.getElementById(data.id).remove();
+        }
     };
 
     document.body.ondragover = function() {
