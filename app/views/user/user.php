@@ -27,3 +27,6 @@
 </button>
 
 <div id="tmp-cont"></div>
+
+<?php
+    $this->registerJsFile('transformable-element.js');

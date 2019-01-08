@@ -1,3 +1,7 @@
+<?php
+    /** @var \app\base\View $this **/
+?>
+
 <!doctype html>
 <html lang="en">
 <head>
@@ -31,7 +35,9 @@
     include($renderUnit['markUp']);
 
 ?>
-
+    <?php foreach($this->jsFiles as $jsFile): ?>
+        <script src="<?php echo $jsFile ?>"></script>
+    <?php endforeach; ?>
     <script src="<?php echo $renderUnit['script'] ?>"></script>
 </body>
 </html>
