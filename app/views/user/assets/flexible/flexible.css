@@ -1,2 +1,60 @@
-body {
+.flexible__frame {
+    position: relative;
+
+    display: inline-block;
+}
+
+.flexible__point {
+    width: 10px;
+    height: 10px;
+
+    background-color: #1f78d1;
+    border-radius: 5px;
+
+    position: absolute;
+}
+
+:root {
+    --offset: 15px;
+    --negative-offset: calc(0px - var(--offset));
+}
+
+.flexible__position-top-left {
+    top: var(--negative-offset);
+    left: 0;
+}
+
+.flexible__position-top-center {
+    top: var(--negative-offset);
+    left: 50%;
+}
+
+.flexible__position-top-right {
+    top: var(--negative-offset);
+    left: 100%;
+}
+
+.flexible__position-middle-left {
+    top: 50%;
+    left: 0;
+}
+
+.flexible__position-middle-right {
+    top: 50%;
+    left: 100%;
+}
+
+.flexible__position-bottom-left {
+    top: 100%;
+    left: 0;
+}
+
+.flexible__position-bottom-center {
+    top: 100%;
+    left: 50%;
+}
+
+.flexible__position-bottom-right {
+    top: 100%;
+    left: 100%;
 }
