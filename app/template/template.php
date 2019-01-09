@@ -39,5 +39,9 @@
         <script src="<?php echo $jsFile ?>"></script>
     <?php endforeach; ?>
     <script src="<?php echo $renderUnit['script'] ?>"></script>
+
+    <?php foreach($this->cssFiles as $cssFile): ?>
+        <link rel="stylesheet" href="<?php echo $cssFile ?>">
+    <?php endforeach; ?>
 </body>
 </html>

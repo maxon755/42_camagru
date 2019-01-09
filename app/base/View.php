@@ -14,6 +14,8 @@ class View extends Application
 
     private $jsFiles = [];
 
+    private $cssFiles = [];
+
     private function __construct()
     {
     }
@@ -72,7 +74,16 @@ class View extends Application
      */
     public function registerJsFile(string $fileName): void
     {
-        $this->jsFiles[] = $this->resolveJsFilePath($fileName);
+        $this->jsFiles[] = $this->resolveFilePath($fileName, 'js');
+    }
+
+    /**
+     * @param string $fileName
+     * @throws Exception
+     */
+    public function registerCssFile(string $fileName)
+    {
+        $this->cssFiles[] = $this->resolveFilePath($fileName, 'css');
     }
 
     /**
@@ -80,13 +91,14 @@ class View extends Application
      * @return string
      * @throws Exception
      */
-    private function resolveJsFilePath(string $fileName)
+    private function resolveFilePath(string $fileName, $extension)
     {
         if (!preg_match('/.+\.\w+$/', $fileName)) {
-            $fileName = $fileName . '.js';
+            $fileName = $fileName . '.' . $extension;
         }
         $pathPattenrs = [
-            $this->getViewPath() . 'assets' . DS . 'js' . DS . $fileName,
+            $this->getViewPath() . 'assets' . DS . $extension . DS . $fileName,
+            $this->getViewPath() . 'assets' . DS . $fileName,
         ];
         foreach ($pathPattenrs as $pathPattern) {
             if (file_exists(ROOT . $pathPattern)) {

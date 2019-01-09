@@ -29,4 +29,5 @@
 <div id="tmp-cont"></div>
 
 <?php
-    $this->registerJsFile('transformable-element.js');
+    $this->registerJsFile('flexible/flexible.js');
+    $this->registerCssFile('flexible/flexible.css');

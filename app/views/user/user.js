@@ -11,6 +11,8 @@ window.onload = function () {
     const filterContainer = document.getElementById('user__filter-container');
     const toolbar = document.getElementById('user__toolbar');
 
+    let troll = document.getElementById('user__troll-face');
+    troll.flexible();
     // WebCam Stream control block
 
     let width = 640;
@@ -202,7 +204,7 @@ window.onload = function () {
                 mouseOffset: getMouseOffset(event),
             }));
         };
-
+        delete image.dataset['flexible'];
         image.flexible();
         filterContainer.appendChild(image);
     }
