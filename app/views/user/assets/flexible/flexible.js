@@ -8,6 +8,10 @@
             element.parentElement.appendChild(frame);
             frame.appendChild(element);
 
+            frame.addEventListener('drop', function (event) {
+                event.stopPropagation();
+            })
+
         })();
 
         element.onclick = function() {
@@ -38,8 +42,35 @@
                     prefix + positionClasses[i],
                 );
 
+                addEventsToPoint(point);
                 frame.appendChild(point);
             }
+        }
+
+        function addEventsToPoint(point) {
+            point.setAttribute('draggable', 'true');
+
+            point.addEventListener('dragstart', function(event) {
+               this.startDragData = {
+                   elementWidth: element.width,
+                   elementHeight: element.height,
+                   mousePosition: {
+                       x: event.clientX,
+                       y: event.clientY,
+                   },
+               };
+
+               event.dataTransfer.setDragImage(new Image(), 0, 0);
+            });
+
+            point.addEventListener('drag', function(event) {
+
+                let startDragData = event.target.startDragData;
+
+                element.width = startDragData.elementWidth + (event.clientX - startDragData.mousePosition.x);
+                element.height = startDragData.elementHeight;
+
+            });
         }
     }
 

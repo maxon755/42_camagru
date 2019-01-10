@@ -42,6 +42,8 @@
 .flexible__position-middle-right {
     top: 50%;
     left: 100%;
+
+    cursor: e-resize;
 }
 
 .flexible__position-bottom-left {
