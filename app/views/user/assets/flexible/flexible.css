@@ -2,11 +2,23 @@
     position: relative;
 
     display: inline-block;
+
+    border: 1px solid black;
+}
+
+:root {
+    --point-size: 10px;
+
+    --offset: 5px;
+
+    --negative-full-shift: calc(0px - var(--point-size) - var(--offset));
+    --center: calc(50% - var(--point-size) / 2);
+    --offset-shift: calc(100% + var(--offset));
 }
 
 .flexible__point {
-    width: 10px;
-    height: 10px;
+    width: var(--point-size);
+    height: var(--point-size);
 
     background-color: #1f78d1;
     border-radius: 5px;
@@ -14,49 +26,58 @@
     position: absolute;
 }
 
-:root {
-    --offset: 15px;
-    --negative-offset: calc(0px - var(--offset));
-}
-
 .flexible__position-top-left {
-    top: var(--negative-offset);
-    left: 0;
+    top: var(--negative-full-shift);
+    left: var(--negative-full-shift);
+
+    cursor: nw-resize;
 }
 
 .flexible__position-top-center {
-    top: var(--negative-offset);
-    left: 50%;
+    top: var(--negative-full-shift);
+    left: var(--center);
+
+    cursor: n-resize;
 }
 
 .flexible__position-top-right {
-    top: var(--negative-offset);
-    left: 100%;
+    top: var(--negative-full-shift);
+    left: var(--offset-shift);
+
+    cursor: ne-resize;
 }
 
 .flexible__position-middle-left {
-    top: 50%;
-    left: 0;
+    top: var(--center);
+    left: var(--negative-full-shift);
+
+    cursor: w-resize;
 }
 
 .flexible__position-middle-right {
-    top: 50%;
-    left: 100%;
+    top: var(--center);
+    left: var(--offset-shift);
 
     cursor: e-resize;
 }
 
 .flexible__position-bottom-left {
-    top: 100%;
-    left: 0;
+    top: var(--offset-shift);
+    left: var(--negative-full-shift);
+
+    cursor: sw-resize;
 }
 
 .flexible__position-bottom-center {
-    top: 100%;
-    left: 50%;
+    top: var(--offset-shift);
+    left: var(--center);
+
+    cursor: s-resize;
 }
 
 .flexible__position-bottom-right {
-    top: 100%;
-    left: 100%;
+    top: var(--offset-shift);
+    left: var(--offset-shift);
+
+    cursor: se-resize;
 }

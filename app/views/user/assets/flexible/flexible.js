@@ -3,12 +3,15 @@
 
     function TransformableElement(element) {
 
+        let self = this;
         let activePoint = null;
 
         (function () {
             let frame = createFrame();
             element.parentElement.appendChild(frame);
             frame.appendChild(element);
+
+            self.frame = frame;
         })();
 
         element.onclick = function () {
@@ -18,6 +21,7 @@
         function createFrame() {
             let frame = document.createElement('div');
             frame.classList.add(`${pluginName}__frame`);
+            frame.style.height = element.height + 'px';
             createPoints(frame);
 
             return frame;
@@ -41,7 +45,13 @@
                     'flexible__point',
                     prefix + positionClasses[i],
                 );
+                point.setAttribute('draggable', 'false');
+                point.addEventListener('dragstart', function () {
+                    event.preventDefault();
+                    event.stopPropagation();
 
+                    return false;
+                });
                 pointsContainer.appendChild(point);
             }
 
@@ -52,9 +62,10 @@
         }
 
         function handlePointMouseDown(event) {
+            event.stopPropagation();
             if (!event.target.classList.contains('flexible__point') ||
                 event.button !== 0) {
-                return;
+                return false;
             }
             activePoint = this;
             this.startDragData = {
@@ -66,9 +77,7 @@
                 },
             };
 
-            // console.log('mouse down event:');
-            // console.log(this.startDragData);
-            // return false;
+            return false;
         }
 
         document.addEventListener('mouseup', function () {
@@ -80,25 +89,27 @@
             if (!activePoint) {
                 return;
             }
-            // console.log('mouse move event:');
-            // console.dir(activePoint);
-            // console.log(event.target);
-
             let startDragData = activePoint.startDragData;
 
             element.width = startDragData.elementWidth + (event.clientX - startDragData.mousePosition.x);
             element.height = startDragData.elementHeight;
 
         });
+
+        return {
+            getFlexible: function() {
+                return self.frame;
+            }
+        }
     }
 
     HTMLElement.prototype[pluginName] = function () {
         let element = this;
 
-        if (!element.dataset[pluginName]) {
-            element.dataset[pluginName] = new TransformableElement(element);
+        if (!element.hasOwnProperty(pluginName)) {
+            element[pluginName] = new TransformableElement(element);
         }
 
-        return element.dataset[pluginName];
+        return element[pluginName].getFlexible();
     };
 })(window, document);

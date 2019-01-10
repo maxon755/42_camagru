@@ -11,8 +11,6 @@ window.onload = function () {
     const filterContainer = document.getElementById('user__filter-container');
     const toolbar = document.getElementById('user__toolbar');
 
-    let troll = document.getElementById('user__troll-face');
-    troll.flexible();
     // WebCam Stream control block
 
     let width = 640;
@@ -163,6 +161,9 @@ window.onload = function () {
 
     // Drag`n`Drop control block
 
+    let troll = document.getElementById('user__troll-face');
+    troll.flexible();
+
     let filters = toolbar.getElementsByTagName('img');
 
     for (let i = 0; i < filters.length; i++) {
@@ -194,19 +195,21 @@ window.onload = function () {
     function insertImageToFilters(data) {
         let image = document.getElementById(data.id).cloneNode(true);
         image.setAttribute('draggable', 'true');
-        image.id = 'filter-' + filterContainer.childElementCount;
-        setElementPosition(event, image, data.mouseOffset);
+        filterContainer.appendChild(image);
 
-        image.ondragstart = function(event) {
+        let flexContainer = image.flexible();
+
+        flexContainer.id = 'filter-' + filterContainer.childElementCount;
+        setElementPosition(event, flexContainer, data.mouseOffset);
+        flexContainer.ondragstart = function(event) {
             event.dataTransfer.setData("text/json", JSON.stringify({
                 isNew: false,
-                id: event.target.id,
+                id: this.id,
                 mouseOffset: getMouseOffset(event),
             }));
         };
-        delete image.dataset['flexible'];
-        image.flexible();
-        filterContainer.appendChild(image);
+        delete flexContainer.dataset['flexible'];
+
     }
 
     function moveFilter(data) {
