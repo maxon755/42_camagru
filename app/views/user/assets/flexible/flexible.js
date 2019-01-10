@@ -1,20 +1,17 @@
-;(function(window, document) {
+;(function (window, document) {
     let pluginName = 'flexible';
 
     function TransformableElement(element) {
+
+        let activePoint = null;
 
         (function () {
             let frame = createFrame();
             element.parentElement.appendChild(frame);
             frame.appendChild(element);
-
-            frame.addEventListener('drop', function (event) {
-                event.stopPropagation();
-            })
-
         })();
 
-        element.onclick = function() {
+        element.onclick = function () {
             console.log('onclicked troll');
         };
 
@@ -27,7 +24,10 @@
         }
 
         function createPoints(frame) {
+            let pointsContainer = document.createElement('div');
             let prefix = pluginName + '__position-';
+
+            pointsContainer.classList.add(pluginName + '__pointsContainer');
 
             let positionClasses = [
                 'top-left', 'top-center', 'top-right',
@@ -42,36 +42,54 @@
                     prefix + positionClasses[i],
                 );
 
-                addEventsToPoint(point);
-                frame.appendChild(point);
+                pointsContainer.appendChild(point);
             }
+
+            pointsContainer.addEventListener('mousedown', function(event) {
+                return handlePointMouseDown(event);
+            });
+            frame.appendChild(pointsContainer);
         }
 
-        function addEventsToPoint(point) {
-            point.setAttribute('draggable', 'true');
+        function handlePointMouseDown(event) {
+            if (!event.target.classList.contains('flexible__point') ||
+                event.button !== 0) {
+                return;
+            }
+            activePoint = this;
+            this.startDragData = {
+                elementWidth: element.width,
+                elementHeight: element.height,
+                mousePosition: {
+                    x: event.clientX,
+                    y: event.clientY,
+                },
+            };
 
-            point.addEventListener('dragstart', function(event) {
-               this.startDragData = {
-                   elementWidth: element.width,
-                   elementHeight: element.height,
-                   mousePosition: {
-                       x: event.clientX,
-                       y: event.clientY,
-                   },
-               };
-
-               event.dataTransfer.setDragImage(new Image(), 0, 0);
-            });
-
-            point.addEventListener('drag', function(event) {
-
-                let startDragData = event.target.startDragData;
-
-                element.width = startDragData.elementWidth + (event.clientX - startDragData.mousePosition.x);
-                element.height = startDragData.elementHeight;
-
-            });
+            // console.log('mouse down event:');
+            // console.log(this.startDragData);
+            // return false;
         }
+
+        document.addEventListener('mouseup', function () {
+            activePoint = null;
+            return false;
+        });
+
+        document.addEventListener('mousemove', function (event) {
+            if (!activePoint) {
+                return;
+            }
+            // console.log('mouse move event:');
+            // console.dir(activePoint);
+            // console.log(event.target);
+
+            let startDragData = activePoint.startDragData;
+
+            element.width = startDragData.elementWidth + (event.clientX - startDragData.mousePosition.x);
+            element.height = startDragData.elementHeight;
+
+        });
     }
 
     HTMLElement.prototype[pluginName] = function () {
