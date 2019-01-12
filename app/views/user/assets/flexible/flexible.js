@@ -37,18 +37,19 @@
 
             pointsContainer.classList.add(pluginName + '__pointsContainer');
 
-            let positionClasses = [
+            let positions = [
                 'top-left', 'top-center', 'top-right',
                 'middle-left', 'middle-right',
                 'bottom-left', 'bottom-center', 'bottom-right',
             ];
 
-            for (let i = 0; i < positionClasses.length; i++) {
+            for (let i = 0; i < positions.length; i++) {
                 let point = document.createElement('div');
                 point.classList.add(
                     'flexible__point',
-                    prefix + positionClasses[i],
+                    prefix + positions[i],
                 );
+                point.dataset['position'] = positions[i];
                 point.setAttribute('draggable', 'false');
                 point.addEventListener('dragstart', function () {
                     event.preventDefault();
@@ -71,8 +72,12 @@
                 event.button !== 0) {
                 return false;
             }
-            activePoint = this;
-            this.startDragData = {
+            activePoint = event.target;
+            activePoint.startDragData = {
+                frameTop: self.frame.offsetTop,
+                frameLeft: self.frame.offsetLeft,
+                frameRight: getElementPosition(self.frame).x + element.width,
+                frameBottom: getElementPosition(self.frame).y + element.height,
                 elementWidth: element.width,
                 elementHeight: element.height,
                 mousePosition: {
@@ -93,12 +98,97 @@
             if (!activePoint) {
                 return;
             }
+
             let startDragData = activePoint.startDragData;
 
-            element.width = startDragData.elementWidth + (event.clientX - startDragData.mousePosition.x);
-            element.height = startDragData.elementHeight;
+            switch (activePoint.dataset['position']) {
+                case 'top-left':
+                    resizeLeft(event, startDragData);
+                    resizeUp(event, startDragData);
+                    break;
 
+                case 'top-right':
+                    resizeRight(event, startDragData);
+                    resizeUp(event, startDragData);
+                    break;
+
+                case 'top-center':
+                    resizeUp(event, startDragData);
+                    constrainDimension(element, startDragData, 'width');
+                    break;
+
+                case 'middle-right':
+                    resizeRight(event, startDragData);
+                    constrainDimension(element, startDragData, 'height');
+                    break;
+
+                case 'middle-left':
+                    resizeLeft(event, startDragData);
+                    constrainDimension(element, startDragData, 'height');
+                    break;
+
+                case 'bottom-left':
+                    resizeLeft(event, startDragData);
+                    resizeDown(event, startDragData);
+                    break;
+
+                case 'bottom-center':
+                    resizeDown(event, startDragData);
+                    constrainDimension(element, startDragData, 'width');
+                    break;
+
+                case 'bottom-right':
+                    resizeRight(event, startDragData);
+                    resizeDown(event, startDragData);
+                    break;
+            }
         });
+
+        function resizeUp(event, data) {
+            if (element.height !== 0 && event.pageY  < data.frameBottom) {
+                self.frame.style.top = data.frameTop + (event.clientY - data.mousePosition.y) + 'px';
+            }
+            element.height = data.elementHeight - (event.clientY - data.mousePosition.y);
+            self.frame.style.height = element.height + 'px';
+        }
+
+        function resizeDown(event, data) {
+            element.height = data.elementHeight + (event.clientY - data.mousePosition.y);
+            self.frame.style.height = element.height + 'px';
+        }
+
+        function resizeLeft(event, data) {
+            if (element.width !== 0 && event.clientX < data.frameRight) {
+                self.frame.style.left = data.frameLeft + (event.clientX - data.mousePosition.x) + 'px';
+            }
+            element.width = data.elementWidth - (event.clientX - data.mousePosition.x);
+        }
+
+        function resizeRight(event, data) {
+            element.width = data.elementWidth + (event.clientX - data.mousePosition.x);
+        }
+
+        function constrainDimension(element, data, dimension) {
+            element[dimension] = data['element' + capitalize(dimension)];
+        }
+
+        function capitalize(string) {
+            return string.charAt(0).toUpperCase() + string.slice(1);
+        }
+
+        function getElementPosition(element){
+            let x = element.offsetLeft;
+            let y  = element.offsetTop;
+            let parent = element.offsetParent;
+
+            while (parent){
+                x += parent.offsetLeft;
+                y += parent.offsetTop;
+                parent = parent.offsetParent;
+            }
+
+            return { x, y }
+        }
 
         return {
             getFlexible: function() {
