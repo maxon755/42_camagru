@@ -7,16 +7,20 @@
         let activePoint = null;
 
         (function () {
-            let frame = createFrame();
-            element.parentElement.appendChild(frame);
-            frame.appendChild(element);
-
-            self.frame = frame;
+            self.frame = createFrame();
+            insertFrame();
         })();
 
-        element.onclick = function () {
-            console.log('onclicked troll');
-        };
+        function insertFrame() {
+            let nextElement = element.nextElementSibling;
+
+            if (nextElement !== null) {
+                element.parentElement.insertBefore(self.frame, nextElement);
+            } else {
+                element.parentElement.appendChild(self.frame);
+            }
+            self.frame.appendChild(element);
+        }
 
         function createFrame() {
             let frame = document.createElement('div');
