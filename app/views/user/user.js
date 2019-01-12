@@ -93,21 +93,23 @@ window.onload = function () {
     }
 
     function saveCanvasContent() {
-        let images = filterContainer.getElementsByTagName('img');
+        let filters = filterContainer.children;
 
-        drawImages(images);
-        removeHtmlCollection(images);
+        drawFilters(filters);
+        removeHtmlCollection(filters);
         saveResultImage();
     }
 
-    function drawImages(images) {
-        for (let i = 0; i < images.length; i++) {
+    function drawFilters(filters) {
+        for (let i = 0; i < filters.length; i++) {
+            let filter = filters[i];
+            let image = filter.getElementsByTagName('img')[0];
             context.drawImage(
-                images[i],
-                images[i].offsetLeft,
-                images[i].offsetTop,
-                images[i].clientWidth,
-                images[i].clientHeight
+                image,
+                filter.offsetLeft,
+                filter.offsetTop,
+                image.width,
+                image.height,
             );
         }
     }
