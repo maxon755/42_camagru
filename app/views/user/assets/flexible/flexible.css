@@ -2,8 +2,10 @@
     position: relative;
 
     display: inline-block;
+}
 
-    border: 1px solid black;
+.flexible__points-container {
+    display: none;
 }
 
 :root {
@@ -25,6 +27,10 @@
 
     position: absolute;
     z-index: 999;
+}
+
+.flexible__point:hover {
+    background-color: #ff4c31;
 }
 
 .flexible__position-top-left {

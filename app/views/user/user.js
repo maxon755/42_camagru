@@ -163,9 +163,6 @@ window.onload = function () {
 
     // Drag`n`Drop control block
 
-    let troll = document.getElementById('user__troll-face');
-    troll.flexible();
-
     let filters = toolbar.getElementsByTagName('img');
 
     for (let i = 0; i < filters.length; i++) {

@@ -1,7 +1,7 @@
 ;(function (window, document) {
     let pluginName = 'flexible';
 
-    function TransformableElement(element) {
+    function FlexibleElement(element) {
 
         let self = this;
         let activePoint = null;
@@ -28,14 +28,32 @@
             frame.style.height = element.height + 'px';
             createPoints(frame);
 
+            frame.addEventListener('click', function (event) {
+                event.stopPropagation();
+                showPointContainer(event);
+            });
+
             return frame;
+        }
+
+        function showPointContainer(event) {
+            let containers = document.getElementsByClassName('flexible__points-container');
+            for (let i = 0; i < containers.length; i++) {
+                if (containers[i] !== self.pointsContainer) {
+                    containers[i].style.display = 'none';
+                }
+            }
+
+            self.pointsContainer.style.display = 'block';
         }
 
         function createPoints(frame) {
             let pointsContainer = document.createElement('div');
             let prefix = pluginName + '__position-';
 
-            pointsContainer.classList.add(pluginName + '__pointsContainer');
+            self.pointsContainer = pointsContainer;
+
+            pointsContainer.classList.add(pluginName + '__points-container');
 
             let positions = [
                 'top-left', 'top-center', 'top-right',
@@ -89,12 +107,16 @@
             return false;
         }
 
-        document.addEventListener('mouseup', function () {
+        document.addEventListener('click', function() {
+            self.pointsContainer.style.display = 'none';
+        });
+
+        document.addEventListener('mouseup', function() {
             activePoint = null;
             return false;
         });
 
-        document.addEventListener('mousemove', function (event) {
+        document.addEventListener('mousemove', function(event) {
             if (!activePoint) {
                 return;
             }
@@ -201,7 +223,7 @@
         let element = this;
 
         if (!element.hasOwnProperty(pluginName)) {
-            element[pluginName] = new TransformableElement(element);
+            element[pluginName] = new FlexibleElement(element);
         }
 
         return element[pluginName].getFlexible();
