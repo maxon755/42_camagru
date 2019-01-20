@@ -20,6 +20,10 @@ class LoginForm extends InputForm
         ]);
     }
 
+    /**
+     * @param array $userInput
+     * @return bool
+     */
     public function isInputCorrect(array $userInput): bool
     {
         $this->setSubmitted(true);

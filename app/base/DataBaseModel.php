@@ -4,7 +4,7 @@ namespace app\base;
 
 use app\components\CaseTranslator;
 
-class Model extends Application
+class DataBaseModel extends Application
 {
     private $tableName;
     protected $db;

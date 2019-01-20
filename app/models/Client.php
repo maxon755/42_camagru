@@ -2,11 +2,11 @@
 
 namespace app\models;
 
-use app\base\Model;
+use app\base\DataBaseModel;
 use app\components\inputForm\AvailabilityChecker;
 use app\components\inputForm\CredentialsChecker;
 
-class Client extends Model implements AvailabilityChecker, CredentialsChecker
+class Client extends DataBaseModel implements AvailabilityChecker, CredentialsChecker
 {
 
     public static function getClassName(): string
@@ -39,13 +39,21 @@ class Client extends Model implements AvailabilityChecker, CredentialsChecker
         ]);
     }
 
-    public function getActivationCode($email): string
+    /**
+     * @param string $email
+     * @return string
+     */
+    public function getActivationCode(string $email): string
     {
         $data = $this->db->selectAllWhere(['email' => $email]);
         return $data[0]['activation_code'];
     }
 
-    public function activateAccount($activationCode)
+    /**
+     * @param string $activationCode
+     * @return array
+     */
+    public function activateAccount(string $activationCode)
     {
         return $this->db->update([
             'is_active'         => 'true',
