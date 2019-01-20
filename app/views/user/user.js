@@ -22,7 +22,6 @@ window.onload = function () {
     let streaming = false;
 
     startButton.addEventListener('click', function () {
-        toggleStartButton();
 
         if (!streaming) {
             clearCanvas();
@@ -31,6 +30,7 @@ window.onload = function () {
 
         } else {
             takePicture();
+            toggleStartButton();
             streaming = false;
             saveButton.disabled = false;
         }
@@ -41,7 +41,10 @@ window.onload = function () {
             video: true,
             audio: false
         })
-            .then(streamWebCam)
+            .then(function(stream) {
+                toggleStartButton();
+                streamWebCam(stream);
+            })
             .catch(function () {
                 console.log('something wrong');
             })
@@ -50,7 +53,7 @@ window.onload = function () {
     function streamWebCam(stream) {
         video.srcObject = stream;
 
-        video.onloadedmetadata = function(e) {
+        video.onloadedmetadata = function() {
             video.play();
         };
 
@@ -73,8 +76,11 @@ window.onload = function () {
     }
 
     stopButton.addEventListener('click', function () {
+        let filters = filterContainer.children;
+
         stopStream();
         clearCanvas();
+        removeHtmlCollection(filters);
     });
 
     function takePicture() {
