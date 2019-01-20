@@ -45,8 +45,11 @@ window.onload = function () {
                 toggleStartButton();
                 streamWebCam(stream);
             })
-            .catch(function () {
-                console.log('something wrong');
+            .catch(function (err) {
+                context.font = "30px Arial";
+                context.fillStyle = "red";
+                context.textAlign = "center";
+                context.fillText(err.message, canvas.width/2, canvas.height/2);
             })
     }
 
