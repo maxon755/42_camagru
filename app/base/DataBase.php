@@ -166,9 +166,9 @@ class DataBase extends Application
      * @param array $setData
      * @param array $whereData
      * @param string|null $operator
-     * @return array
+     * @return bool
      */
-    public function update(array $setData, array $whereData, string $operator = null)
+    public function update(array $setData, array $whereData, string $operator = null): bool
     {
         $setData = CaseTranslator::keysTo('snake', $setData);
         $whereData = CaseTranslator::keysTo('snake', $whereData);

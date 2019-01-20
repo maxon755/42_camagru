@@ -10,11 +10,16 @@ class Application
     protected static $mode;
     protected static $viewComponents;
 
+    protected static $auth;
+
     public static function initApplication(array $config)
     {
         self::$config           = $config;
         self::$appName          = $config['appName'];
         self::$mode             = $config['mode'];
         self::$viewComponents   = $config['viewComponents'];
+
+        self::$auth = new Auth();
     }
+
 }

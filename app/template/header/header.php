@@ -3,7 +3,7 @@
         <p class="logo">Memogram</p>
     </a>
 
-    <?php if (isset($_COOKIE['username'])): ?>
+    <?php if (self::$auth->loggedIn()): ?>
         <?php echo $_COOKIE['username'] ?>
 
         <a href="/user/<?php echo $_COOKIE['username'] ?>">my page</a>
@@ -12,4 +12,6 @@
             <p class="header__login">Log in</p>
         </a>
     <?php endif; ?>
+
+    <a href="/logout">logout</a>
 </header>

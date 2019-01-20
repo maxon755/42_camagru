@@ -32,7 +32,7 @@ class DataBaseModel extends Application
         $re = '/(?<=\\\\)(?<className>\w+)$/';
         preg_match($re, $tableName, $matches);
         $tableName = $matches['className'];
-        $tableName = CaseTranslator::toCamel($tableName);
+        $tableName = CaseTranslator::toSnake($tableName);
 
         return $tableName;
     }
@@ -81,5 +81,17 @@ class DataBaseModel extends Application
     public function getRowsWhere(array $data): array
     {
         return $this->db->selectAllWhere($data)[0];
+    }
+
+    /**
+     * @param $columnName
+     * @param $data
+     * @return mixed
+     */
+    public function getValue($columnName, $data)
+    {
+        $result = $this->db->selectAllWhere($data);
+
+        return !empty($result) ? $result[0][$columnName] : $result;
     }
 }

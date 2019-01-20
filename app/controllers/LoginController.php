@@ -35,7 +35,7 @@ class LoginController extends Controller
         $userInput = $_POST;
 
         if ($this->loginForm->isInputCorrect($userInput)) {
-            $this->login($this->loginForm->getValue('username'));
+            self::$auth->login($this->loginForm->getValue('username'));
             header('Location: /');
         }
         else {
@@ -45,6 +45,7 @@ class LoginController extends Controller
 
     public function actionLogout()
     {
-        $this->logout();
+        self::$auth->logout();
+        header('Location: /');
     }
 }
