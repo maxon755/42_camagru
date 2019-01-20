@@ -13,14 +13,17 @@ class Auth
     private $token;
 
     private $usernameClient;
-    private $userIdClient;
     private $tokenClient;
 
     public function __construct()
     {
         $this->usernameClient = $_COOKIE['username'] ?? null;
-        $this->userIdClient = $_COOKIE['user_id'] ?? null;
         $this->tokenClient = $_COOKIE['token'] ?? null;
+
+        if ($this->usernameClient && !$this->userId) {
+            $this->fetchUserId($this->usernameClient);
+        }
+
     }
 
     /**
@@ -30,12 +33,11 @@ class Auth
     public function login(string $username): bool
     {
         $this->username = $username;
-        $this->userId = (new Client())->getValue('user_id', ['username' => $username]);
+        $this->fetchUserId($username);
         $this->token = $this->manageToken();
 
 
         return  $this->setCookie('username', $this->username) &&
-                $this->setCookie('user_id', $this->userId) &&
                 $this->setCookie('token', $this->token);
     }
 
@@ -45,7 +47,6 @@ class Auth
     public function logout(): bool
     {
         return  $this->unsetCookie('username') &&
-                $this->unsetCookie('user_id') &&
                 $this->unsetCookie('token');
     }
 
@@ -62,15 +63,23 @@ class Auth
      */
     public function loggedIn(): bool
     {
-        $this->getToken();
+        $this->fetchToken();
         return $this->clientDataExists() && $this->token === $this->tokenClient;
     }
 
-    public function getToken()
+    public function fetchToken(): void
     {
         if (!$this->token) {
-            $this->token = (new AuthToken())->getValue('token', ['user_id' => $this->userIdClient]);
+            $this->token = (new AuthToken())->getValue('token', ['user_id' => $this->userId]);
         }
+    }
+
+    /**
+     * @param string $username
+     */
+    public function fetchUserId(string $username): void
+    {
+        $this->userId = (new Client())->getValue('user_id', ['username' => $username]);
     }
 
     /**
@@ -78,7 +87,7 @@ class Auth
      */
     public function clientDataExists(): bool
     {
-        return isset($this->userIdClient) && isset($this->usernameClient) && isset($this->tokenClient);
+        return isset($this->usernameClient) && isset($this->tokenClient);
     }
 
     /**
@@ -127,7 +136,7 @@ class Auth
      */
     public function selfPage(string $username): bool
     {
-        $this->getToken();
+        $this->fetchToken();
 
         return $username === $this->usernameClient && $this->token === $this->tokenClient;
     }
