@@ -10,6 +10,7 @@ class Application
     protected static $mode;
     protected static $viewComponents;
 
+    /* @var \app\base\Auth $auth */
     protected static $auth;
 
     public static function initApplication(array $config)

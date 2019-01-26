@@ -23,7 +23,6 @@ class Auth
         if ($this->usernameClient && !$this->userId) {
             $this->fetchUserId($this->usernameClient);
         }
-
     }
 
     /**

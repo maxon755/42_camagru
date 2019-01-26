@@ -88,7 +88,7 @@ class SignUpController extends Controller
 
         if (!empty($clientData)
             && $clientModel->activateAccount($activationCode)
-            && $this->login($clientData['username'])) {
+            && self::$auth->login($this->signUpForm->getValue('username'))) {
             echo 'success';
         } else {
             echo 'Something going wrong';
