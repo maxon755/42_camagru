@@ -191,7 +191,12 @@ window.onload = function () {
     filterContainer.ondrop = function(event) {
         event.preventDefault();
         event.stopPropagation();
-        let data = JSON.parse(event.dataTransfer.getData("text/json"));
+
+        let data = event.dataTransfer.getData("text/json");
+        if (!data) {
+            return;
+        }
+        data = JSON.parse(event.dataTransfer.getData("text/json"));
 
         if (data.isNew) {
             insertImageToFilters(data);
@@ -257,7 +262,11 @@ window.onload = function () {
     document.body.ondrop = function(event) {
         event.preventDefault();
 
-        let data = JSON.parse(event.dataTransfer.getData("text/json"));
+        let data = event.dataTransfer.getData("text/json");
+
+        if (!data) {
+            return;
+        }
 
         if (data.isNew === false) {
             document.getElementById(data.id).remove();
