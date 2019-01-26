@@ -121,7 +121,7 @@ window.addEventListener('load', function() {
     }
 
     function saveResultImage() {
-        let container = document.getElementById('tmp-cont');
+        let container = document.getElementById('user__past-photos');
         let src = canvas.toDataURL("image/jpeg", 0.25);
         let img = new Image();
 
