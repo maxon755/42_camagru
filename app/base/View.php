@@ -95,20 +95,22 @@ class View extends Application
 
     /**
      * @param string $fileName
+     * @param string $extension
      * @return string
      * @throws Exception
      */
-    private function resolveFilePath(string $fileName, $extension)
+    private function resolveFilePath(string $fileName, string $extension)
     {
         if (!preg_match('/.+\.\w+$/', $fileName)) {
             $fileName = $fileName . '.' . $extension;
         }
-        $pathPattenrs = [
+        $pathPatterns = [
             $this->getViewPath() . DS . $fileName,
+            $this->getViewPath() . DS . $extension . DS . $fileName,
             $this->getViewPath() . 'assets' . DS . $extension . DS . $fileName,
             $this->getViewPath() . 'assets' . DS . $fileName,
         ];
-        foreach ($pathPattenrs as $pathPattern) {
+        foreach ($pathPatterns as $pathPattern) {
             if (file_exists(ROOT . $pathPattern)) {
                 return $pathPattern;
             }

@@ -2,13 +2,6 @@
     /** @var \app\base\View $this */
 ?>
 
-<div id="camera__toolbar">
-    <div>
-        <img id="camera__troll-face" src="/views/user/assets/troll-face.png" alt="Troll face" draggable="true">
-        <img id="camera__troll-face-red" src="/views/user/assets/troll-face-red.png" alt="Troll face" draggable="true">
-    </div>
-</div>
-
 <div id="camera__capture">
     <video id="camera__video"></video>
     <canvas id="camera__canvas"></canvas>
@@ -35,3 +28,4 @@
 <?php
     $this->registerJsFile('camera');
     $this->registerCssFile('camera');
+    $this->registerJsFile('editor');
