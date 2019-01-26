@@ -1,5 +1,7 @@
 <?php
-    /** @var \app\base\View $this **/
+    /** @var \app\base\View $this */
+    /** @var array $renderUnit - files to render */
+    /** @var bool $useComponents */
 ?>
 
 <!doctype html>
@@ -22,7 +24,10 @@
             <link rel="stylesheet" href="<?php echo $component['stylePath']; ?>">
         <?php endforeach; ?>
     <?php endif; ?>
-    <link rel="stylesheet" href="<?php echo $renderUnit['style']; ?>">
+
+    <?php if ($renderUnit['style']): ?>
+        <link rel="stylesheet" href="<?php echo $renderUnit['style']; ?>">
+    <?php endif; ?>
 
 </head>
 <body>
@@ -38,7 +43,10 @@
     <?php foreach($this->jsFiles as $jsFile): ?>
         <script src="<?php echo $jsFile ?>"></script>
     <?php endforeach; ?>
-    <script src="<?php echo $renderUnit['script'] ?>"></script>
+
+    <?php if ($renderUnit['script']): ?>
+        <script src="<?php echo $renderUnit['script'] ?>"></script>
+    <?php endif; ?>
 
     <?php foreach($this->cssFiles as $cssFile): ?>
         <link rel="stylesheet" href="<?php echo $cssFile ?>">

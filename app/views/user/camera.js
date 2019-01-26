@@ -1,15 +1,15 @@
 window.onload = function () {
     "use strict";
 
-    const capture = document.getElementById('user__capture');
-    const video = document.getElementById('user__video');
-    const canvas = document.getElementById('user__canvas');
+    const capture = document.getElementById('camera__capture');
+    const video = document.getElementById('camera__video');
+    const canvas = document.getElementById('camera__canvas');
     const context = canvas.getContext('2d');
-    const startButton = document.getElementById('user__start-button');
-    const stopButton = document.getElementById('user__stop-button');
-    const saveButton = document.getElementById('user__save-button');
-    const filterContainer = document.getElementById('user__filter-container');
-    const toolbar = document.getElementById('user__toolbar');
+    const startButton = document.getElementById('camera__start-button');
+    const stopButton = document.getElementById('camera__stop-button');
+    const saveButton = document.getElementById('camera__save-button');
+    const filterContainer = document.getElementById('camera__filter-container');
+    const toolbar = document.getElementById('camera__toolbar');
 
     // WebCam Stream control block
 

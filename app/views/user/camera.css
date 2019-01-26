@@ -1,4 +1,4 @@
-#user__capture {
+#camera__capture {
     position: relative;
 
     width: 640px;
@@ -7,13 +7,13 @@
     border: 3px solid blue;
 }
 
-#user__canvas {
+#camera__canvas {
     position: absolute;
     left: 0;
     top: 0;
 }
 
-.user__button {
+.camera__button {
     width: 60px;
     height: 60px;
 
@@ -25,11 +25,11 @@ span.fa-camera {
     display: none;
 }
 
-#user__toolbar image {
+#camera__toolbar image {
     z-index: 500;
 }
 
-#user__filter-container {
+#camera__filter-container {
     position: absolute;
     width: 640px;
     height: 480px;

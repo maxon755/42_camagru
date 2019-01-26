@@ -33,16 +33,23 @@ class View extends Application
     }
 
     /**
-     * @param $viewName
      * @return array
      */
     private function getViewFiles(): array
     {
         $pattern = $this->getViewPath() . $this->viewName;
 
+        $style = $pattern . ".css";
+        if (!file_exists(ROOT . DS . $style)) {
+            $style = false;
+        }
+        $script = $pattern . ".js";
+        if (!file_exists(ROOT . DS . $script)) {
+            $script = false;
+        }
         return ["markUp"    => ROOT . DS . $pattern . ".php",
-            "style"     => $pattern . ".css",
-            "script"    => $pattern . ".js"];
+            "style"     => $style,
+            "script"    => $script];
     }
 
     /**
@@ -97,6 +104,7 @@ class View extends Application
             $fileName = $fileName . '.' . $extension;
         }
         $pathPattenrs = [
+            $this->getViewPath() . DS . $fileName,
             $this->getViewPath() . 'assets' . DS . $extension . DS . $fileName,
             $this->getViewPath() . 'assets' . DS . $fileName,
         ];

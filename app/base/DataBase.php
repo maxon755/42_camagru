@@ -198,6 +198,7 @@ class DataBase extends Application
 
     /**
      * @param array $data
+     * @param string $operator
      * @return bool
      */
     public function rowExists(array $data, string $operator = 'and'): bool
