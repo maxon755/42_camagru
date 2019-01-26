@@ -112,8 +112,9 @@ class Router
 
             $controllerObject = new $controllerName;
 
-            if (!method_exists($controllerObject, $actionName))
+            if (!method_exists($controllerObject, $actionName)) {
                 continue ;
+            }
 
             call_user_func_array(array($controllerObject, $actionName), $segments);
             $pageFound = true;

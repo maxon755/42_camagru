@@ -24,7 +24,6 @@ window.addEventListener('load', function() {
             clearCanvas();
             getWebCamAccess();
             saveButton.disabled = true;
-
         } else {
             takePicture();
             toggleStartButton();
@@ -125,14 +124,27 @@ window.addEventListener('load', function() {
         let src = canvas.toDataURL("image/jpeg", 0.25);
         let img = new Image();
 
-        img.src = src;
+        // debugger;
+        // img.src = src;
 
         img.onload = function () {
             img.style.width = img.width + 'px';
             img.style.height = img.height + 'px';
             container.appendChild(img);
+            sendPhotoToServer(img);
         };
+    }
 
+    function sendPhotoToServer(img) {
+        var formData    = new FormData();
+        var xhr         = new XMLHttpRequest();
+
+        formData.append('image', img.src);
+        xhr.open('post', '/user/save-image');
+        xhr.send(formData);
+
+        xhr.onload = function () {
+        }
     }
 
     function removeHtmlCollection(collection) {

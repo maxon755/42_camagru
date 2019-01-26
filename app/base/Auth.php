@@ -90,13 +90,13 @@ class Auth
     }
 
     /**
-     * @param $name
-     * @param $value
+     * @param string $name
+     * @param string $value
      * @param int $days
      * @param string $path
      * @return bool
      */
-    private function setCookie($name, $value, $days = 7, $path = '/'): bool
+    private function setCookie(string $name, string $value, int $days = 7, string $path = '/'): bool
     {
         return setcookie(
             $name,
@@ -106,10 +106,10 @@ class Auth
     }
 
     /**
-     * @param $name
+     * @param string $name
      * @return bool
      */
-    private function unsetCookie($name): bool
+    private function unsetCookie(string $name): bool
     {
         return setcookie(
             $name,
