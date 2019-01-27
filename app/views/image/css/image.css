@@ -1,0 +1,14 @@
+#toolbar__container {
+    width: 80%;
+    margin: auto;
+    margin-top: 20px;
+    margin-bottom: 20px;
+
+    display: flex;
+    justify-content: center;
+}
+
+#toolbar__container> img {
+    margin: 10px;
+}
+

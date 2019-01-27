@@ -2,14 +2,14 @@
     /** @var \app\base\View $this */
 ?>
 
-<div>
+<div id="camera__container">
     <div id="camera__capture">
         <video id="camera__video"></video>
         <canvas id="camera__canvas"></canvas>
         <div id="camera__filter-container"></div>
     </div>
 
-    <div class="camera__buttons">
+    <div id="camera__buttons">
         <button id="camera__stop-button" class="camera__button">
             <span class="fas fa-stop-circle fa-3x"></span>
         </button>

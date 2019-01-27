@@ -7,7 +7,7 @@ return array(
     '^logout$'          => 'Login/logout',
     '^sign-up$'         => 'SignUp/index',
     '^sign-up/(.+)$'    => 'SignUp/$1',
-    '^user/page/(.+)$'  => 'User/index/$1',
-    '^user/(.+)$'       => 'User/$1',
+    '^image$'           => 'Image/index',
+    '^image/(.+)$'      => 'Image/$1',
     '^empty/(.+)$'      => 'Empty/$1',
 );

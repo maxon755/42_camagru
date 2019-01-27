@@ -13,5 +13,7 @@
         </a>
     <?php endif; ?>
 
+    <a href="/image">Create image</a>
+
     <a href="/logout">logout</a>
 </header>

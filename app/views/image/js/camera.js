@@ -120,12 +120,12 @@ window.addEventListener('load', function() {
     }
 
     function saveResultImage() {
-        let container = document.getElementById('user__past-photos');
+        let container = document.getElementById('image__past-photos');
         let src = canvas.toDataURL("image/jpeg", 0.25);
         let img = new Image();
 
         // debugger;
-        // img.src = src;
+        img.src = src;
 
         img.onload = function () {
             img.style.width = img.width + 'px';
@@ -140,7 +140,7 @@ window.addEventListener('load', function() {
         var xhr         = new XMLHttpRequest();
 
         formData.append('image', img.src);
-        xhr.open('post', '/user/save-image');
+        xhr.open('post', '/image/save');
         xhr.send(formData);
 
         xhr.onload = function () {

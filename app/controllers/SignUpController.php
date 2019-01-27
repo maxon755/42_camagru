@@ -3,7 +3,6 @@
 namespace app\controllers;
 
 use app\base\Controller;
-use app\components\LogStateHandler;
 use app\components\Mailer;
 use app\models\SignUpForm;
 use app\models\Client;
@@ -14,14 +13,12 @@ class SignUpController extends Controller
 
     const VIEW_NAME = 'sign-up';
 
-    use LogStateHandler;
-
     public function __construct()
     {
         $this->signUpForm = new SignUpForm();
     }
 
-    private function renderForm()
+    private function renderForm(): void
     {
         $this->render(self::VIEW_NAME, false, ['signUpForm' => $this->signUpForm]);
     }
@@ -31,7 +28,7 @@ class SignUpController extends Controller
         $this->renderForm();
     }
 
-    public function actionCheckAvailability()
+    public function actionCheckAvailability(): void
     {
         $value  = $_POST['value'];
         $column = $_POST['type'];
@@ -39,7 +36,7 @@ class SignUpController extends Controller
         echo json_encode(["available" => $available]);
     }
 
-    public function actionConfirm()
+    public function actionConfirm(): void
     {
         $userInput = $_POST;
 

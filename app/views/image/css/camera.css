@@ -1,3 +1,8 @@
+#camera__container {
+    width: 640px;
+    margin: auto;
+}
+
 #camera__capture {
     position: relative;
 
@@ -36,4 +41,9 @@ span.fa-camera {
 
     left: 0;
     top: 0;
+}
+
+#camera__buttons {
+    width: 188px;
+    margin: auto;
 }

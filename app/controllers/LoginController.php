@@ -3,7 +3,6 @@
 namespace app\controllers;
 
 use app\base\Controller;
-use app\components\LogStateHandler;
 use app\models\LoginForm;
 
 
@@ -12,8 +11,6 @@ class LoginController extends Controller
     private $loginForm;
 
     private const VIEW_NAME = 'login';
-
-    use LogStateHandler;
 
     public function __construct()
     {
