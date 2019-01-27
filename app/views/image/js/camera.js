@@ -41,12 +41,16 @@ window.addEventListener('load', function() {
                 toggleStartButton();
                 streamWebCam(stream);
             })
-            .catch(function (err) {
-                context.font = "30px Arial";
-                context.fillStyle = "red";
-                context.textAlign = "center";
-                context.fillText(err.message, canvas.width/2, canvas.height/2);
+            .catch(function (error) {
+                displayError(error.message)
             })
+    }
+
+    function displayError(errorText) {
+        context.font = "30px Arial";
+        context.fillStyle = "red";
+        context.textAlign = "center";
+        context.fillText(errorText, canvas.width/2, canvas.height/2);
     }
 
     function streamWebCam(stream) {
@@ -120,32 +124,57 @@ window.addEventListener('load', function() {
     }
 
     function saveResultImage() {
-        let container = document.getElementById('image__past-photos');
         let src = canvas.toDataURL("image/jpeg", 0.25);
         let img = new Image();
 
-        // debugger;
-        // img.src = src;
-
+        img.src = src;
 
         img.onload = function () {
-            img.style.width = img.width + 'px';
-            img.style.height = img.height + 'px';
-            container.appendChild(img);
-            sendPhotoToServer(img);
+            sendPhotoToServer(img)
+                .then(response => {
+                    if (response) {
+                        addImageToContainer(img);
+                        alert('Image succefully uploaded');
+                    } else {
+                        handleFailedUploading();
+                    }
+                })
+                .catch(() => {
+                    handleFailedUploading();
+                });
         };
     }
 
+    function handleFailedUploading() {
+        stopStream();
+        clearCanvas();
+        displayError('Upload failed. Try again.');
+    }
+
+    function addImageToContainer(img) {
+        let container = document.getElementById('image__past-photos');
+
+        img.style.width = img.width + 'px';
+        img.style.height = img.height + 'px';
+        container.appendChild(img);
+    }
+
     function sendPhotoToServer(img) {
-        var formData    = new FormData();
-        var xhr         = new XMLHttpRequest();
+        return new Promise((resolve, reject) => {
+            var formData    = new FormData();
+            var xhr         = new XMLHttpRequest();
 
-        formData.append('image', img.src);
-        xhr.open('post', '/image/save');
-        xhr.send(formData);
+            formData.append('image', img.src);
+            xhr.open('post', '/image/save');
+            xhr.send(formData);
 
-        xhr.onload = function () {
-        }
+            xhr.onload = function () {
+                resolve(xhr.response);
+            };
+            xhr.onerror = function () {
+                reject();
+            };
+        });
     }
 
     function removeHtmlCollection(collection) {

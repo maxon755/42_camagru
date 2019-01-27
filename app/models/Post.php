@@ -29,7 +29,11 @@ class Post extends DataBaseModel
         ]);
     }
 
-    public function getMaxImageNumber($userId)
+    /**
+     * @param int $userId
+     * @return int
+     */
+    public function getMaxImageNumber(int $userId): int
     {
         $res = $this->db->executeQuery('select max(number) from post where user_id = :userId', [
             'userId' => $userId
