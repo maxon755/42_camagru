@@ -7,9 +7,8 @@ $config = [
      *  mode = debug - display debug information
      */
     'mode' => 'dev',
-
     'db' => include 'database.php',
-
+    'storage' => ROOT . DS . 'storage',
     'viewComponents' => [
         'header' => [
             'path' =>  ROOT . '/template/header/header.php',

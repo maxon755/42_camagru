@@ -75,7 +75,7 @@ class InputForm extends Application
                 $field->setValidity(false);
             }
             $lastField = end($this->inputFields);
-            $lastField->setMessage('Incorrect username/password');
+            $lastField->setMessage('Incorrect username/password or account wasn\'t activated');
             return false;
         }
         return true;

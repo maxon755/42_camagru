@@ -151,12 +151,14 @@ class DataBase extends Application
      * @param array $data
      * @return bool
      */
-    public function insertIfNotExists(array $data): bool
+    public function insertIfNotExists(array $data, $whereData = []): bool
     {
         $value = reset($data);
         $column = key($data);
 
-        if (!$this->rowExists([$column => $value])) {
+        $whereData = !empty($whereData) ? $whereData : [$column => $value];
+
+        if (!$this->rowExists($whereData)) {
             return $this->insert($data);
         }
         return false;

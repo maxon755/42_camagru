@@ -51,9 +51,9 @@ class Client extends DataBaseModel implements AvailabilityChecker, CredentialsCh
 
     /**
      * @param string $activationCode
-     * @return array
+     * @return bool
      */
-    public function activateAccount(string $activationCode)
+    public function activateAccount(string $activationCode): bool
     {
         return $this->db->update([
             'is_active'         => 'true',

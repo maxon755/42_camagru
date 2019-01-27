@@ -20,7 +20,7 @@ $db->executeQuery('CREATE TABLE IF NOT EXISTS client (
     last_name       VARCHAR(32),
     is_active       BOOLEAN DEFAULT FALSE,
     activation_code VARCHAR(16),
-    activation_date TIMESTAMP
+    activation_date TIMESTAMP DEFAULT NOW()
   );'
 );
 
@@ -44,7 +44,37 @@ $db->insertIfNotExists([
 
 
 $db->executeQuery('CREATE TABLE IF NOT EXISTS auth_token (
-    user_id         SERIAL PRIMARY KEY REFERENCES client(user_id) ,
+    user_id         INTEGER PRIMARY KEY REFERENCES client(user_id),
     token           VARCHAR(60)
   );'
 );
+
+$db->executeQuery('CREATE TABLE IF NOT EXISTS post (
+    post_id         SERIAL PRIMARY KEY,
+    user_id         INTEGER NOT NULL REFERENCES client(user_id),
+    image_name      VARCHAR(32) NOT NULL,
+    number          INTEGER NOT NULL,
+    is_deleted      BOOLEAN DEFAULT FALSE,
+    creation_date   TIMESTAMP DEFAULT NOW()
+  );'
+);
+
+$db->useTable('post');
+
+$db->insertIfNotExists([
+    'user_id'       => 1,
+    'image_name'    => '1.jpeg',
+    'number'        => 1,
+], [
+    'user_id'       => 1,
+    'image_name'    => '1.jpeg',
+]);
+
+$db->insertIfNotExists([
+    'user_id'       => 1,
+    'image_name'    => '2.jpeg',
+    'number'        => 2,
+], [
+    'user_id'       => 1,
+    'image_name'    => '2.jpeg',
+]);

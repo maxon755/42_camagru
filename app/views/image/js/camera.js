@@ -125,7 +125,8 @@ window.addEventListener('load', function() {
         let img = new Image();
 
         // debugger;
-        img.src = src;
+        // img.src = src;
+
 
         img.onload = function () {
             img.style.width = img.width + 'px';

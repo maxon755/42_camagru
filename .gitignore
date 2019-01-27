@@ -14,5 +14,4 @@ nginx/logs
 #smtp relay data
 php-fpm/ssmtp.env
 
-# Controller for testing propose
-app/controllers/EmptyController.php
+app/storage/images/*

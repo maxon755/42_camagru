@@ -19,6 +19,7 @@ class Auth
     {
         $this->usernameClient = $_COOKIE['username'] ?? null;
         $this->tokenClient = $_COOKIE['token'] ?? null;
+        $this->username = $this->usernameClient;
 
         if ($this->usernameClient && !$this->userId) {
             $this->fetchUserId($this->usernameClient);
@@ -55,6 +56,10 @@ class Auth
     public function getUserName(): ?string
     {
         return $this->username;
+    }
+
+    public function getUserId() {
+        return $this->userId;
     }
 
     /**
