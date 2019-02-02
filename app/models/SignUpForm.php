@@ -46,10 +46,11 @@ class SignUpForm extends InputForm
      */
     public function confirm(array $userInput): bool
     {
+        $clientModel = new Client();
+
         $this->setSubmitted(true);
         $this->setFieldsValues($userInput);
         $this->validate(new InputChecker());
-        $clientModel = new Client();
         if ($this->isValid()) {
             $this->checkAvailability($clientModel);
         }
@@ -57,6 +58,7 @@ class SignUpForm extends InputForm
             $userInput = $this->getValues();
             $clientModel->insertToDb($userInput);
         }
+
         return $this->isValid();
     }
 }

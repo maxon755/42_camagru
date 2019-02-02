@@ -2,10 +2,10 @@
 
 namespace app\widgets\inputForm;
 
-
 use app\base\Application;
+use app\widgets\Widget;
 
-class InputForm extends Application
+class InputForm extends Application implements Widget
 {
     private $formName;
     private $tittle;

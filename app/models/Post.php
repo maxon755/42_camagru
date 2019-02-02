@@ -41,4 +41,22 @@ class Post extends DataBaseModel
 
         return $res[0]['max'] ?? 0;
     }
+
+    /**
+     * @return array
+     */
+    public function getPosts(): array
+    {
+        $imagePath = DS . self::$config['storage'] . DS . self::$config['imagesFolder'] . DS;
+
+        return $this->db->executeQuery("SELECT
+            c.username,
+            c.user_id,
+            p.image_name,
+            '${imagePath}' || c.user_id || '/' || p.image_name AS image_path,
+            to_char(p.creation_date, 'DD MonthYYYY') as date
+        FROM post AS p
+        JOIN client AS c ON c.user_id = p.user_id
+        ORDER BY p.creation_date DESC");
+    }
 }

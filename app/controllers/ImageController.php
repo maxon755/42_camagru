@@ -51,7 +51,7 @@ class ImageController extends Controller
      */
     private function getImagePath(): string
     {
-        $path = self::$config['storage'] . DS . 'images' . DS . $this->userId;
+        $path = ROOT . DS . self::$config['storage'] . DS . 'images' . DS . $this->userId;
 
         if (!file_exists($path)) {
             mkdir($path);

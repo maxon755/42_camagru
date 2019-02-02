@@ -4,15 +4,18 @@ namespace app\controllers;
 
 use app\base\Controller;
 use app\components\Debug;
+use app\models\Post;
 
 class RibbonController extends Controller
 {
 	public function actionIndex()
 	{
-//		echo "<br><code> Empty controller works and extends basic controller </code>";
+	    $postModel = new Post();
+        $postsData = $postModel->getPosts();
 
-//        Debug::debugArray(self::$components);
+//        $postData['image_path'] = self::$config['storage'] . DS . self::$config['image_folder'] . $postData
+        var_dump($postsData);
 
-		$this->render('ribbon', true);
+		$this->render('ribbon', true, $postsData);
 	}
 }

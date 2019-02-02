@@ -1,3 +1,7 @@
+<?php
+    use app\widgets\post\Post;
+?>
+
 <h1>Ribbon Content</h1>
 
 <ul>
@@ -8,7 +12,9 @@
     <li>POST5</li>
 </ul>
 
+<?php $postsData = $parameters ?>
 
-<div>
-
-</div>
+<?php foreach ($postsData as $postData) {
+        (new Post($postData))->render();
+    }
+?>
