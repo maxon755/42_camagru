@@ -2,9 +2,9 @@
 
 namespace app\models;
 
-use app\components\inputForm\InputChecker;
-use app\components\inputForm\InputField;
-use app\components\inputForm\InputForm;
+use app\widgets\inputForm\InputChecker;
+use app\widgets\inputForm\InputField;
+use app\widgets\inputForm\InputForm;
 
 class LoginForm extends InputForm
 {

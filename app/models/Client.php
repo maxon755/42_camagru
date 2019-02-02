@@ -3,8 +3,8 @@
 namespace app\models;
 
 use app\base\DataBaseModel;
-use app\components\inputForm\AvailabilityChecker;
-use app\components\inputForm\CredentialsChecker;
+use app\widgets\inputForm\AvailabilityChecker;
+use app\widgets\inputForm\CredentialsChecker;
 
 class Client extends DataBaseModel implements AvailabilityChecker, CredentialsChecker
 {

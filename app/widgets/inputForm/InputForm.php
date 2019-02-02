@@ -1,6 +1,6 @@
 <?php
 
-namespace app\components\inputForm;
+namespace app\widgets\inputForm;
 
 
 use app\base\Application;
