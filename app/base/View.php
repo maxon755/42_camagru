@@ -86,11 +86,27 @@ class View extends Application
 
     /**
      * @param string $fileName
+     * @param bool $fullPath
      * @throws Exception
      */
-    public function registerCssFile(string $fileName)
+    public function registerCssFile(string $fileName, bool $fullPath = false)
     {
-        $this->cssFiles[] = $this->resolveFilePath($fileName, 'css');
+        $this->cssFiles[] = $fullPath ?
+                            $this->checkFilePath($fileName) :
+                            $this->resolveFilePath($fileName, 'css');
+    }
+
+    /**
+     * @param string $path
+     * @return string
+     * @throws Exception
+     */
+    public function checkFilePath(string $path)
+    {
+        if (realpath(ROOT . DS . $path)) {
+            return $path;
+        }
+        throw new Exception("File ${$path} does not exists");
     }
 
     /**
@@ -105,8 +121,8 @@ class View extends Application
             $fileName = $fileName . '.' . $extension;
         }
         $pathPatterns = [
-            $this->getViewPath() . DS . $fileName,
-            $this->getViewPath() . DS . $extension . DS . $fileName,
+            $this->getViewPath() . $fileName,
+            $this->getViewPath() . $extension . DS . $fileName,
             $this->getViewPath() . 'assets' . DS . $extension . DS . $fileName,
             $this->getViewPath() . 'assets' . DS . $fileName,
         ];

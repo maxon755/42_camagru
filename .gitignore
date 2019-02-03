@@ -13,5 +13,3 @@ nginx/logs
 
 #smtp relay data
 php-fpm/ssmtp.env
-
-app/storage/images/*
