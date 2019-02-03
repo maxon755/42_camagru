@@ -18,6 +18,11 @@ class Post extends Application implements Widget
         $this->view = View::getInstance();
     }
 
+    public function getShortClassName(): string
+    {
+        return (new \ReflectionClass($this))->getShortName();
+    }
+
     public function render(): void
     {
         include(__DIR__ . DS . 'post-layout.php');

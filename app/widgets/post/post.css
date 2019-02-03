@@ -1,3 +1,43 @@
+.post__container {
+    width: 480px;
+
+    box-shadow: 0 0 10px 1px lightgray;
+    font-family: 'Roboto', sans-serif;
+
+    margin-top: 20px;
+}
+
+.post__info {
+    position: relative;
+    /*margin: 25px;*/
+    display: inline-block;
+    margin: 10px 0 10px 0;
+
+    width: 100%;
+}
+
+.post__username {
+    margin-left: 10px;
+    text-decoration: none;
+}
+
+.post__date {
+    position: absolute;
+    right: 10px;
+
+    font-size: 0.8em;
+    color: #707070;
+}
+
+.post__line {
+    margin: 0;
+}
+
 .post__image {
-    width: 150px;
+    display: block;
+
+    margin: auto;
+    margin-top: 10px;
+    margin-bottom: 20px;
+
 }

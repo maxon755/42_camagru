@@ -54,7 +54,7 @@ class Post extends DataBaseModel
             c.user_id,
             p.image_name,
             '${imagePath}' || c.user_id || '/' || p.image_name AS image_path,
-            to_char(p.creation_date, 'DD MonthYYYY') as date
+            to_char(p.creation_date, 'DD MonthYYYY HH:MM am') as date
         FROM post AS p
         JOIN client AS c ON c.user_id = p.user_id
         ORDER BY p.creation_date DESC");
