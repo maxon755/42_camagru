@@ -7,15 +7,34 @@ use app\components\CaseTranslator;
 
 class InputField
 {
+    /** @var string  */
     private $name;
+
+    /** @var string  */
     private $contentType;
+
+    /** @var bool  */
     private $required;
+
+    /** @var string  */
     private $value;
+
+    /** @var bool  */
     private $unique;
+
+    /** @var null|string  */
     private $auxValue;
+
+    /** @var string[]  */
     private $checks;
+
+    /** @var bool  */
     private $validity;
+
+    /** @var string */
     private $message;
+
+    /** @var string  */
     private $placeholder;
 
     /**
@@ -125,7 +144,6 @@ class InputField
 
     /**
      * @param bool $validity
-     * @return InputField
      */
     public function setValidity(bool $validity): void
     {

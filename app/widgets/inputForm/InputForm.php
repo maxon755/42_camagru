@@ -7,12 +7,25 @@ use app\widgets\WidgetInterface;
 
 class InputForm extends Widget implements WidgetInterface
 {
+    /** @var string  */
     private $formName;
+
+    /** @var string  */
     private $tittle;
+
+    /** @var string  */
     private $action;
+
+    /** @var string  */
     private $method;
-    private $inputFields;
+
+    /** @var InputField[] */
+    protected $inputFields;
+
+    /** @var bool */
     private $validity;
+
+    /** @var bool  */
     private $submitted = false;
 
     /**

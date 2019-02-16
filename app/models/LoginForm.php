@@ -2,6 +2,7 @@
 
 namespace app\models;
 
+use app\widgets\inputForm\CredentialsChecker;
 use app\widgets\inputForm\InputChecker;
 use app\widgets\inputForm\InputField;
 use app\widgets\inputForm\InputForm;
