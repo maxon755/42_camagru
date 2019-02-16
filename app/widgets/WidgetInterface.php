@@ -2,7 +2,7 @@
 
 namespace app\widgets;
 
-interface Widget
+interface WidgetInterface
 {
     public function render(): void;
 }

@@ -1,5 +1,5 @@
 .post__container {
-    width: 480px;
+    width: 680px;
 
     box-shadow: 0 0 10px 1px lightgray;
     font-family: 'Roboto', sans-serif;
@@ -36,6 +36,7 @@
 .post__image {
     display: block;
 
+    width: 640px;
     margin: auto;
     margin-top: 10px;
     margin-bottom: 20px;

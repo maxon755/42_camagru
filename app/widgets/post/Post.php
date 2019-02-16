@@ -2,31 +2,23 @@
 
 namespace app\widgets\post;
 
-use app\base\Application;
 use app\base\View;
-use app\widgets\Widget;
+use app\base\Widget;
+use app\widgets\WidgetInterface;
 
-class Post extends Application implements Widget
+class Post extends Widget implements WidgetInterface
 {
     /** @var array  */
     private $postData;
-
-    /** @var View  */
-    private $view;
 
     /** @var string */
     private $brokenFilePath;
 
     public function __construct(array $postData)
     {
+        parent::__construct();
         $this->postData = $postData;
-        $this->view = View::getInstance();
         $this->brokenFilePath = DS . 'widgets' . DS . 'post' . DS . 'broken-file.png';
-    }
-
-    public function getShortClassName(): string
-    {
-        return (new \ReflectionClass($this))->getShortName();
     }
 
     public function render(): void

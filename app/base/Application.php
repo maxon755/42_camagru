@@ -23,4 +23,8 @@ class Application
         self::$auth = new Auth();
     }
 
+    public function getShortClassName(): string
+    {
+        return (new \ReflectionClass($this))->getShortName();
+    }
 }

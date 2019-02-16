@@ -26,9 +26,13 @@ class LoginForm extends InputForm
      */
     public function isInputCorrect(array $userInput): bool
     {
+        $failMessage = "Incorrect username/password or account wasn't activated";
         $this->setSubmitted(true);
         $this->setFieldsValues($userInput);
         $this->validate(new InputChecker());
-        return $this->isValid() ? $this->checkCredentials(new Client()) : false;
+
+        return $this->isValid()
+            ? $this->checkCredentials(new Client(), $failMessage)
+            : false;
     }
 }

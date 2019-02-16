@@ -2,10 +2,10 @@
 
 namespace app\widgets\inputForm;
 
-use app\base\Application;
-use app\widgets\Widget;
+use app\base\Widget;
+use app\widgets\WidgetInterface;
 
-class InputForm extends Application implements Widget
+class InputForm extends Widget implements WidgetInterface
 {
     private $formName;
     private $tittle;
@@ -65,7 +65,7 @@ class InputForm extends Application implements Widget
      * @param CredentialsChecker $checker
      * @return bool
      */
-    public function checkCredentials(CredentialsChecker $checker): bool
+    public function checkCredentials(CredentialsChecker $checker, string $failMessege): bool
     {
 
         $data = $this->getValues();
@@ -75,7 +75,7 @@ class InputForm extends Application implements Widget
                 $field->setValidity(false);
             }
             $lastField = end($this->inputFields);
-            $lastField->setMessage('Incorrect username/password or account wasn\'t activated');
+            $lastField->setMessage($failMessege);
             return false;
         }
         return true;
