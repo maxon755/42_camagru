@@ -25,4 +25,12 @@ class Post extends Widget implements WidgetInterface
     {
         include(__DIR__ . DS . 'post-layout.php');
     }
+
+    /**
+     * @return string
+     */
+    public static function getWidgetName(): string
+    {
+        return self::class;
+    }
 }

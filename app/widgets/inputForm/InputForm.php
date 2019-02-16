@@ -40,13 +40,22 @@ class InputForm extends Widget implements WidgetInterface
         string $tittle,
         string $action,
         string $method,
-        array $inputFields)
-    {
+        array $inputFields
+    ) {
+        parent::__construct();
         $this->formName = $formName;
         $this->tittle = $tittle;
         $this->action = $action;
         $this->method = $method;
         $this->inputFields = $inputFields;
+    }
+
+    /**
+     * @return string
+     */
+    public static function getWidgetName(): string
+    {
+        return self::class;
     }
 
     /**

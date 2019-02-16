@@ -5,7 +5,7 @@
     use app\components\CaseTranslator;
     use app\components\Escape;
 
-    $name = CaseTranslator::toKebab($this->getShortClassName());
+    $name = CaseTranslator::toKebab($this->widgetName);
     $username = $this->postData['username'];
 ?>
 

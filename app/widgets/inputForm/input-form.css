@@ -1,4 +1,4 @@
-.login {
+.input-form {
     position: relative;
     top: 20px;
 
@@ -11,13 +11,13 @@
     font-family: 'Roboto', sans-serif;
 }
 
-.login__container {
+.input-form__container {
     display: flex;
     flex-direction: column;
     justify-content: space-around;
 }
 
-.login__header {
+.input-form__header {
     text-align: center;
 
     color: black;
@@ -29,23 +29,23 @@
     padding: 20px;
 }
 
-.login__line {
+.input-form__line {
     width: 100%;
 
     background-color: #1f78d1;
     height: 5px;
     border: none;
-    margin-bottom: 30px;
+    margin-bottom: 20px;
     margin-top: 0;
 }
 
-.login__unit {
+.input-form__unit {
     width:  300px;
     margin: auto;
     margin-bottom: 20px;
 }
 
-.login__input {
+.input-form__input {
     display: block;
     box-sizing: border-box;
     width: 100%;
@@ -59,12 +59,12 @@
     border: 1px solid lightgray;
 }
 
-.login__input::placeholder {
+.input-form__input::placeholder {
     /*font-style: italic;*/
 }
 
 
-.login__submit{
+.input-form__submit{
     display: block;
 
     width: 30%;
@@ -81,7 +81,7 @@
     border: none;
 }
 
-.login__validation {
+.input-form__validation {
     font-size: 13px;
 
     margin: 0;
