@@ -1,6 +1,6 @@
 <a href="/">return</a>
 
-<?php $parameters['loginForm']->render(); ?>
+<?php $parameters['loginForm']->render() ?>
 
 <p>forgot the password?</p>
 

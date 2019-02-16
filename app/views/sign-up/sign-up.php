@@ -1,5 +1,5 @@
 <a href="login">return</a>
 
 
-    <?php $parameters['signUpForm']->render(); ?>
+    <?php $parameters['signUpForm']->render() ?>
 

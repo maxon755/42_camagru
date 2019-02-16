@@ -21,13 +21,13 @@
     <link rel="stylesheet" href="/template/template.css">
     <?php if ($useComponents): ?>
         <?php foreach(self::$viewComponents as $component): ?>
-            <link rel="stylesheet" href="<?php echo $component['stylePath']; ?>">
-        <?php endforeach; ?>
-    <?php endif; ?>
+            <link rel="stylesheet" href="<?= $component['stylePath'] ?>">
+        <?php endforeach ?>
+    <?php endif ?>
 
     <?php if ($renderUnit['style']): ?>
-        <link rel="stylesheet" href="<?php echo $renderUnit['style']; ?>">
-    <?php endif; ?>
+        <link rel="stylesheet" href="<?= $renderUnit['style'] ?>">
+    <?php endif ?>
 
 </head>
 <body>
@@ -41,15 +41,15 @@
 
 ?>
     <?php foreach($this->jsFiles as $jsFile): ?>
-        <script src="<?php echo $jsFile ?>"></script>
-    <?php endforeach; ?>
+        <script src="<?= $jsFile ?>"></script>
+    <?php endforeach ?>
 
     <?php if ($renderUnit['script']): ?>
-        <script src="<?php echo $renderUnit['script'] ?>"></script>
-    <?php endif; ?>
+        <script src="<?= $renderUnit['script'] ?>"></script>
+    <?php endif ?>
 
     <?php foreach($this->cssFiles as $cssFile): ?>
-        <link rel="stylesheet" href="<?php echo $cssFile ?>">
-    <?php endforeach; ?>
+        <link rel="stylesheet" href="<?= $cssFile ?>">
+    <?php endforeach ?>
 </body>
 </html>

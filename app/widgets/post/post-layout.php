@@ -7,24 +7,24 @@
     $name = CaseTranslator::toKebab($this->getShortClassName());
 ?>
 
-<div class="<?php echo $name . '__container' ?>">
-    <div class="<?php echo $name . '__info' ?>">
-        <a class="<?php echo $name . '__username' ?>" href="/user/<?php echo $this->postData['username'] ?>">
-            <?php echo $this->postData['username'] ?>
+<div class="<?= $name . '__container' ?>">
+    <div class="<?= $name . '__info' ?>">
+        <a class="<?= $name . '__username' ?>" href="/user/<?= $this->postData['username'] ?>">
+            <?= $this->postData['username'] ?>
         </a>
-        <span class="<?php echo $name . '__date' ?>"><?php echo $this->postData['date'] ?></span>
+        <span class="<?= $name . '__date' ?>"><?= $this->postData['date'] ?></span>
     </div>
 
-    <hr class="<?php echo $name . '__line' ?>">
+    <hr class="<?= $name . '__line' ?>">
     <?php
         $imagePath = $this->postData['image_path'];
         if (!realpath(ROOT . $imagePath)) {
             $imagePath =  DS . 'widgets' . DS . 'post' . DS . 'broken-file.png';
         }
     ?>
-    <img src="<?php echo $imagePath ?>" alt="post image" class="<?php echo $name . '__image' ?>">
+    <img src="<?= $imagePath ?>" alt="post image" class="<?= $name . '__image' ?>">
 
-    <hr class="<?php echo $name . '__line' ?>">
+    <hr class="<?= $name . '__line' ?>">
 
 </div>
 
