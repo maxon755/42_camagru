@@ -1,12 +1,15 @@
 <?php
-    /** @var \app\widgets\post\Post $this */
-    /** @var \app\base\View $this->view  */
+/** @var \app\widgets\post\Post $this */
+/** @var \app\base\View $this->view  */
 
-    use app\components\CaseTranslator;
-    use app\components\Escape;
+use app\components\CaseTranslator;
+use app\components\Escape;
 
-    $name = CaseTranslator::toKebab($this->widgetName);
-    $username = $this->postData['username'];
+$this->view->registerCssFile('/widgets/post/post.css', true);
+
+
+$name = CaseTranslator::toKebab($this->widgetName);
+$username = $this->postData['username'];
 ?>
 
 <div class="<?= $name . '__container' ?>">
@@ -29,6 +32,3 @@
     <hr class="<?= $name . '__line' ?>">
 
 </div>
-
-<?php
-    $this->view->registerCssFile('widgets/post/post.css', true);

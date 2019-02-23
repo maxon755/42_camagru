@@ -18,9 +18,9 @@ class DataBaseModel extends Application
     /**
      * @return string
      */
-    public static function getClassName(): string
+    public function getClassName(): string
     {
-        return __CLASS__;
+        return static::class;
     }
 
     /**
@@ -28,7 +28,7 @@ class DataBaseModel extends Application
      */
     private function computeTableName(): string
     {
-        $tableName = static::getClassName();
+        $tableName = $this->getClassName();
         $re = '/(?<=\\\\)(?<className>\w+)$/';
         preg_match($re, $tableName, $matches);
         $tableName = $matches['className'];

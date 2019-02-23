@@ -5,7 +5,7 @@
     use app\components\CaseTranslator;
 
     $widgetName = CaseTranslator::toKebab($this->widgetName);
-    $this->view->registerCssFile('widgets/input-form/input-form.css', true);
+    $this->view->registerCssFile('/widgets/input-form/input-form.css', true);
 ?>
 
 <div class="<?= CaseTranslator::toKebab($this->getShortClassName()) ?>">

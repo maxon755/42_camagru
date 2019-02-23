@@ -8,12 +8,6 @@ use app\widgets\inputForm\CredentialsChecker;
 
 class Client extends DataBaseModel implements AvailabilityChecker, CredentialsChecker
 {
-
-    public static function getClassName(): string
-    {
-        return __CLASS__;
-    }
-
     /**
      * @param array $data
      * @return bool

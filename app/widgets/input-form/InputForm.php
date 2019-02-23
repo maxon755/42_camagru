@@ -4,9 +4,12 @@ namespace app\widgets\inputForm;
 
 use app\base\Widget;
 use app\widgets\WidgetInterface;
+use app\widgets\WidgetNameGetterTrait;
 
 class InputForm extends Widget implements WidgetInterface
 {
+    use WidgetNameGetterTrait;
+
     /** @var string  */
     private $formName;
 
@@ -48,14 +51,6 @@ class InputForm extends Widget implements WidgetInterface
         $this->action = $action;
         $this->method = $method;
         $this->inputFields = $inputFields;
-    }
-
-    /**
-     * @return string
-     */
-    public static function getWidgetName(): string
-    {
-        return self::class;
     }
 
     /**

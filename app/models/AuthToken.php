@@ -6,11 +6,6 @@ use app\base\DataBaseModel;
 
 class AuthToken extends DataBaseModel
 {
-    public static function getClassName(): string
-    {
-        return __CLASS__;
-    }
-
     public function insertToken(int $userId, string $token)
     {
         if (!$this->rowExists(['user_id' => $userId])) {

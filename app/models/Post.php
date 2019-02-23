@@ -6,11 +6,6 @@ use app\base\DataBaseModel;
 
 class Post extends DataBaseModel
 {
-    public static function getClassName(): string
-    {
-        return __CLASS__;
-    }
-
     /**
      * @param int $userId
      * @param string $name

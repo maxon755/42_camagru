@@ -2,12 +2,14 @@
 
 namespace app\widgets\post;
 
-use app\base\View;
 use app\base\Widget;
 use app\widgets\WidgetInterface;
+use app\widgets\WidgetNameGetterTrait;
 
 class Post extends Widget implements WidgetInterface
 {
+    use WidgetNameGetterTrait;
+
     /** @var array  */
     private $postData;
 
@@ -24,13 +26,5 @@ class Post extends Widget implements WidgetInterface
     public function render(): void
     {
         include(__DIR__ . DS . 'post-layout.php');
-    }
-
-    /**
-     * @return string
-     */
-    public static function getWidgetName(): string
-    {
-        return self::class;
     }
 }
