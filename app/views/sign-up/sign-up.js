@@ -1,15 +1,15 @@
 window.onload = function () {
     "use strict";
 
-    var submitButton = document.getElementById("sign_up__submit");
+    var submitButton = document.getElementById("input-form__submit");
 
     var inputFields = {
-        usernameField       : new InputField("sign_up__username", true),
-        firstNameField      : new InputField("sign_up__first-name"),
-        lastNameField       : new InputField("sign_up__last-name"),
-        emailField          : new InputField("sign_up__email", true),
-        passwordField       : new InputField("sign_up__password"),
-        repeatPasswordField : new InputField("sign_up__repeat-password")
+        usernameField       : new InputField("input-form__username", true),
+        firstNameField      : new InputField("input-form__first-name"),
+        lastNameField       : new InputField("input-form__last-name"),
+        emailField          : new InputField("input-form__email", true),
+        passwordField       : new InputField("input-form__password"),
+        repeatPasswordField : new InputField("input-form__repeat-password")
     };
 };
 
@@ -25,7 +25,7 @@ function InputField(elementId, shouldSend) {
     this.validationField    = this.element.nextElementSibling;
     this.isAvailable        = false;
 
-    var inputChecker = new InputChecker("sign_up__password");
+    var inputChecker = new InputChecker("input-form__password");
 
     this.checkValue = inputChecker.getRelatedCheckingMethod(elementId);
 
@@ -61,7 +61,7 @@ function InputField(elementId, shouldSend) {
         var xhr         = new XMLHttpRequest();
 
 
-        (function (xhr, inputField, validationField) {
+        (function (xhr) {
             xhr.onload = function () {
                 try {
                     var response = JSON.parse(this.responseText);
@@ -70,11 +70,11 @@ function InputField(elementId, shouldSend) {
                     return;
                 }
                 self.isAvailable = response['available'];
-                self.handleResponse(response['available'])
+                self.handleResponse(response['available']);
                 self.validationField.textContent =
                     getMessage(response['available'], self.type)
             };
-        }(xhr, self.element, self.validationField));
+        }(xhr));
 
         formData.append('type', self.type);
         formData.append('value', inputValue);
