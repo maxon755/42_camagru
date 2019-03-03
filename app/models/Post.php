@@ -40,11 +40,11 @@ class Post extends DataBaseModel
     /**
      * @return array
      */
-    public function getPosts(): array
+    public function getPosts(int $offset = null, int $limit = null): array
     {
         $imagePath = DS . self::$config['storage'] . DS . self::$config['imagesFolder'] . DS;
 
-        return $this->db->executeQuery("SELECT
+        $query = "SELECT
             c.username,
             c.user_id,
             p.image_name,
@@ -52,6 +52,15 @@ class Post extends DataBaseModel
             to_char(p.creation_date, 'DD MonthYYYY HH:MM am') as date
         FROM post AS p
         JOIN client AS c ON c.user_id = p.user_id
-        ORDER BY p.creation_date DESC");
+        ORDER BY p.creation_date DESC";
+
+        if ($offset) {
+            $query = $query . ' ' . "OFFSET $offset";
+        }
+        if ($limit) {
+            $query = $query . ' ' . "LIMIT $limit";
+        }
+
+        return $this->db->executeQuery($query);
     }
 }

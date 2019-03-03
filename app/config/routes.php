@@ -2,6 +2,7 @@
 
 return array(
 	'^$'                => 'Ribbon/index',
+    '^ribbon/(.+)$'     => 'Ribbon/$1',
     '^login$'           => 'Login/index',
     '^login/(.+)$'      => 'Login/$1',
     '^logout$'          => 'Login/logout',

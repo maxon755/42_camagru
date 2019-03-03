@@ -3,19 +3,34 @@
 namespace app\controllers;
 
 use app\base\Controller;
-use app\components\Debug;
 use app\models\Post;
+use app\widgets\post\Post as PostWidget;
+
 
 class RibbonController extends Controller
 {
-	public function actionIndex()
+    private $postModel;
+
+    public function __construct()
+    {
+        $this->postModel = new Post();
+    }
+
+    public function actionIndex()
 	{
-	    $postModel = new Post();
-        $postsData = $postModel->getPosts();
-
-//        $postData['image_path'] = self::$config['storage'] . DS . self::$config['image_folder'] . $postData
-        var_dump($postsData);
-
-		$this->render('ribbon', true, $postsData);
+		$this->render('ribbon', true);
 	}
+
+	public function actionGetPosts()
+    {
+        $offset = $_POST['offset'];
+        $limit  = $_POST['limit'];
+
+        $postsData = $this->postModel->getPosts($offset, $limit);
+
+        $posts = [];
+        foreach ($postsData as $postData) {
+            (new PostWidget($postData))->render();
+        }
+    }
 }

@@ -1,20 +1,18 @@
 <?php
     use app\widgets\post\Post;
+    use app\widgets\ribbon\Ribbon;
+
 ?>
 
 <h1>Ribbon Content</h1>
+<div class="ribbon__container">
 
-<ul>
-    <li>POST1</li>
-    <li>POST2</li>
-    <li>POST3</li>
-    <li>POST4</li>
-    <li>POST5</li>
-</ul>
+</div>
 
-<?php $postsData = $parameters ?>
 
-<?php foreach ($postsData as $postData) {
-        (new Post($postData))->render();
-    }
-?>
+<?php //$postsData = $parameters ?>
+<!---->
+<?php //foreach ($postsData as $postData) {
+//        (new Post($postData))->render();
+//    }
+//?>
