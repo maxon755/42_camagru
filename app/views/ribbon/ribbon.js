@@ -1,14 +1,37 @@
 window.addEventListener('load', () => {
-   console.log('works');
-
    let dataUrl  = '/ribbon/get-posts';
    let offset   = 0;
-   let limit    = 5;
+   let limit    = 1;
+   let ribbon   = document.getElementById('ribbon__container');
 
-   getPosts(offset, limit)
-       .then(response => {
-           console.log(response);
-       });
+   let atBottom  = false;
+   let xhrOpened = false;
+
+   fillRibbonInitial();
+
+   function fillRibbonInitial() {
+       getPosts(offset, 1)
+           .then(response => {
+               xhrOpened = false;
+               offset += 1;
+               ribbon.innerHTML += response;
+               if (document.body.offsetHeight < window.innerHeight) {
+                    fillRibbonInitial(offset, 1);
+               }
+           });
+   }
+
+    function fillRibbon() {
+        getPosts(offset, limit)
+            .then(response => {
+                xhrOpened = false;
+                offset += limit;
+                ribbon.innerHTML += response;
+                if (document.body.offsetHeight < window.innerHeight) {
+                    fillRibbonInitial(offset, limit);
+                }
+            });
+    }
 
    function getPosts(offset, limit) {
        return new Promise(function(resolve, reject) {
@@ -18,6 +41,7 @@ window.addEventListener('load', () => {
            formData.append('offset', offset);
            formData.append('limit', limit);
            xhr.open('post', dataUrl);
+           xhrOpened = true;
            xhr.send(formData);
 
            xhr.onload = function() {
@@ -29,4 +53,17 @@ window.addEventListener('load', () => {
            }
        });
    }
+
+    window.onscroll = function(e) {
+        if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
+            atBottom = true;
+        }  else {
+            atBottom = false;
+        }
+
+        if (atBottom && !xhrOpened) {
+            atBottom = false;
+            fillRibbon();
+        }
+    };
 });

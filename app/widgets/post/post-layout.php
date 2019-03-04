@@ -10,6 +10,11 @@ $this->view->registerCssFile('/widgets/post/post.css', true);
 
 $name = CaseTranslator::toKebab($this->widgetName);
 $username = $this->postData['username'];
+
+$imagePath = $this->postData['image_path'];
+if (!realpath(ROOT . $imagePath)) {
+    $imagePath = $this->brokenFilePath;
+}
 ?>
 
 <div class="<?= $name . '__container' ?>">
@@ -21,13 +26,9 @@ $username = $this->postData['username'];
     </div>
 
     <hr class="<?= $name . '__line' ?>">
-    <?php
-        $imagePath = $this->postData['image_path'];
-        if (!realpath(ROOT . $imagePath)) {
-            $imagePath = $this->brokenFilePath;
-        }
-    ?>
-    <img src="<?= $imagePath ?>" alt="post image" class="<?= $name . '__image' ?>">
+    <div class="<?= $name . '__image-wrap' ?>">
+        <img src="<?= $imagePath ?>" alt="post image" class="<?= $name . '__image' ?>">
+    </div>
 
     <hr class="<?= $name . '__line' ?>">
 
