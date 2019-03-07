@@ -12,6 +12,7 @@
 <div id="ribbon__container">
 
 </div>
+<div id="ribbon__spinner"></div>
 
 <?php //$postsData = $parameters ?>
 <!---->

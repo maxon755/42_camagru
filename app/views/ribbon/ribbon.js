@@ -2,7 +2,9 @@ window.addEventListener('load', () => {
    let dataUrl  = '/ribbon/get-posts';
    let offset   = 0;
    let limit    = 1;
+   let noPosts  = false;
    let ribbon   = document.getElementById('ribbon__container');
+   let spinner  = document.getElementById('ribbon__spinner');
 
    let atBottom  = false;
    let xhrOpened = false;
@@ -24,12 +26,13 @@ window.addEventListener('load', () => {
     function fillRibbon() {
         getPosts(offset, limit)
             .then(response => {
+                if (!response) {
+                    noPosts = true;
+                }
                 xhrOpened = false;
                 offset += limit;
                 ribbon.innerHTML += response;
-                if (document.body.offsetHeight < window.innerHeight) {
-                    fillRibbonInitial(offset, limit);
-                }
+                hideSpinner();
             });
     }
 
@@ -41,7 +44,6 @@ window.addEventListener('load', () => {
            formData.append('offset', offset);
            formData.append('limit', limit);
            xhr.open('post', dataUrl);
-           xhrOpened = true;
            xhr.send(formData);
 
            xhr.onload = function() {
@@ -54,6 +56,15 @@ window.addEventListener('load', () => {
        });
    }
 
+   function showSpinner() {
+       spinner.style.display = 'block';
+   }
+
+    function hideSpinner() {
+        spinner.style.display = 'none';
+    }
+
+
     window.onscroll = function(e) {
         if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
             atBottom = true;
@@ -63,7 +74,11 @@ window.addEventListener('load', () => {
 
         if (atBottom && !xhrOpened) {
             atBottom = false;
-            fillRibbon();
+            xhrOpened = true;
+            !noPosts && showSpinner();
+            setTimeout(function () {
+                fillRibbon();
+            }, 1000);
         }
     };
 });
