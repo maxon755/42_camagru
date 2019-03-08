@@ -3,12 +3,9 @@ version: '3'
 services:
   nginx:
     image: nginx:latest
-
     container_name: nginx
-
     ports:
       - "80:80"
-      - "443:443"
     volumes:
       - ./app:/usr/share/nginx/html/
       - ./nginx/config:/etc/nginx/conf.d
@@ -24,17 +21,13 @@ services:
 
   pgsql:
     image: postgres:9.6
-
     container_name: pgsql
-
-    ports:
-      - "5432:5432"
-
+#    ports:
+#      - "5432:5432"
     environment:
       - POSTGRES_DB=camagru
       - POSTGRES_USER=camagru
       - POSTGRES_PASSWORD=camagru
-
     volumes:
       - ./database:/var/lib/postgresql/data
       - ./db_dump:/db_dump
