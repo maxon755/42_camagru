@@ -13,7 +13,12 @@ class PostLike extends DataBaseModel
         ]);
     }
 
-    public function toggleLike(int $postId, int $userId)
+    /**
+     * @param int $postId
+     * @param int $userId
+     * @return bool
+     */
+    public function toggleLike(int $postId, int $userId): bool
     {
         $data = [
             'post_id'   => $postId,
@@ -22,7 +27,7 @@ class PostLike extends DataBaseModel
         $shouldAdd = !$this->db->rowExists($data);
 
         if ($shouldAdd) {
-            $this->db->insertIfNotExists($data);
+            $this->db->insert($data);
         } else {
             $this->db->delete($data);
         }

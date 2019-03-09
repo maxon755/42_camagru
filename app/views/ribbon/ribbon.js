@@ -26,13 +26,14 @@ window.addEventListener('load', () => {
     function fillRibbon() {
         getPosts(offset, limit)
             .then(response => {
+                xhrOpened = false;
+                hideSpinner();
                 if (!response) {
                     noPosts = true;
+                    return;
                 }
-                xhrOpened = false;
                 offset += limit;
                 handleResponse(response);
-                hideSpinner();
             });
     }
 
@@ -67,11 +68,9 @@ window.addEventListener('load', () => {
     function handleResponse(response) {
 
         let post = document.createElement('div');
-            post.innerHTML = response.trim();
+        post.innerHTML = response.trim();
 
-        heart = post.getElementsByClassName('fa-heart')[0];
-        console.log(heart);
-
+        let heart = post.getElementsByClassName('fa-heart')[0];
         heart.addEventListener('click', function (event) {
             postModule.toggleLike(event);
         });

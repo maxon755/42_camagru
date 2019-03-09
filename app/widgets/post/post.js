@@ -2,17 +2,13 @@
     let dataUrl = '/ribbon/toggle-like';
 
     function toggleLike(event) {
-        console.log(event);
-
         let heart = event.target;
         let likeCounter = heart.closest('.post__like-block')
                                .getElementsByClassName('post__like-counter')[0];
         let postId = heart.closest('.post__container').dataset.postId;
-        console.log(likeCounter);
 
         performRequest(postId)
             .then(response => {
-                console.log(response);
                 if (response.likeAdded) {
                     heart.classList.add('liked');
                 } else {
@@ -20,6 +16,7 @@
                 }
                 likeCounter.innerText = response.likeCount;
             })
+            .catch(() => {})
     }
 
     function performRequest(postId) {
@@ -32,7 +29,13 @@
             xhr.send(formData);
 
             xhr.onload = function() {
-                resolve(JSON.parse(this.response));
+                try {
+                    var json = JSON.parse(this.response);
+                }
+                catch(e) {
+                    reject();
+                }
+                resolve(json);
             };
 
             xhr.onerror = function () {

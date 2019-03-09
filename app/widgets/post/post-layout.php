@@ -17,6 +17,8 @@ $imagePath = $this->postData['image_path'];
 if (!realpath(ROOT . $imagePath)) {
     $imagePath = $this->brokenFilePath;
 }
+
+$liked = $this->postData['liked'] ? 'liked' : '';
 ?>
 
 <div class="<?= $name . '__container' ?>" data-post-id ="<?= $this->postData['post_id'] ?>">
@@ -35,7 +37,9 @@ if (!realpath(ROOT . $imagePath)) {
     <hr class="<?= $name . '__line' ?>">
 
     <div class="<?= $name . '__like-block' ?>">
-        <span class="fas fa-heart fa-2x"></span>
-        <span class="<?= $name . '__like-counter' ?>">0</span>
+        <span class="fas fa-heart fa-2x <?= $liked ?>"></span>
+        <span class="<?= $name . '__like-counter'?>">
+            <?= $this->postData['likes'] ?>
+        </span>
     </div>
 </div>
