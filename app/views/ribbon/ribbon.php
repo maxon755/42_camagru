@@ -1,10 +1,11 @@
 <?php
-    /** @var app\base\View $this */
+/** @var app\base\View $this */
 
-    use app\widgets\post\Post;
-    use app\widgets\ribbon\Ribbon;
+use app\widgets\post\Post;
+use app\widgets\ribbon\Ribbon;
 
-    $this->registerCssFile('/widgets/post/post.css', true);
+$this->registerCssFile('/widgets/post/post.css', true);
+$this->registerJsFile('/widgets/post/post.js', true);
 ?>
 
 <h1>Ribbon Content</h1>

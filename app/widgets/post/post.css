@@ -40,5 +40,21 @@
     margin: auto;
     margin-top: 10px;
     margin-bottom: 20px;
+}
 
+.post__like-block {
+    display: flex;
+    align-items: center;
+}
+
+.fa-heart {
+    color: #808080;
+}
+
+.fa-heart:hover {
+    cursor: pointer;
+}
+
+.liked {
+    color: #ff4c31;
 }

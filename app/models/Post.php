@@ -45,6 +45,7 @@ class Post extends DataBaseModel
         $imagePath = DS . self::$config['storage'] . DS . self::$config['imagesFolder'] . DS;
 
         $query = "SELECT
+            p.post_id,
             c.username,
             c.user_id,
             p.image_name,

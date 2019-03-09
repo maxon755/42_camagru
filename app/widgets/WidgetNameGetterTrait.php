@@ -7,7 +7,7 @@ trait WidgetNameGetterTrait
     /**
      * @return string
      */
-    public static function getWidgetName(): string
+    public static function _getWidgetName(): string
     {
         return self::class;
     }

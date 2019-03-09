@@ -5,10 +5,12 @@
 use app\components\CaseTranslator;
 use app\components\Escape;
 
-$this->view->registerCssFile('/widgets/post/post.css', true);
+if (!$this->isAsync()) {
+    $this->view->registerCssFile('/widgets/post/post.css', true);
+    $this->view->registerJsFile('/widgets/post/post.js', true);
+}
 
-
-$name = CaseTranslator::toKebab($this->widgetName);
+$name = CaseTranslator::toKebab($this->getWidgetName());
 $username = $this->postData['username'];
 
 $imagePath = $this->postData['image_path'];
@@ -17,7 +19,7 @@ if (!realpath(ROOT . $imagePath)) {
 }
 ?>
 
-<div class="<?= $name . '__container' ?>">
+<div class="<?= $name . '__container' ?>" data-post-id ="<?= $this->postData['post_id'] ?>">
     <div class="<?= $name . '__info' ?>">
         <a class="<?= $name . '__username' ?>" href="/user/<?= Escape::html($username) ?>">
             <?= Escape::html($username) ?>
@@ -32,4 +34,8 @@ if (!realpath(ROOT . $imagePath)) {
 
     <hr class="<?= $name . '__line' ?>">
 
+    <div class="<?= $name . '__like-block' ?>">
+        <span class="fas fa-heart fa-2x"></span>
+        <span class="<?= $name . '__like-counter' ?>">0</span>
+    </div>
 </div>

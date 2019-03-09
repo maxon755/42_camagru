@@ -9,11 +9,27 @@ class Widget extends Application
     protected $view;
 
     /** @var string */
-    public $widgetName;
+    protected $widgetName;
 
-    public function __construct()
+    /** @var bool */
+    protected $async;
+
+    public function __construct(bool $async = false)
     {
         $this->view = View::getInstance();
-        $this->widgetName = $this->getShortClassName(static::getWidgetName());
+        $this->widgetName = $this->getShortClassName(static::_getWidgetName());
+        $this->async = $async;
+    }
+
+    /**
+     * @return string
+     */
+    public function getWidgetName(): string
+    {
+        return $this->widgetName;
+    }
+
+    public function isAsync() {
+        return $this->async;
     }
 }

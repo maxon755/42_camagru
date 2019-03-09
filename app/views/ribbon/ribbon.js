@@ -16,7 +16,7 @@ window.addEventListener('load', () => {
            .then(response => {
                xhrOpened = false;
                offset += 1;
-               ribbon.innerHTML += response;
+               handleResponse(response);
                if (document.body.offsetHeight < window.innerHeight) {
                     fillRibbonInitial(offset, 1);
                }
@@ -31,7 +31,7 @@ window.addEventListener('load', () => {
                 }
                 xhrOpened = false;
                 offset += limit;
-                ribbon.innerHTML += response;
+                handleResponse(response);
                 hideSpinner();
             });
     }
@@ -64,6 +64,20 @@ window.addEventListener('load', () => {
         spinner.style.display = 'none';
     }
 
+    function handleResponse(response) {
+
+        let post = document.createElement('div');
+            post.innerHTML = response.trim();
+
+        heart = post.getElementsByClassName('fa-heart')[0];
+        console.log(heart);
+
+        heart.addEventListener('click', function (event) {
+            postModule.toggleLike(event);
+        });
+
+        ribbon.appendChild(post);
+    }
 
     window.onscroll = function(e) {
         if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {

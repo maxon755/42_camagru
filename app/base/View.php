@@ -79,9 +79,14 @@ class View extends Application
      * @param string $fileName
      * @throws Exception
      */
-    public function registerJsFile(string $fileName): void
+    public function registerJsFile(string $fileName, bool $fullPath = false): void
     {
-        $this->jsFiles[] = $this->resolveFilePath($fileName, 'js');
+        $filePath = $fullPath ?
+                    $this->checkFilePath($fileName) :
+                    $this->resolveFilePath($fileName, 'js');
+        if (!in_array($filePath, $this->jsFiles)) {
+            $this->jsFiles[] = $filePath;
+        }
     }
 
     /**
@@ -91,9 +96,12 @@ class View extends Application
      */
     public function registerCssFile(string $fileName, bool $fullPath = false)
     {
-        $this->cssFiles[] = $fullPath ?
-                            $this->checkFilePath($fileName) :
-                            $this->resolveFilePath($fileName, 'css');
+        $filePath = $fullPath ?
+                    $this->checkFilePath($fileName) :
+                    $this->resolveFilePath($fileName, 'css');
+        if (!in_array($filePath, $this->cssFiles)) {
+            $this->cssFiles[] = $filePath;
+        }
     }
 
     /**

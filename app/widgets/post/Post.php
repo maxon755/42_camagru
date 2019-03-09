@@ -16,9 +16,9 @@ class Post extends Widget implements WidgetInterface
     /** @var string */
     private $brokenFilePath;
 
-    public function __construct(array $postData)
+    public function __construct(array $postData, bool $async = false)
     {
-        parent::__construct();
+        parent::__construct($async);
         $this->postData = $postData;
         $this->brokenFilePath = DS . 'widgets' . DS . 'post' . DS . 'broken-file.png';
     }

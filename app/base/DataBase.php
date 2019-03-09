@@ -104,7 +104,8 @@ class DataBase extends Application
      * @param string|null $operator
      * @return string
      */
-    private function prepareWhereData(array $data, string $operator = null): string {
+    private function prepareWhereData(array $data, string $operator = null): string
+    {
         $shouldSeparate = count($data) - 1;
         $operator = $operator ?: 'AND';
         $res = '';
@@ -182,6 +183,34 @@ class DataBase extends Application
     }
 
     /**
+     * @param array $whereData
+     * @param string|null $operator
+     * @return bool
+     */
+    public function delete(array $whereData, string $operator = null): bool
+    {
+        $whereData = CaseTranslator::keysTo('snake', $whereData);
+        $whereString = $this->prepareWhereData($whereData, $operator);
+        $query = "DELETE FROM $this->tableName WHERE ${whereString}";
+
+        return $this->executeQuery($query, array_merge($whereData), false);
+    }
+
+    /**
+     * @param array $whereData
+     * @param string|null $operator
+     * @return int
+     */
+    public function count(array $whereData, string $operator = null): int
+    {
+        $whereData = CaseTranslator::keysTo('snake', $whereData);
+        $whereString = $this->prepareWhereData($whereData, $operator);
+        $query = "SELECT count(*) from $this->tableName WHERE ${whereString}";
+
+        return $this->executeQuery($query, array_merge($whereData))[0]['count'];
+    }
+
+    /**
      * @param array $setData
      * @return string
      */
@@ -203,12 +232,9 @@ class DataBase extends Application
      * @param string $operator
      * @return bool
      */
-    public function rowExists(array $data, string $operator = 'and'): bool
+    public function rowExists(array $data, string $operator = null): bool
     {
-        $data = CaseTranslator::keysTo('snake', $data);
-        $whereString =  $this->prepareWhereData($data, $operator);
-        $query = "SELECT count(*) FROM $this->tableName WHERE ${whereString};";
-        return $this->executeQuery($query, $data)[0]['count'];
+        return (bool)$this->count($data);
     }
 
     /**
