@@ -3,7 +3,6 @@ version: '3'
 services:
   nginx:
     image: nginx:latest
-    container_name: nginx
     ports:
       - "80:80"
     volumes:
@@ -13,7 +12,6 @@ services:
 
   php-fpm:
     build: ./php-fpm
-    container_name: "php-fpm"
     volumes:
       - ./app:/app
     env_file:
@@ -21,9 +19,8 @@ services:
 
   pgsql:
     image: postgres:9.6
-    container_name: pgsql
-#    ports:
-#      - "5432:5432"
+    ports:
+      - "5432:5432"
     environment:
       - POSTGRES_DB=camagru
       - POSTGRES_USER=camagru

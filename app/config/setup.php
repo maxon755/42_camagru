@@ -78,3 +78,9 @@ $db->insertIfNotExists([
     'user_id'       => 1,
     'image_name'    => '2.jpeg',
 ]);
+
+$db->executeQuery('CREATE TABLE IF NOT EXISTS post_like (
+  post_id INTEGER,
+  client_id INTEGER,
+  PRIMARY KEY (post_id, client_id)
+)');
