@@ -1,16 +1,32 @@
 <?php
-    /** @var \app\base\View $this */
+/** @var \app\base\View $this */
+
+$images = [
+    'troll-face',
+    'troll-face-red',
+    'duck-face',
+    'happy-face',
+    'happy-girl',
+    'omg-face',
+    'or-girl',
+    'sad-face',
+    'why',
+    'yao-min',
+]
 ?>
 
 <div id="toolbar__container">
-        <img
-                id="toolbar__troll-face"
-                src="/views/<?= $this->viewName ?>/assets/troll-face.png"
-                alt="Troll face"
-                draggable="true">
-        <img
-                id="toolbar__troll-face-red"
-                src="/views/<?= $this->viewName ?>/assets/troll-face-red.png"
-                alt="Troll face"
-                draggable="true">
+        <?php
+            foreach ($images as $image) {
+                echo <<<IMG
+                <img
+                    id="toolbar__$image"
+                    src="/views/$this->viewName/assets/$image.png"
+                    alt="Troll face"
+                    draggable="true">
+IMG;
+            }
+
+
+        ?>
 </div>

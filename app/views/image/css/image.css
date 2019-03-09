@@ -6,9 +6,17 @@
 
     display: flex;
     justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
 }
 
-#toolbar__container> img {
+#toolbar__container > img {
     margin: 10px;
+
+    display: block;
+    /*max-width:150px;*/
+    /*max-height:95px;*/
+    /*width: auto;*/
+    height: auto;
 }
 
