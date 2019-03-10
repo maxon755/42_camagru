@@ -4,5 +4,5 @@ namespace app\widgets;
 
 interface WidgetInterface
 {
-    public function render(): void;
+    public function render(array $params = []): void;
 }

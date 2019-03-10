@@ -113,7 +113,7 @@ class InputForm extends Widget implements WidgetInterface
         return $uniqueFields;
     }
 
-    public function render(): void
+    public function render(array $params = []): void
     {
         include(__DIR__ . DS . 'input-form.php');
     }

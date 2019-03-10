@@ -30,7 +30,7 @@ class Ribbon extends Widget implements WidgetInterface
         $this->limit = 5;
     }
 
-    public function render(): void
+    public function render(array $params = []): void
     {
         echo 'ribbon item';
     }

@@ -23,7 +23,7 @@ class Post extends Widget implements WidgetInterface
         $this->brokenFilePath = DS . 'widgets' . DS . 'post' . DS . 'broken-file.png';
     }
 
-    public function render(): void
+    public function render(array $params = []): void
     {
         include(__DIR__ . DS . 'post-layout.php');
     }

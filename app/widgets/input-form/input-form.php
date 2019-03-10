@@ -18,18 +18,7 @@
         <div class="<?= $widgetName . '__container' ?>">
 
             <?php foreach($this->inputFields as $field): ?>
-                <div class="<?= $widgetName . '__unit' ?>">
-                    <input id="<?= $widgetName . '__' . $field->getName() //id? ?>"
-                           class="<?= $widgetName . '__input ';
-                           echo $this->submitted ? $field->isValid() ? 'valid-input' : 'invalid-input' : '' ?>"
-                           type="<?= $field->getContentType() ?>"
-                           name="<?= $field->getName() ?>"
-                           value="<?= $field->getValue() ? $field->getValue() : '' ?>"
-                           placeholder="<?= $field->getPlaceholder() ?>">
-                    <p class="<?= $widgetName . '__validation '; echo $field->isValid() ? '' : "invalid-message" ?>">
-                        <?= $field->isValid() ? '' : $field->getMessage() ?>
-                    </p>
-                </div>
+                <?= $field->render(['formSubmitted' => $this->submitted]) ?>
             <?php endforeach ?>
             <input  id="<?= $widgetName . '__submit' ?>"
                     class="<?= $widgetName . '__submit' ?>"

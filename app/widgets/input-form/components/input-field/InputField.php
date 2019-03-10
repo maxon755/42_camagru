@@ -1,12 +1,17 @@
 <?php
 
-namespace app\widgets\inputForm;
+namespace app\widgets\inputForm\components\inputField;
 
 
+use app\base\Widget;
 use app\components\CaseTranslator;
+use app\widgets\WidgetInterface;
+use app\widgets\WidgetNameGetterTrait;
 
-class InputField
+class InputField extends Widget implements WidgetInterface
 {
+    use WidgetNameGetterTrait;
+
     /** @var string  */
     private $name;
 
@@ -56,6 +61,7 @@ class InputField
         string  $value=null,
         string  $auxValue=null
     ) {
+        parent::__construct();
         $this->name = $name;
         $this->contentType = $contentType;
         $this->required = $required;
@@ -68,6 +74,11 @@ class InputField
         if ($this->required) {
             $this->placeholder .= ' *';
         }
+    }
+
+    public function render(array $params = []): void
+    {
+        include(__DIR__ . DS . 'input-field.php');
     }
 
     /**
