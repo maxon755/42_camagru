@@ -80,7 +80,15 @@ $db->insertIfNotExists([
 ]);
 
 $db->executeQuery('CREATE TABLE IF NOT EXISTS post_like (
-  post_id INTEGER,
-  client_id INTEGER,
-  PRIMARY KEY (post_id, client_id)
+    post_id INTEGER,
+    client_id INTEGER,
+    PRIMARY KEY (post_id, client_id)
+)');
+
+$db->executeQuery('CREATE TABLE IF NOT EXISTS comment (
+    comment_id    SERIAL PRIMARY KEY,
+    post_id       INTEGER NOT NULL,
+    client_id     INTEGER NOT NULL,
+    creation_date TIMESTAMP NOT NULL DEFAULT NOW(),
+    comment_text  text NOT NULL
 )');

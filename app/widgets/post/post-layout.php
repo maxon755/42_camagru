@@ -4,6 +4,7 @@
 
 use app\components\CaseTranslator;
 use app\components\Escape;
+use app\widgets\inputForm\InputField;
 
 if (!$this->isAsync()) {
     $this->view->registerCssFile('/widgets/post/post.css', true);
@@ -36,10 +37,20 @@ $liked = $this->postData['liked'] ? 'liked' : '';
 
     <hr class="<?= $name . '__line' ?>">
 
-    <div class="<?= $name . '__like-block' ?>">
-        <span class="fas fa-heart fa-2x <?= $liked ?>"></span>
-        <span class="<?= $name . '__like-counter'?>">
+    <div class="<?= $name . '__interaction-container' ?>">
+        <div class="<?= $name . '__like-block' ?>">
+            <span class="fas fa-heart fa-2x <?= $liked ?>"></span>
+            <span class="<?= $name . '__like-counter'?>">
             <?= $this->postData['likes'] ?>
         </span>
+        </div>
+
+        <div class="<?= $name . '__comment-block' ?>">
+            <span class="far fa-comment-alt fa-2x"></span>
+        </div>
     </div>
+
+    <div class="<?= $name . '__text-area' ?>">
+    </div>
+
 </div>

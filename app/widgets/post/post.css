@@ -47,7 +47,7 @@
     align-items: center;
 }
 
-.fa-heart {
+.fa-heart, .fa-comment-alt {
     color: #808080;
 }
 
@@ -57,4 +57,8 @@
 
 .liked {
     color: #ff4c31;
+}
+
+.post__interaction-container {
+    display: flex;
 }
