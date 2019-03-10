@@ -4,7 +4,9 @@
 
 use app\components\CaseTranslator;
 use app\components\Escape;
-use app\widgets\inputForm\InputField;
+use app\widgets\inputForm\components\inputField\InputField;
+use app\widgets\inputForm\components\textArea\TextArea;
+use app\widgets\inputForm\InputForm;
 
 if (!$this->isAsync()) {
     $this->view->registerCssFile('/widgets/post/post.css', true);
@@ -20,6 +22,18 @@ if (!realpath(ROOT . $imagePath)) {
 }
 
 $liked = $this->postData['liked'] ? 'liked' : '';
+
+$form = new InputForm([
+        'name'   => $name . '__comment-editor',
+        'action' => '/post/create-comment',
+        'header' => false,
+    ], [
+        new InputField('comment', 'text', false),
+        new TextArea([
+                'name' => 'comment',
+                'required' => false,
+        ])
+    ]);
 ?>
 
 <div class="<?= $name . '__container' ?>" data-post-id ="<?= $this->postData['post_id'] ?>">
@@ -45,12 +59,12 @@ $liked = $this->postData['liked'] ? 'liked' : '';
         </span>
         </div>
 
-        <div class="<?= $name . '__comment-block' ?>">
+        <div class="<?= $name . '__comment' ?>">
             <span class="far fa-comment-alt fa-2x"></span>
         </div>
     </div>
 
-    <div class="<?= $name . '__text-area' ?>">
-    </div>
+    <?php $form->render() ?>
+
 
 </div>

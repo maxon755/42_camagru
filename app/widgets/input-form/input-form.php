@@ -1,11 +1,11 @@
 <?php
-    /** @var \app\widgets\inputForm\InputForm $this */
-    /** @var \app\base\View $this->view  */
+/** @var \app\widgets\inputForm\InputForm $this */
+/** @var \app\base\View $this->view  */
 
-    use app\components\CaseTranslator;
+use app\components\CaseTranslator;
 
-    $widgetName = $this->widgetName;
-    $this->view->registerCssFile('/widgets/input-form/input-form.css', true);
+$widgetName = CaseTranslator::toKebab($this->widgetName);
+$this->view->registerCssFile('/widgets/input-form/input-form.css', true);
 ?>
 
 <div class="<?= $this->name ?>">

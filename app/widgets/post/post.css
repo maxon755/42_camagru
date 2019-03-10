@@ -62,3 +62,7 @@
 .post__interaction-container {
     display: flex;
 }
+
+.post__comment-editor {
+    /*display: none;*/
+}

@@ -3,6 +3,8 @@
 namespace app\base;
 
 
+use app\widgets\WidgetNameGetterTrait;
+
 class Widget extends Application
 {
     /** @var View  */
@@ -11,14 +13,26 @@ class Widget extends Application
     /** @var string */
     protected $widgetName;
 
+    /** @var string */
+    protected $widgetFullName;
+
     /** @var bool */
     protected $async;
 
-    public function __construct(bool $async = false)
+    /** @var array */
+    protected $properties;
+
+    public function __construct(array $params = [], bool $async = false)
     {
         $this->view = View::getInstance();
-        $this->widgetName = $this->getShortClassName(static::_getWidgetName());
+        $this->widgetFullName = static::_getWidgetName();
+        $this->widgetName = $this->getShortClassName($this->widgetFullName);
+
+        $this->properties = get_class_vars($this->widgetFullName);
         $this->async = $async;
+        if (!empty($params)) {
+            static::fillProperties($params);
+        }
     }
 
     /**
@@ -29,7 +43,10 @@ class Widget extends Application
         return $this->widgetName;
     }
 
-    public function isAsync() {
+    public function isAsync()
+    {
         return $this->async;
     }
+
+
 }

@@ -43,12 +43,11 @@ class InputForm extends Widget implements WidgetInterface
      */
     public function __construct(array $params, array $inputFields) {
         parent::__construct();
-        $this->widgetName = CaseTranslator::toKebab($this->widgetName);
         $className = CaseTranslator::toKebab($this->getShortClassName());
 
         $this->name     = $params['name']   ?? $className;
-        $this->tittle   = $params['tittle'] ?? 'Please set tittle';
-        $this->action   = $params['action'];
+        $this->tittle   = $params['tittle'] ?? '';
+        $this->action   = $params['action'] ?? '';
         $this->method   = $params['method'] ?? 'post';
         $this->header   = $params['header'] ?? true;
         $this->inputs   = $inputFields;

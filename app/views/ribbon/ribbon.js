@@ -1,17 +1,19 @@
 window.addEventListener('load', () => {
-   let dataUrl  = '/ribbon/get-posts';
-   let offset   = 0;
-   let limit    = 1;
-   let noPosts  = false;
-   let ribbon   = document.getElementById('ribbon__container');
-   let spinner  = document.getElementById('ribbon__spinner');
+    'use strict';
 
-   let atBottom  = false;
-   let xhrOpened = false;
+    let dataUrl  = '/ribbon/get-posts';
+    let offset   = 0;
+    let limit    = 1;
+    let noPosts  = false;
+    let ribbon   = document.getElementById('ribbon__container');
+    let spinner  = document.getElementById('ribbon__spinner');
 
-   fillRibbonInitial();
+    let atBottom  = false;
+    let xhrOpened = false;
 
-   function fillRibbonInitial() {
+    fillRibbonInitial();
+
+    function fillRibbonInitial() {
        getPosts(offset, 1)
            .then(response => {
                xhrOpened = false;
@@ -21,7 +23,7 @@ window.addEventListener('load', () => {
                     fillRibbonInitial(offset, 1);
                }
            });
-   }
+    }
 
     function fillRibbon() {
         getPosts(offset, limit)
@@ -37,7 +39,7 @@ window.addEventListener('load', () => {
             });
     }
 
-   function getPosts(offset, limit) {
+    function getPosts(offset, limit) {
        return new Promise(function(resolve, reject) {
            let xhr          = new XMLHttpRequest();
            let formData     = new FormData();
@@ -55,30 +57,39 @@ window.addEventListener('load', () => {
                reject(this.response);
            }
        });
-   }
+    }
 
-   function showSpinner() {
+    function showSpinner() {
        spinner.style.display = 'block';
-   }
+    }
 
     function hideSpinner() {
         spinner.style.display = 'none';
     }
 
     function handleResponse(response) {
-
         let post = document.createElement('div');
         post.innerHTML = response.trim();
 
         let heart = post.getElementsByClassName('fa-heart')[0];
-        heart.addEventListener('click', function (event) {
+        heart.addEventListener('click', event => {
             postModule.toggleLike(event);
+        });
+
+        let comment = post.getElementsByClassName('post__comment')[0];
+        comment.addEventListener('click', event => {
+            postModule.toggleCommentEditor(event);
+        });
+
+        let submitButton = post.querySelector('input[type="submit"]');
+        submitButton.addEventListener('click', event => {
+            postModule.createComment(event);
         });
 
         ribbon.appendChild(post);
     }
 
-    window.onscroll = function(e) {
+    window.onscroll = function() {
         if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
             atBottom = true;
         }  else {
