@@ -94,4 +94,19 @@ class DataBaseModel extends Application
 
         return !empty($result) ? $result[0][$columnName] : $result;
     }
+
+    public function prepareWhereData($data, string $operator = null)
+    {
+        $shouldSeparate = count($data) - 1;
+        $operator = $operator ?: 'AND';
+        $res = '';
+        foreach ($data as $key => $value) {
+            $res .= $key . ' = '. $value;
+            if ($shouldSeparate--) {
+                $res .= ' ' . $operator . ' ';
+            }
+        }
+
+        return $res;
+    }
 }

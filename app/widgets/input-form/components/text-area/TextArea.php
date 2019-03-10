@@ -22,6 +22,9 @@ class TextArea extends Widget implements WidgetInterface
     /** @var string  */
     private $placeholder;
 
+    /** @var int */
+    private $rows;
+
     public function __construct(array $params)
     {
         parent::__construct($params);

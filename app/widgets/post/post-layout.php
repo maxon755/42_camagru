@@ -4,7 +4,6 @@
 
 use app\components\CaseTranslator;
 use app\components\Escape;
-use app\widgets\inputForm\components\inputField\InputField;
 use app\widgets\inputForm\components\textArea\TextArea;
 use app\widgets\inputForm\InputForm;
 
@@ -24,17 +23,12 @@ $liked = $this->liked ? 'liked' : '';
 
 $form = new InputForm([
         'name'   => $name . '__comment-editor',
-        'action' => '/post/create-comment',
+        'action' => '/ribbon/create-comment',
         'header' => false,
     ], [
-        new InputField([
-                'name' => 'comment',
-                'type' => 'text',
-                'required' => false,
-                ]),
         new TextArea([
-                'name' => 'comment',
-                'required' => false,
+            'name' => 'comment',
+            'rows' => 5,
         ])
     ]);
 ?>

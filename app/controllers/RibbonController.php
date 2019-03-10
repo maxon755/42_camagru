@@ -3,6 +3,7 @@
 namespace app\controllers;
 
 use app\base\Controller;
+use app\models\Comment;
 use app\models\Post;
 use app\models\PostLike;
 use app\widgets\post\Post as PostWidget;
@@ -47,11 +48,25 @@ class RibbonController extends Controller
         $likeModel = new PostLike();
         $postId = $_POST['postId'];
 
-        $respose = [
+        $response = [
             'likeAdded' => $likeModel->toggleLike($postId, $this->userId),
             'likeCount' => $likeModel->countLikes($postId),
         ];
 
-        echo json_encode($respose);
+        echo json_encode($response);
+    }
+
+    public function actionCreateComment(): void
+    {
+        if (!isset($_POST['postId']) || !isset($_POST['comment']) || !$_POST['comment']) {
+            return;
+        }
+        $commentModel = new Comment();
+
+        $postId = $_POST['postId'];
+        $comment = $_POST['comment'];
+
+        $commentId = $commentModel->addComment($postId, $this->userId, $comment);
+        $comment = $commentModel->getComments(['comment_id' => $commentId]);
     }
 }

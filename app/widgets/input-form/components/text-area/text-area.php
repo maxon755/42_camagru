@@ -1,5 +1,5 @@
 <?php
-/** @var \app\widgets\inputForm\components\inputField\InputField $this */
+/** @var \app\widgets\inputForm\components\textArea\TextArea $this */
 /** @var \app\base\View $this->view  */
 /** @var array $params */
 
@@ -13,6 +13,8 @@ $formWidgetName = $params['formWidgetName'] ?? CaseTranslator::toKebab($this->wi
     <textarea id="<?= $formWidgetName . '__' . $this->name?>"
         class="<?= $formWidgetName . "__$widgetName" ?>"
         name="<?= $this->name ?>"
-        placeholder="<?= $this->placeholder ?>">
+        placeholder="<?= $this->placeholder ?>"
+        rows="<?= $this->rows ?>"
+    >
     </textarea>
 </div>

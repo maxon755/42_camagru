@@ -8,7 +8,7 @@ use app\widgets\WidgetInterface;
 class Comment extends Widget implements WidgetInterface
 {
     /** @var array */
-    private $commentData;
+    private $commentId;
 
     public function __construct(array $commentData)
     {

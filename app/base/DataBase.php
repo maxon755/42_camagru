@@ -121,18 +121,25 @@ class DataBase extends Application
 
     /**
      * @param array $data
-     * @return bool
+     * @param null|string $returning
+     * @return bool|array
      */
-    public function insert(array $data): bool
+    public function insert(array $data, ?string $returning = null)
     {
         $data = CaseTranslator::keysTo('snake', $data);
         $insertData = $this->prepareInsertData($data);
         $columns    = $insertData['columns'];
         $holders    = $insertData['holders'];
 
-        $query = "INSERT INTO $this->tableName ($columns) VALUES ($holders);";
+        $query = "INSERT INTO $this->tableName ($columns) VALUES ($holders)";
 
-        return $this->executeQuery($query, $data, false);
+        if ($returning) {
+            $query .= " RETURNING $returning";
+        }
+
+        $result = $this->executeQuery($query, $data, $returning);
+
+        return $returning ? $result[0][$returning] : $result;
     }
 
     /**`

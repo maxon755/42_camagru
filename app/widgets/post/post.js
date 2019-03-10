@@ -18,7 +18,9 @@
                 }
                 likeCounter.innerText = response.likeCount;
             })
-            .catch(() => {})
+            .catch((response) => {
+                console.log(response)
+            })
     }
 
     function performRequest(action, data) {
@@ -39,7 +41,7 @@
                     var json = JSON.parse(this.response);
                 }
                 catch(e) {
-                    reject();
+                    reject(this.response);
                 }
                 resolve(json);
             };
@@ -55,7 +57,7 @@
         let comment = event.target;
         let post = comment.closest('.post__container');
         let commentEditor = post.getElementsByClassName('post__comment-editor')[0];
-        let commentInput = commentEditor.querySelector('input[type="text"]');
+        let commentInput = commentEditor.querySelector('textarea');
         let editorState = commentEditor.style.display;
 
         if (editorState !== 'block') {
@@ -70,9 +72,21 @@
         event.preventDefault();
 
         let submitButton = event.target;
-        let action = submitButton.closest('form').action;
+        let form = submitButton.closest('form');
+        let action = form.action;
+        let comment = form.querySelector('textarea').value;
+        let postId = form.closest('.post__container').dataset.postId;
 
-        console.log(action);
+        performRequest(action, {
+            postId,
+            comment
+        })
+            .then(response => {
+                console.log(response);
+            })
+            .catch(response => {
+                console.log(response);
+            });
     }
 
     return {
