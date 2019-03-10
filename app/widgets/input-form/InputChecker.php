@@ -2,6 +2,7 @@
 
 namespace app\widgets\inputForm;
 
+use \app\widgets\inputForm\components\inputField\InputField;
 
 class InputChecker implements Checker
 {

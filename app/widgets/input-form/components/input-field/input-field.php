@@ -5,18 +5,18 @@
 
 use app\components\CaseTranslator;
 
-$widgetName = CaseTranslator::toKebab($this->widgetName);
+$formWidgetName = $params['formWidgetName'] ?? CaseTranslator::toKebab($this->widgetName);
 ?>
 
-<div class="<?= $widgetName . '__unit' ?>">
-    <input id="<?= $widgetName . '__' . $this->getName()?>"
-           class="<?= $widgetName . '__input ';
+<div class="<?= $formWidgetName . '__unit' ?>">
+    <input id="<?= $formWidgetName . '__' . $this->name?>"
+           class="<?= $formWidgetName . '__input ';
            echo $params['formSubmitted'] ? $this->isValid() ? 'valid-input' : 'invalid-input' : '' ?>"
-           type="<?= $this->getContentType() ?>"
-           name="<?= $this->getName() ?>"
+           type="<?= $this->contentType ?>"
+           name="<?= $this->name ?>"
            value="<?= $this->value ? $this->value : '' ?>"
-           placeholder="<?= $this->getPlaceholder() ?>">
-    <p class="<?= $widgetName . '__validation '; echo $this->isValid() ? '' : "invalid-message" ?>">
-        <?= $this->isValid() ? '' : $this->getMessage() ?>
+           placeholder="<?= $this->placeholder ?>">
+    <p class="<?= $formWidgetName . '__validation '; echo $this->isValid() ? '' : "invalid-message" ?>">
+        <?= $this->isValid() ? '' : $this->message ?>
     </p>
 </div>

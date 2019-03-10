@@ -3,15 +3,17 @@
 namespace app\widgets\inputForm;
 
 use app\base\Widget;
+use app\components\CaseTranslator;
 use app\widgets\WidgetInterface;
 use app\widgets\WidgetNameGetterTrait;
+use app\widgets\inputForm\components\inputField\InputField;
 
 class InputForm extends Widget implements WidgetInterface
 {
     use WidgetNameGetterTrait;
 
     /** @var string  */
-    private $formName;
+    private $name;
 
     /** @var string  */
     private $tittle;
@@ -22,8 +24,11 @@ class InputForm extends Widget implements WidgetInterface
     /** @var string  */
     private $method;
 
+    /** @var bool */
+    private $header;
+
     /** @var InputField[] */
-    protected $inputFields;
+    protected $inputs;
 
     /** @var bool */
     private $validity;
@@ -32,25 +37,21 @@ class InputForm extends Widget implements WidgetInterface
     private $submitted = false;
 
     /**
-     * InputForm constructor.
-     * @param string $formName
-     * @param string $tittle
-     * @param array $inputFields ['fieldName' => [validation conditions]]
+     * @param array $params
      * @param array $inputFields
+     * @throws \ReflectionException
      */
-    public function __construct(
-        string $formName,
-        string $tittle,
-        string $action,
-        string $method,
-        array $inputFields
-    ) {
+    public function __construct(array $params, array $inputFields) {
         parent::__construct();
-        $this->formName = $formName;
-        $this->tittle = $tittle;
-        $this->action = $action;
-        $this->method = $method;
-        $this->inputFields = $inputFields;
+        $this->widgetName = CaseTranslator::toKebab($this->widgetName);
+        $className = CaseTranslator::toKebab($this->getShortClassName());
+
+        $this->name     = $params['name']   ?? $className;
+        $this->tittle   = $params['tittle'] ?? 'Please set tittle';
+        $this->action   = $params['action'];
+        $this->method   = $params['method'] ?? 'post';
+        $this->header   = $params['header'] ?? true;
+        $this->inputs   = $inputFields;
     }
 
     /**
@@ -58,7 +59,7 @@ class InputForm extends Widget implements WidgetInterface
      */
     public function validate(Checker $inputChecker): void
     {
-        $this->validity = $inputChecker->check($this->inputFields);
+        $this->validity = $inputChecker->check($this->inputs);
     }
 
     /**
@@ -88,10 +89,10 @@ class InputForm extends Widget implements WidgetInterface
         $data = $this->getValues();
         if (!$checker->checkCredentials($data)) {
             $this->setValidity(false);
-            foreach ($this->inputFields as $field) {
+            foreach ($this->inputs as $field) {
                 $field->setValidity(false);
             }
-            $lastField = end($this->inputFields);
+            $lastField = end($this->inputs);
             $lastField->setMessage($failMessege);
             return false;
         }
@@ -104,10 +105,10 @@ class InputForm extends Widget implements WidgetInterface
     private function getUniqueFields(): array
     {
         $uniqueFields = [];
-        foreach ($this->inputFields as $field)
+        foreach ($this->inputs as $input)
         {
-            if ($field->isUnique()){
-                $uniqueFields[] = $field;
+            if ($input->isUnique()){
+                $uniqueFields[] = $input;
             }
         }
         return $uniqueFields;
@@ -125,14 +126,14 @@ class InputForm extends Widget implements WidgetInterface
     {
         foreach ($values as $name => $value)
         {
-            if (!isset($this->inputFields[$name])) {
+            if (!isset($this->inputs[$name])) {
                 continue ;
             }
-            $this->inputFields[$name]->setValue($value);
-            if (($auxSource = $this->inputFields[$name]->getAuxValue()) !== null)
+            $this->inputs[$name]->setValue($value);
+            if (($auxSource = $this->inputs[$name]->getAuxValue()) !== null)
             {
-                $auxValue = $this->inputFields[$auxSource]->getValue();
-                $this->inputFields[$name]->setAuxValue($auxValue);
+                $auxValue = $this->inputs[$auxSource]->getValue();
+                $this->inputs[$name]->setAuxValue($auxValue);
             }
         }
     }
@@ -156,14 +157,14 @@ class InputForm extends Widget implements WidgetInterface
     /**
      * @return array
      */
-    public function getInputFields(): array
+    public function getInputs(): array
     {
-        return $this->inputFields;
+        return $this->inputs;
     }
 
     public function getInputField(string $filedName): InputField
     {
-        return $this->inputFields[$filedName];
+        return $this->inputs[$filedName];
     }
 
     /**
@@ -180,7 +181,7 @@ class InputForm extends Widget implements WidgetInterface
     public function getValues(): array
     {
         $values = [];
-        foreach ($this->inputFields as $inputField) {
+        foreach ($this->inputs as $inputField) {
             $values[$inputField->getName()] = $inputField->getValue();
         }
         return $values;
@@ -194,8 +195,8 @@ class InputForm extends Widget implements WidgetInterface
     {
         $values = [];
         foreach ($names as $name) {
-            if (key_exists($name, $this->inputFields)) {
-                $values[$name] = $this->inputFields[$name]->getValue();
+            if (key_exists($name, $this->inputs)) {
+                $values[$name] = $this->inputs[$name]->getValue();
             }
         }
         return $values;

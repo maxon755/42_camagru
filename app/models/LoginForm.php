@@ -3,14 +3,17 @@
 namespace app\models;
 
 use app\widgets\inputForm\InputChecker;
-use app\widgets\inputForm\InputField;
+use app\widgets\inputForm\components\inputField\InputField;
 use app\widgets\inputForm\InputForm;
 
 class LoginForm extends InputForm
 {
     public function __construct()
     {
-        parent::__construct('login', 'Log In', '/login/confirm', 'post', [
+        parent::__construct([
+            'tittle'    => 'Log In',
+            'action'    => '/login/confirm',
+        ], [
             'username'  => new InputField('username', 'text', true, [
                 'emptiness',
             ], true),
