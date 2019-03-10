@@ -11,9 +11,9 @@ $formWidgetName = $params['formWidgetName'] ?? CaseTranslator::toKebab($this->wi
 
 <div class="<?= $formWidgetName . '__unit' ?>">
     <input id="<?= $formWidgetName . '__' . $this->name?>"
-           class="<?= $formWidgetName . "__$widgetName";
+           class="<?= $formWidgetName . "__$widgetName ";
            echo $params['formSubmitted'] ? $this->isValid() ? 'valid-input' : 'invalid-input' : '' ?>"
-           type="<?= $this->contentType ?>"
+           type="<?= $this->type ?>"
            name="<?= $this->name ?>"
            value="<?= $this->value ? $this->value : '' ?>"
            placeholder="<?= $this->placeholder ?>">

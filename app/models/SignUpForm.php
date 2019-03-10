@@ -15,32 +15,64 @@ class SignUpForm extends InputForm
             'tittle' => 'Sign Up',
             'action' => '/sign-up/confirm',
         ], [
-            'username'  => new InputField('username', 'text', true, [
-                'emptiness',
-                'length',
-                'word'
-            ], true),
-            'first-name'=> new InputField('first-name', 'text', false, [
-                'length'
+            'username'  => new InputField([
+                'name'      => 'username',
+                'type'      => 'text',
+                'required'  => true,
+                'unique'    => true,
+                'checks'    => [
+                    'emptiness',
+                    'length',
+                    'word'
+                ]
             ]),
-            'last-name' => new InputField('last-name', 'text', false, [
-                'length'
+            'first-name'=> new InputField([
+                'name'      => 'first-name',
+                'type'      => 'text',
+                'checks'    => [
+                    'length',
+                ]
             ]),
-            'email'     => new InputField('email', 'email', true, [
-                'emptiness',
-                'length',
-                'email'
-            ], true),
-            'password'  => new InputField('password', 'password', true, [
-                'emptiness',
-                'length',
-                'password'
+            'last-name' => new InputField([
+                'name'      => 'last-name',
+                'type'      => 'text',
+                'checks'    => [
+                    'length',
+                ]
             ]),
-            'repeat-password' => new InputField('repeat-password', 'password', true, [
-                'emptiness',
-                'length',
-                'equality'
-            ], false, null, $auxValue = 'password')
+            'email'     => new InputField([
+                'name'      => 'email',
+                'type'      => 'email',
+                'required'  => true,
+                'unique'    => true,
+                'checks'    => [
+                    'emptiness',
+                    'length',
+                    'email'
+                ]
+            ]),
+            'password'  => new InputField([
+                'name'      => 'password',
+                'type'      => 'password',
+                'required'  => true,
+                'unique'    => true,
+                'checks'    => [
+                    'emptiness',
+                    'length',
+                    'password'
+                ]
+            ]),
+            'repeat-password' => new InputField([
+                'name'      => 'repeat-password',
+                'type'      => 'password',
+                'required'  => true,
+                'auxValue'  => 'password',
+                'checks'    => [
+                    'emptiness',
+                    'length',
+                    'equality'
+                ]
+            ]),
         ]);
     }
 

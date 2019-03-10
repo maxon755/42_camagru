@@ -41,7 +41,7 @@ class InputForm extends Widget implements WidgetInterface
      * @param array $inputFields
      * @throws \ReflectionException
      */
-    public function __construct(array $params, array $inputFields) {
+    public function __construct(array $params, array $inputs) {
         parent::__construct();
         $className = CaseTranslator::toKebab($this->getShortClassName());
 
@@ -50,7 +50,7 @@ class InputForm extends Widget implements WidgetInterface
         $this->action   = $params['action'] ?? '';
         $this->method   = $params['method'] ?? 'post';
         $this->header   = $params['header'] ?? true;
-        $this->inputs   = $inputFields;
+        $this->inputs   = $inputs;
     }
 
     /**

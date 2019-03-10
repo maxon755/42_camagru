@@ -28,7 +28,11 @@ $form = new InputForm([
         'action' => '/post/create-comment',
         'header' => false,
     ], [
-        new InputField('comment', 'text', false),
+        new InputField([
+                'name' => 'comment',
+                'type' => 'text',
+                'required' => false,
+                ]),
         new TextArea([
                 'name' => 'comment',
                 'required' => false,

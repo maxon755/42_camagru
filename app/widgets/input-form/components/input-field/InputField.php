@@ -5,27 +5,29 @@ namespace app\widgets\inputForm\components\inputField;
 
 use app\base\Widget;
 use app\components\CaseTranslator;
+use app\widgets\WidgetFillPropertiesTrait;
 use app\widgets\WidgetInterface;
 use app\widgets\WidgetNameGetterTrait;
 
 class InputField extends Widget implements WidgetInterface
 {
     use WidgetNameGetterTrait;
+    use WidgetFillPropertiesTrait;
 
     /** @var string  */
     private $name;
 
     /** @var string  */
-    private $contentType;
+    private $type;
 
     /** @var bool  */
-    private $required;
+    private $required = false;
 
     /** @var string  */
     private $value;
 
     /** @var bool  */
-    private $unique;
+    private $unique = false;
 
     /** @var null|string  */
     private $auxValue;
@@ -34,7 +36,7 @@ class InputField extends Widget implements WidgetInterface
     private $checks;
 
     /** @var bool  */
-    private $validity;
+    private $validity = true;
 
     /** @var string */
     private $message;
@@ -43,37 +45,17 @@ class InputField extends Widget implements WidgetInterface
     private $placeholder;
 
     /**
-     * InputField constructor.
-     * @param string $name
-     * @param string $contentType
-     * @param bool $required
-     * @param array $checks
-     * @param bool $unique
-     * @param string|null $value
-     * @param string|null $auxValue
+     * @param array $params
      */
-    public function __construct(
-        string  $name,
-        string  $contentType,
-        bool    $required,
-        array   $checks=[],
-        bool    $unique=false,
-        string  $value=null,
-        string  $auxValue=null
-    ) {
-        parent::__construct();
-        $this->name = $name;
-        $this->contentType = $contentType;
-        $this->required = $required;
-        $this->unique = $unique;
-        $this->checks = $checks;
-        $this->value = trim($value);
-        $this->auxValue = $auxValue;
-        $this->validity = true;
-        $this->placeholder = ucfirst(CaseTranslator::toHuman($name));
+    public function __construct(array $params) {
+
+        $params['value']        = trim($params['value'] ?? null);
+        $params['placeholder']  = ucfirst(CaseTranslator::toHuman($params['name']));
         if ($this->required) {
-            $this->placeholder .= ' *';
+            $params['placeholder'] .= ' *';
         }
+
+        parent::__construct($params);
     }
 
     public function render(array $params = []): void
@@ -92,9 +74,9 @@ class InputField extends Widget implements WidgetInterface
     /**
      * @return string
      */
-    public function getContentType(): string
+    public function getType(): string
     {
-        return $this->contentType;
+        return $this->type;
     }
 
     /**

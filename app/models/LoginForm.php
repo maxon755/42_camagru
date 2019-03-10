@@ -14,11 +14,22 @@ class LoginForm extends InputForm
             'tittle'    => 'Log In',
             'action'    => '/login/confirm',
         ], [
-            'username'  => new InputField('username', 'text', true, [
-                'emptiness',
-            ], true),
-            'password'  => new InputField('password', 'password', true, [
-                'emptiness',
+            'username'  => new InputField([
+                'name'      => 'username',
+                'type'      => 'text',
+                'required'  => true,
+                'unique'    => true,
+                'checks'    => [
+                    'emptiness',
+                ]
+            ]),
+            'password'  => new InputField([
+                'name'      => 'password',
+                'type'      => 'password',
+                'required'  => true,
+                'checks'    => [
+                    'emptiness',
+                ]
             ]),
         ]);
     }
