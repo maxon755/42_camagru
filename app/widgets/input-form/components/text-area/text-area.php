@@ -10,11 +10,9 @@ $formWidgetName = $params['formWidgetName'] ?? CaseTranslator::toKebab($this->wi
 ?>
 
 <div class="<?= $formWidgetName . '__unit' ?>">
-    <textarea id="<?= $formWidgetName . '__' . $this->name?>"
+    <textarea
         class="<?= $formWidgetName . "__$widgetName" ?>"
         name="<?= $this->name ?>"
         placeholder="<?= $this->placeholder ?>"
-        rows="<?= $this->rows ?>"
-    >
-    </textarea>
+        rows="<?= $this->rows ?>"></textarea>
 </div>

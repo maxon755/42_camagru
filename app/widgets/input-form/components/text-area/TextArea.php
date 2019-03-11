@@ -28,6 +28,7 @@ class TextArea extends Widget implements WidgetInterface
     public function __construct(array $params)
     {
         parent::__construct($params);
+        $this->placeholder = 'Write a comment...';
     }
 
     public function render(array $params = []): void

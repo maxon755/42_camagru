@@ -22,11 +22,11 @@
 
     function toggleCommentEditor(event)
     {
-        let comment = event.target;
-        let post = comment.closest('.post__container');
-        let commentEditor = post.getElementsByClassName('post__comment-editor')[0];
-        let commentInput = commentEditor.querySelector('textarea');
-        let editorState = commentEditor.style.display;
+        let comment         = event.target;
+        let post            = comment.closest('.post__container');
+        let commentEditor   = post.getElementsByClassName('post__comment-editor')[0];
+        let commentInput    = commentEditor.querySelector('textarea');
+        let editorState     = commentEditor.style.display;
 
         if (editorState !== 'block') {
             commentInput.value = '';
@@ -136,7 +136,7 @@
 }());
 
 window.addEventListener('load', function () {
-   let hearts = document.getElementsByClassName('fa-heart');
+   let hearts = document.getElementsByClassName('like');
 
    for (i = 0; i < hearts.length; i++) {
        hearts[i].addEventListener('click', function () {

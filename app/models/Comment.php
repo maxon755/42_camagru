@@ -18,13 +18,17 @@ class Comment extends DataBaseModel
         return $res;
     }
 
-    public function getComments(array $whereData)
+    /**
+     * @param array $whereData
+     * @return array
+     */
+    public function getComments(array $whereData): array
     {
         $whereString = $this->prepareWhereData($whereData);
 
         $query = "SELECT
             comment_id,
-            cl.username AS user,
+            cl.username,
             to_char(creation_date, 'DD MonthYYYY HH:MM am') AS date,
             comment
             FROM comment cm
@@ -36,6 +40,10 @@ class Comment extends DataBaseModel
         return $this->db->executeQuery($query);
     }
 
+    /**
+     * @param int $commentId
+     * @return int|null
+     */
     public function getCommentOwnerId(int $commentId): ?int
     {
         return $this->getValue('user_id', [
@@ -43,6 +51,10 @@ class Comment extends DataBaseModel
         ]);
     }
 
+    /**
+     * @param int $commentId
+     * @return bool
+     */
     public function deleteComment(int $commentId): bool
     {
         return $this->db->delete([

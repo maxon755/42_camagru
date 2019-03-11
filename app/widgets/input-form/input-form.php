@@ -25,9 +25,8 @@ $this->view->registerCssFile('/widgets/input-form/input-form.css', true);
                         'formSubmitted'     => $this->submitted
                 ]) ?>
             <?php endforeach ?>
-            <input  id="<?= $widgetName . '__submit' ?>"
-                    class="<?= $widgetName . '__submit' ?>"
-                    type="submit" value="Submit">
+            <input class="<?= $widgetName . '__submit' ?>"
+                   type="submit" value="Submit">
         </div>
     </form>
 </div>

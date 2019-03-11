@@ -81,6 +81,10 @@
     border: none;
 }
 
+.input-form__submit:hover {
+    cursor: pointer;
+}
+
 .input-form__validation {
     font-size: 13px;
 
@@ -104,3 +108,4 @@
     border-color: red;
     box-shadow: 0 0 3px 1px #ff4c31;
 }
+

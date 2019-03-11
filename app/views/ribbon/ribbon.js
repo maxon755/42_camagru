@@ -71,7 +71,7 @@ window.addEventListener('load', () => {
         let post = document.createElement('div');
         post.innerHTML = response.trim();
 
-        let heart = post.getElementsByClassName('fa-heart')[0];
+        let heart = post.getElementsByClassName('like')[0];
         heart.addEventListener('click', event => {
             postModule.toggleLike(event);
         });

@@ -13,16 +13,16 @@ $currentUser = self::$auth->getUserName();
 
 <div class="<?= $name . '__container' ?>" data-comment-id="<?= $this->commentId ?>">
     <div class="<?= $name . '__info' ?>">
-        <a class="<?= $name . '__username' ?>" href="/user/<?= Escape::html($this->user) ?>">
-            <?= Escape::html($this->user) ?>
+        <a class="<?= $name . '__username' ?>" href="/user/<?= Escape::html($this->username) ?>">
+            <?= Escape::html($this->username) ?>
         </a>
         <span class="<?= $name . '__date' ?>"><?= $this->date ?></span>
     </div>
+    <hr class="<?= $name . '__line' ?>">
+    <p class="comment__content"><?= nl2br(Escape::html($this->comment))  ?></p>
 
-    <p><?= Escape::html($this->comment) ?></p>
-
-    <?php if ($this->user === $currentUser): ?>
-        <span class="fas fa-times comment-delete"></span>
+    <?php if ($this->username === $currentUser): ?>
+        <span class="fas fa-trash-alt comment-delete"></span>
     <?php endif; ?>
 </div>
 

@@ -1,5 +1,6 @@
 .post__container {
     width: 680px;
+    margin: auto;
 
     box-shadow: 0 0 10px 1px lightgray;
     font-family: 'Roboto', sans-serif;
@@ -7,7 +8,7 @@
     margin-top: 20px;
 }
 
-.post__info {
+.post__info, .comment__info {
     position: relative;
     /*margin: 25px;*/
     display: inline-block;
@@ -16,12 +17,12 @@
     width: 100%;
 }
 
-.post__username {
+.post__username, .comment__username {
     margin-left: 10px;
     text-decoration: none;
 }
 
-.post__date {
+.post__date, .comment__date {
     position: absolute;
     right: 10px;
 
@@ -45,13 +46,20 @@
 .post__like-block {
     display: flex;
     align-items: center;
+
+    margin-left: 5px;
+    margin-right: 10px;
 }
 
-.fa-heart, .fa-comment-alt {
+.like, .comment-icon, .comment-delete {
     color: #808080;
 }
 
-.fa-heart:hover {
+.like {
+    margin-right: 3px;
+}
+
+.like:hover, .comment-icon:hover, .comment-delete:hover {
     cursor: pointer;
 }
 
@@ -61,8 +69,81 @@
 
 .post__interaction-container {
     display: flex;
+
+    margin-top: 5px;
 }
 
 .post__comment-editor {
-    /*display: none;*/
+    display: none;
+}
+
+.post__container .input-form {
+    margin-top: 10px;
+}
+
+.post__container::after {
+    display: inline-block;
+    height: 5px;
+    content: " ";
+}
+
+.post__container textarea {
+    display: block;
+    resize: none;
+
+    width: 95%;
+    margin: auto;
+
+    font-size: 14px;
+}
+
+.post__container .input-form__submit {
+    display: block;
+
+    height: 30px;
+    margin-top: 10px;
+    font-size: 12px;
+    color: white;
+    background-color: #1f78d1;
+    border-radius: 3px;
+    border: none;
+
+    position: relative;
+    left: calc(100% - 40px - 30px);
+}
+
+.post__container .input-form__submit:hover {
+    cursor: pointer;
+}
+
+.post__container .comment__container {
+    position: relative;
+
+    width: 95%;
+    margin: auto;
+
+    margin-top: 10px;
+}
+
+.post__container .comment__content {
+    margin-top: 0;
+    margin-bottom: 0;
+    margin-left: 20px;
+    font-size: 15px;
+}
+
+.post__container .comment-delete {
+    position: absolute;
+
+    bottom: 0;
+    right: 0;
+}
+
+.post__container .comment__line {
+    margin-top: 0;
+}
+
+.post__container .comment__info {
+    margin-top: 0;
+    margin-bottom: 0;
 }

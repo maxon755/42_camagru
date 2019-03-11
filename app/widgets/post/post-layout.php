@@ -51,22 +51,23 @@ $form = new InputForm([
 
     <div class="<?= $name . '__interaction-container' ?>">
         <div class="<?= $name . '__like-block' ?>">
-            <span class="fas fa-heart fa-2x <?= $liked ?>"></span>
+            <span class="fas fa-heart like fa-2x <?= $liked ?>"></span>
             <span class="<?= $name . '__like-counter'?>">
             <?= $this->likes ?>
         </span>
         </div>
 
-        <div class="<?= $name . '__comment' ?>">
-            <span class="far fa-comment-alt fa-2x"></span>
+        <div class="<?= $name . '__comment' //fa-comment-alt?>">
+            <span class="far fa-edit fa-2x comment-icon"></span>
         </div>
     </div>
 
     <?php $form->render() ?>
 
+    <div class="<?= $name . '__comments-container' ?>">
+        <?php foreach ($this->comments as $commentData) {
+            (new Comment($commentData, $this->isAsync()))->render();
+        } ?>
+    </div>
 </div>
-<div class="<?= $name . '__comments-container' ?>">
-    <?php foreach ($this->comments as $commentData) {
-        (new Comment($commentData, $this->isAsync()))->render();
-    } ?>
-</div>
+
