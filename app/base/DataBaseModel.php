@@ -85,12 +85,12 @@ class DataBaseModel extends Application
 
     /**
      * @param $columnName
-     * @param $data
+     * @param $whereData
      * @return mixed
      */
-    public function getValue($columnName, $data)
+    public function getValue($columnName, $whereData)
     {
-        $result = $this->db->selectAllWhere($data);
+        $result = $this->db->selectAllWhere($whereData);
 
         return !empty($result) ? $result[0][$columnName] : $result;
     }

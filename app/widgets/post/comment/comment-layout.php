@@ -22,7 +22,7 @@ $currentUser = self::$auth->getUserName();
     <p><?= Escape::html($this->comment) ?></p>
 
     <?php if ($this->user === $currentUser): ?>
-        <span class="fas fa-times"></span>
+        <span class="fas fa-times comment-delete"></span>
     <?php endif; ?>
 </div>
 

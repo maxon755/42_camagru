@@ -15,6 +15,7 @@ class RibbonController extends Controller
     /** @var Post  */
     private $postModel;
 
+    /** @var Comment  */
     private $commentModel;
 
     /** @var int */
@@ -65,16 +66,31 @@ class RibbonController extends Controller
 
     public function actionCreateComment(): void
     {
-        if (!isset($_POST['postId']) || !isset($_POST['comment']) || !$_POST['comment']) {
-            return;
-        }
-
         $postId = $_POST['postId'];
         $comment = $_POST['comment'];
+
+        if (!$_POST['postId'] || !$_POST['comment']) {
+            return;
+        }
 
         $commentId = $this->commentModel->addComment($postId, $this->userId, $comment);
         $commentData = $this->commentModel->getComments(['comment_id' => $commentId])[0];
 
         (new CommentWidget($commentData, true))->render();
+    }
+
+    public function actionDeleteComment(): void
+    {
+        $commentId = $_POST['commentId'];
+        if (!$commentId) {
+            return;
+        }
+        $currentUserId = self::$auth->getUserId();
+        $postOwnerId = $this->commentModel->getCommentOwnerId($commentId);
+        if ($currentUserId !== $postOwnerId) {
+            return;
+        }
+
+        echo $this->commentModel->deleteComment($commentId);
     }
 }

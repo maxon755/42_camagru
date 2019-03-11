@@ -45,7 +45,6 @@ class Post extends DataBaseModel
         $currentUserId = $currentUserId ?? 'null';
         $imagePath = DS . self::$config['storage'] . DS . self::$config['imagesFolder'] . DS;
 
-
         $query = "SELECT
             p.post_id,
             c.username,

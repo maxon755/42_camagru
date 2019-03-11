@@ -87,13 +87,28 @@ window.addEventListener('load', () => {
         submitButton.addEventListener('click', event => {
             postModule.createComment(event)
                 .then(response => {
-                        comments.innerHTML = response + comments.innerHTML;
+                        let commentContainer = document.createElement('div');
+                        commentContainer.innerHTML = response;
+                        let deleteButtons = commentContainer.querySelectorAll('.comment-delete');
+                        addCommentsDeletionHandler(deleteButtons);
+                        comments.insertBefore(commentContainer, comments.firstChild);
                     },
                     error => {}
                 );
         });
 
+        let deleteButtons = post.querySelectorAll('.comment-delete');
+        addCommentsDeletionHandler(deleteButtons);
+
         ribbon.appendChild(post);
+    }
+
+    function addCommentsDeletionHandler(deleteButtons) {
+        for (let i = 0; i < deleteButtons.length; i++) {
+            deleteButtons[i].addEventListener('click', () => {
+                postModule.deleteComment(event);
+            })
+        }
     }
 
     window.onscroll = function() {

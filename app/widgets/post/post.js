@@ -1,9 +1,8 @@
 ;var postModule = (function() {
     'use strict';
 
-    let dataUrl = '/ribbon/toggle-like';
-
     function toggleLike(event) {
+        let dataUrl = '/ribbon/toggle-like';
         let heart = event.target;
         let likeCounter = heart.closest('.post__like-block')
                                .getElementsByClassName('post__like-counter')[0];
@@ -46,11 +45,9 @@
         let comment = form.querySelector('textarea').value;
         let postId = form.closest('.post__container').dataset.postId;
 
-
-
         return new Promise((resolve, reject) => {
             if (comment.trim() === '') {
-                alert('Commet should not be empty');
+                alert('Comment should not be empty');
                 reject();
             }
 
@@ -80,8 +77,20 @@
     function deleteComment(event) {
         event.preventDefault();
 
-        let deleteButton = event.target;
-        let commentId = deleteButton
+        let dataUrl = '/ribbon/delete-comment';
+
+        let deleteButton    = event.target;
+        let comment         = deleteButton.closest('.comment__container');
+        let commentId       = comment.dataset.commentId;
+
+        performRequest(dataUrl, { commentId }, false)
+            .then(
+                response => {
+                    if (response) {
+                        comment.parentElement.removeChild(comment);
+                    }
+                }
+            );
     }
 
     function performRequest(action, data, parseJson = true) {
@@ -121,7 +130,8 @@
     return {
         toggleLike,
         toggleCommentEditor,
-        createComment
+        createComment,
+        deleteComment
     }
 }());
 

@@ -35,4 +35,18 @@ class Comment extends DataBaseModel
 
         return $this->db->executeQuery($query);
     }
+
+    public function getCommentOwnerId(int $commentId): ?int
+    {
+        return $this->getValue('user_id', [
+            'comment_id' => $commentId,
+        ]);
+    }
+
+    public function deleteComment(int $commentId): bool
+    {
+        return $this->db->delete([
+            'comment_id' => $commentId,
+        ]);
+    }
 }
