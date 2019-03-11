@@ -8,11 +8,19 @@ use app\models\Client;
 
 class Auth
 {
+    /** @var string  */
     private $username;
+
+    /** @var int */
     private $userId;
+
+    /** @var string */
     private $token;
 
+    /** @var string */
     private $usernameClient;
+
+    /** @var string  */
     private $tokenClient;
 
     public function __construct()
@@ -58,7 +66,8 @@ class Auth
         return $this->username;
     }
 
-    public function getUserId() {
+    public function getUserId()
+    {
         return $this->userId;
     }
 
@@ -74,7 +83,9 @@ class Auth
     public function fetchToken(): void
     {
         if (!$this->token) {
-            $this->token = (new AuthToken())->getValue('token', ['user_id' => $this->userId]);
+            $this->token = (new AuthToken())->getValue('token', [
+                'user_id' => $this->userId
+            ]);
         }
     }
 
@@ -83,7 +94,9 @@ class Auth
      */
     public function fetchUserId(string $username): void
     {
-        $this->userId = (new Client())->getValue('user_id', ['username' => $username]);
+        $this->userId = (new Client())->getValue('user_id', [
+            'username' => $username
+        ]);
     }
 
     /**

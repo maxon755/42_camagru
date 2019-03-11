@@ -24,7 +24,7 @@ class Comment extends DataBaseModel
 
         $query = "SELECT
             comment_id,
-            cl.username AS username,
+            cl.username AS user,
             to_char(creation_date, 'DD MonthYYYY HH:MM am') AS date,
             comment
             FROM comment cm

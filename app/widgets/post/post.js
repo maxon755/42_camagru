@@ -46,12 +46,20 @@
         let comment = form.querySelector('textarea').value;
         let postId = form.closest('.post__container').dataset.postId;
 
+
+
         return new Promise((resolve, reject) => {
+            if (comment.trim() === '') {
+                alert('Commet should not be empty');
+                reject();
+            }
+
             performRequest(action, {
                 postId,
                 comment
             }, false)
                 .then(response => {
+                        closeCommentEditor(submitButton);
                         resolve(response);
                     },
                     error => {
@@ -59,6 +67,21 @@
                     }
                 );
         });
+    }
+
+    function closeCommentEditor(submitButton) {
+        let commentEditor = submitButton.closest('.post__comment-editor');
+        let commentInput = commentEditor.querySelector('textarea');
+
+        commentInput.value = '';
+        commentEditor.style.display = 'none';
+    }
+
+    function deleteComment(event) {
+        event.preventDefault();
+
+        let deleteButton = event.target;
+        let commentId = deleteButton
     }
 
     function performRequest(action, data, parseJson = true) {

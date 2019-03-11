@@ -87,19 +87,17 @@ window.addEventListener('load', () => {
         submitButton.addEventListener('click', event => {
             postModule.createComment(event)
                 .then(response => {
-                    comments.innerHTML = response + comments.innerHTML;
-                });
+                        comments.innerHTML = response + comments.innerHTML;
+                    },
+                    error => {}
+                );
         });
 
         ribbon.appendChild(post);
     }
 
     window.onscroll = function() {
-        if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
-            atBottom = true;
-        }  else {
-            atBottom = false;
-        }
+        atBottom = (window.innerHeight + window.scrollY) >= document.body.offsetHeight;
 
         if (atBottom && !xhrOpened) {
             atBottom = false;

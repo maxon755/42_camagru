@@ -15,8 +15,10 @@ class Comment extends Widget implements WidgetInterface
     /** @var array */
     private $commentId;
 
+    private $userId;
+
     /** @var string */
-    private $username;
+    private $user;
 
     /** @var string */
     private $date;

@@ -5,9 +5,16 @@ namespace app\base;
 
 class Application
 {
+    /** @var array */
     protected static $config;
+
+    /** @var string */
     protected static $appName;
+
+    /** @var string */
     protected static $mode;
+
+    /** @var array */
     protected static $viewComponents;
 
     /* @var \app\base\Auth $auth */
@@ -30,7 +37,6 @@ class Application
      */
     public function getShortClassName($class = null): string
     {
-
         return (new \ReflectionClass($class ?? $this))->getShortName();
     }
 }
