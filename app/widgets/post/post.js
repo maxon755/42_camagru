@@ -18,38 +18,7 @@
                 }
                 likeCounter.innerText = response.likeCount;
             })
-            .catch((response) => {
-                console.log(response)
-            })
-    }
-
-    function performRequest(action, data) {
-        return new Promise((resolve, reject) => {
-            let xhr         = new XMLHttpRequest();
-            let formData    = new FormData();
-
-            for (let key in data) {
-                if (data.hasOwnProperty(key)) {
-                    formData.append(key, data[key]);
-                }
-            }
-            xhr.open('post', action);
-            xhr.send(formData);
-
-            xhr.onload = function() {
-                try {
-                    var json = JSON.parse(this.response);
-                }
-                catch(e) {
-                    reject(this.response);
-                }
-                resolve(json);
-            };
-
-            xhr.onerror = function () {
-                reject(this.response);
-            }
-        });
+            .catch((response) => {})
     }
 
     function toggleCommentEditor(event)
@@ -77,16 +46,53 @@
         let comment = form.querySelector('textarea').value;
         let postId = form.closest('.post__container').dataset.postId;
 
-        performRequest(action, {
-            postId,
-            comment
-        })
-            .then(response => {
-                console.log(response);
-            })
-            .catch(response => {
-                console.log(response);
-            });
+        return new Promise((resolve, reject) => {
+            performRequest(action, {
+                postId,
+                comment
+            }, false)
+                .then(response => {
+                        resolve(response);
+                    },
+                    error => {
+                        reject(error);
+                    }
+                );
+        });
+    }
+
+    function performRequest(action, data, parseJson = true) {
+        return new Promise((resolve, reject) => {
+            let xhr         = new XMLHttpRequest();
+            let formData    = new FormData();
+
+            for (let key in data) {
+                if (data.hasOwnProperty(key)) {
+                    formData.append(key, data[key]);
+                }
+            }
+            xhr.open('post', action);
+            xhr.send(formData);
+
+            xhr.onload = function() {
+                if (parseJson) {
+                    try {
+                        var json = JSON.parse(this.response);
+                    }
+                    catch(e) {
+                        reject(this.response);
+                    }
+                    resolve(json);
+                } else {
+                    resolve(this.response);
+                }
+
+            };
+
+            xhr.onerror = function () {
+                reject(this.response);
+            }
+        });
     }
 
     return {

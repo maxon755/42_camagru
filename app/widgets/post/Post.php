@@ -36,6 +36,9 @@ class Post extends Widget implements WidgetInterface
     /** @var string */
     private $imagePath;
 
+    /** @var array */
+    private $comments;
+
     public function __construct(array $postData, bool $async = false)
     {
         parent::__construct($postData, $async);

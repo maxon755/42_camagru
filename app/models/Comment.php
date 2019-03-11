@@ -20,16 +20,19 @@ class Comment extends DataBaseModel
 
     public function getComments(array $whereData)
     {
+        $whereString = $this->prepareWhereData($whereData);
+
         $query = "SELECT
             comment_id,
-            cl.username as username,
-            creation_date,
+            cl.username AS username,
+            to_char(creation_date, 'DD MonthYYYY HH:MM am') AS date,
             comment
             FROM comment cm
             JOIN client  cl ON cl.user_id = cm.user_id
+            WHERE $whereString
+            ORDER BY creation_date DESC
         ";
 
-        $query .= ' WHERE ' . $this->prepareWhereData($whereData);
         return $this->db->executeQuery($query);
     }
 }

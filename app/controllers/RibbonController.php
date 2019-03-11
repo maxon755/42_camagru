@@ -6,6 +6,7 @@ use app\base\Controller;
 use app\models\Comment;
 use app\models\Post;
 use app\models\PostLike;
+use app\widgets\post\comment\Comment as CommentWidget;
 use app\widgets\post\Post as PostWidget;
 
 
@@ -14,12 +15,15 @@ class RibbonController extends Controller
     /** @var Post  */
     private $postModel;
 
+    private $commentModel;
+
     /** @var int */
     private $userId;
 
     public function __construct()
     {
         $this->postModel = new Post();
+        $this->commentModel = new Comment();
         $this->userId = self::$auth->getUserId();
     }
 
@@ -36,6 +40,9 @@ class RibbonController extends Controller
         $postsData = $this->postModel->getPosts($this->userId, $offset, $limit);
 
         foreach ($postsData as $postData) {
+            $postData['comments'] = $this->commentModel->getComments([
+                'post_id' => $postData['post_id']
+            ]);
             (new PostWidget($postData, true))->render();
         }
     }
@@ -61,12 +68,13 @@ class RibbonController extends Controller
         if (!isset($_POST['postId']) || !isset($_POST['comment']) || !$_POST['comment']) {
             return;
         }
-        $commentModel = new Comment();
 
         $postId = $_POST['postId'];
         $comment = $_POST['comment'];
 
-        $commentId = $commentModel->addComment($postId, $this->userId, $comment);
-        $comment = $commentModel->getComments(['comment_id' => $commentId]);
+        $commentId = $this->commentModel->addComment($postId, $this->userId, $comment);
+        $commentData = $this->commentModel->getComments(['comment_id' => $commentId])[0];
+
+        (new CommentWidget($commentData, true))->render();
     }
 }

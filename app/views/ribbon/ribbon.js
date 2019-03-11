@@ -82,8 +82,13 @@ window.addEventListener('load', () => {
         });
 
         let submitButton = post.querySelector('input[type="submit"]');
+        let comments = post.querySelector(".post__comments-container");
+
         submitButton.addEventListener('click', event => {
-            postModule.createComment(event);
+            postModule.createComment(event)
+                .then(response => {
+                    comments.innerHTML = response + comments.innerHTML;
+                });
         });
 
         ribbon.appendChild(post);

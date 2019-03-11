@@ -6,6 +6,7 @@ use app\components\CaseTranslator;
 use app\components\Escape;
 use app\widgets\inputForm\components\textArea\TextArea;
 use app\widgets\inputForm\InputForm;
+use app\widgets\post\comment\Comment;
 
 if (!$this->isAsync()) {
     $this->view->registerCssFile('/widgets/post/post.css', true);
@@ -63,5 +64,9 @@ $form = new InputForm([
 
     <?php $form->render() ?>
 
-
+</div>
+<div class="<?= $name . '__comments-container' ?>">
+    <?php foreach ($this->comments as $commentData) {
+        (new Comment($commentData, $this->isAsync()))->render();
+    } ?>
 </div>
