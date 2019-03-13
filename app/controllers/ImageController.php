@@ -42,8 +42,13 @@ class ImageController extends Controller
 
         $fullPath = $path . DS . $imageName;
 
-        echo $this->postModel->insertImageData($this->userId, $imageName, $imageNumber) &&
-        file_put_contents($fullPath, $image);
+        $result = $this->postModel->insertImageData(
+                $this->userId,
+                $imageName,
+                $imageNumber
+            ) && file_put_contents($fullPath, $image);
+
+        echo json_encode(['result' => $result]);
     }
 
     /**

@@ -131,17 +131,14 @@ window.addEventListener('load', function() {
 
         img.onload = function () {
             sendPhotoToServer(img)
-                .then(response => {
-                    if (response) {
+                .then(
+                    () => {
                         addImageToContainer(img);
-                        alert('Image succefully uploaded');
-                    } else {
+                        alert('Image successfully uploaded');
+                },
+                    () => {
                         handleFailedUploading();
-                    }
                 })
-                .catch(() => {
-                    handleFailedUploading();
-                });
         };
     }
 
@@ -161,15 +158,21 @@ window.addEventListener('load', function() {
 
     function sendPhotoToServer(img) {
         return new Promise((resolve, reject) => {
-            var formData    = new FormData();
-            var xhr         = new XMLHttpRequest();
+            let formData    = new FormData();
+            let xhr         = new XMLHttpRequest();
 
             formData.append('image', img.src);
             xhr.open('post', '/image/save');
             xhr.send(formData);
 
             xhr.onload = function () {
-                resolve(xhr.response);
+                let response;
+                try {
+                    response = JSON.parse(xhr.response)
+                } catch (e) {
+                    reject();
+                }
+                response.result ? resolve() : reject();
             };
             xhr.onerror = function () {
                 reject();
