@@ -3,6 +3,7 @@
 namespace app\controllers;
 
 use app\base\Controller;
+use app\base\Widget;
 use app\models\Comment;
 use app\models\Post;
 use app\models\PostLike;
@@ -69,20 +70,26 @@ class RibbonController extends Controller
         $postId = $_POST['postId'];
         $comment = $_POST['comment'];
 
-        if (!$_POST['postId'] || !$_POST['comment']) {
+        if (!$postId || !is_numeric($postId) || !$comment) {
             return;
         }
 
         $commentId = $this->commentModel->addComment($postId, $this->userId, $comment);
         $commentData = $this->commentModel->getComments(['comment_id' => $commentId])[0];
 
-        (new CommentWidget($commentData, true))->render();
+        echo json_encode([
+            'commentId'     => $commentData['comment_id'],
+            'shouldNotify'  => $commentData['comment_notify'],
+            'comment'       => Widget::getContent(
+                (new CommentWidget($commentData, true))
+            )
+        ]);
     }
 
     public function actionDeleteComment(): void
     {
         $commentId = $_POST['commentId'];
-        if (!$commentId) {
+        if (!$commentId || !is_numeric($commentId)) {
             return;
         }
         $currentUserId = self::$auth->getUserId();
@@ -92,5 +99,15 @@ class RibbonController extends Controller
         }
 
         echo $this->commentModel->deleteComment($commentId);
+    }
+
+    public function actionCommentNotify()
+    {
+        $commentId = $_POST['commentId'];
+
+        if (!$commentId || !is_numeric($commentId)) {
+            return;
+        }
+
     }
 }

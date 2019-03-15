@@ -43,7 +43,7 @@
         let form = submitButton.closest('form');
         let action = form.action;
         let comment = form.querySelector('textarea').value;
-        let postId = form.closest('.post__container').dataset.postId;
+        let postId = parseInt(form.closest('.post__container').dataset.postId);
 
         return new Promise((resolve, reject) => {
             if (comment.trim() === '') {
@@ -51,10 +51,7 @@
                 reject();
             }
 
-            performRequest(action, {
-                postId,
-                comment
-            }, false)
+            performRequest(action, { postId, comment })
                 .then(response => {
                         closeCommentEditor(submitButton);
                         resolve(response);
@@ -91,6 +88,11 @@
                     }
                 }
             );
+    }
+
+    function commentNotify(commentId)
+    {
+        performRequest('/ribbon/commentNotify', commentId);
     }
 
     function performRequest(action, data, parseJson = true) {
@@ -131,7 +133,8 @@
         toggleLike,
         toggleCommentEditor,
         createComment,
-        deleteComment
+        deleteComment,
+        commentNotify
     }
 }());
 

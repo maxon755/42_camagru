@@ -30,9 +30,9 @@ class Post extends DataBaseModel
      */
     public function getMaxImageNumber(int $userId): int
     {
-        $res = $this->db->executeQuery('select max(number) from post where user_id = :userId', [
-            'userId' => $userId
-        ], true);
+        $res = $this->db->select('select max(number) from post', [
+            'user_id' => $userId,
+        ]);
 
         return $res[0]['max'] ?? 0;
     }
@@ -58,16 +58,10 @@ class Post extends DataBaseModel
         JOIN client AS c ON c.user_id = p.user_id
         LEFT JOIN post_like AS l ON l.post_id = p.post_id
         LEFT JOIN post_like AS ul ON ul.post_id = p.post_id AND ul.client_id = $currentUserId
-        GROUP BY p.post_id, c.user_id
-        ORDER BY p.creation_date DESC";
+        GROUP BY p.post_id, c.user_id";
 
-        if ($offset) {
-            $query = $query . ' ' . "OFFSET $offset";
-        }
-        if ($limit) {
-            $query = $query . ' ' . "LIMIT $limit";
-        }
-
-        return $this->db->executeQuery($query);
+        return $this->db->select($query, [], [
+            'p.creation_date' => 'DESC',
+        ], $offset, $limit);
     }
 }

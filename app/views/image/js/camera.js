@@ -50,7 +50,7 @@ window.addEventListener('load', function() {
         context.font = "30px Arial";
         context.fillStyle = "red";
         context.textAlign = "center";
-        context.fillText(errorText, canvas.width/2, canvas.height/2);
+        context.fillText(errorText, canvas.width / 2, canvas.height / 2);
     }
 
     function streamWebCam(stream) {

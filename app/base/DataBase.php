@@ -99,6 +99,35 @@ class DataBase extends Application
         return $this->executeQuery($query, $data);
     }
 
+    public function select(
+        string $sql,
+        array $where = [],
+        array $orderBy = [],
+        int $offset = null,
+        int $limit = null
+    ): array {
+        if (!empty($where)) {
+            $where = CaseTranslator::keysTo('snake', $where);
+            $whereString = ' WHERE ' . $this->prepareWhereData($where);
+            $sql .= $whereString;
+        }
+
+        if (!empty($orderBy)) {
+            $orderBy = CaseTranslator::keysTo('snake', $orderBy);
+            $orderByString = ' ORDER BY ' . $this->prepareOrderByData($orderBy);
+            $sql .= $orderByString;
+        }
+
+        if ($offset) {
+            $sql = $sql . ' ' . "OFFSET $offset";
+        }
+        if ($limit) {
+            $sql = $sql . ' ' . "LIMIT $limit";
+        }
+
+        return $this->executeQuery($sql, $where);
+    }
+
     /**
      * @param array $data
      * @param string|null $operator
@@ -111,6 +140,31 @@ class DataBase extends Application
         $res = '';
         foreach (array_keys($data) as $key) {
             $res .= $key . ' = :'. $key;
+            if ($shouldSeparate--) {
+                $res .= ' ' . $operator . ' ';
+            }
+        }
+
+        return $res;
+    }
+
+    /**
+     * @param array $data
+     *
+     * $data = [
+     *      'column1' => 'DESC',
+     *      'column2' => 'ASC',
+     * ]
+     *
+     * @return string
+     */
+    public function prepareOrderByData(array $data): string
+    {
+        $shouldSeparate = count($data) - 1;
+        $operator = ',';
+        $res = '';
+        foreach ($data as $key => $value) {
+            $res .= $key . ' ' . $value;
             if ($shouldSeparate--) {
                 $res .= ' ' . $operator . ' ';
             }

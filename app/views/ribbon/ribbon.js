@@ -87,14 +87,24 @@ window.addEventListener('load', () => {
         submitButton.addEventListener('click', event => {
             postModule.createComment(event)
                 .then(response => {
-                        let commentContainer = document.createElement('div');
-                        commentContainer.innerHTML = response;
-                        let deleteButtons = commentContainer.querySelectorAll('.comment-delete');
+                        let comment = document.createElement('div');
+                        comment.innerHTML = response.comment;
+                        let deleteButtons = comment.querySelectorAll('.comment-delete');
                         addCommentsDeletionHandler(deleteButtons);
-                        comments.insertBefore(commentContainer, comments.firstChild);
+                        comments.insertBefore(comment, comments.firstChild);
+
+                        return {
+                            commentId :response.commentId,
+                            shouldNotify: response.shouldNotify
+                        };
                     },
                     error => {}
-                );
+                )
+                .then(commentData => {
+                    if (commentData && commentData.shouldNotify) {
+                        postModule.commentNotify(commentData);
+                    }
+                });
         });
 
         let deleteButtons = post.querySelectorAll('.comment-delete');

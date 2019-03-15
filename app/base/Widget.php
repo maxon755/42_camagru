@@ -3,7 +3,7 @@
 namespace app\base;
 
 
-use app\widgets\WidgetNameGetterTrait;
+use app\widgets\WidgetInterface;
 
 class Widget extends Application
 {
@@ -43,10 +43,23 @@ class Widget extends Application
         return $this->widgetName;
     }
 
-    public function isAsync()
+    /**
+     * @return bool
+     */
+    public function isAsync(): bool
     {
         return $this->async;
     }
 
+    /**
+     * @param WidgetInterface $widget
+     * @return string
+     */
+    public static function getContent(WidgetInterface $widget): string
+    {
+        ob_start();
+        $widget->render();
 
+        return ob_get_clean();
+    }
 }

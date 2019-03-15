@@ -19,6 +19,8 @@ $db->executeQuery('CREATE TABLE IF NOT EXISTS client (
     first_name      VARCHAR(32),
     last_name       VARCHAR(32),
     is_active       BOOLEAN DEFAULT FALSE,
+    like_notify     BOOLEAN DEFAULT TRUE,
+    comment_notify  BOOLEAN DEFAULT TRUE,
     activation_code VARCHAR(16),
     activation_date TIMESTAMP DEFAULT NOW()
   );'
