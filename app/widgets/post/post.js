@@ -9,15 +9,18 @@
         let postId = heart.closest('.post__container').dataset.postId;
 
         performRequest(dataUrl, { postId })
+            .then(response => JSON.parse(response))
             .then(response => {
-                if (response.likeAdded) {
+                if (response.success) {
                     heart.classList.add('liked');
                 } else {
                     heart.classList.remove('liked');
                 }
                 likeCounter.innerText = response.likeCount;
             })
-            .catch((response) => {})
+            .catch((error) => {
+                alert(error.message);
+            })
     }
 
     function toggleCommentEditor(event)
@@ -52,14 +55,15 @@
             }
 
             performRequest(action, { postId, comment })
+                .then(response => JSON.parse(response))
                 .then(response => {
                         closeCommentEditor(submitButton);
                         resolve(response);
-                    },
-                    error => {
-                        reject(error);
                     }
-                );
+                )
+                .catch(error => {
+                    reject(error);
+                });
         });
     }
 
@@ -80,12 +84,16 @@
         let comment         = deleteButton.closest('.comment__container');
         let commentId       = comment.dataset.commentId;
 
-        performRequest(dataUrl, { commentId }, false)
-            .then(
-                response => {
-                    if (response) {
+        performRequest(dataUrl, { commentId })
+            .then(response => JSON.parse(response))
+            .then(response => {
+                    if (response.success) {
                         comment.parentElement.removeChild(comment);
                     }
+                }
+            )
+            .catch(error => {
+                    alert(error.message);
                 }
             );
     }
@@ -95,7 +103,7 @@
         performRequest('/ribbon/commentNotify', commentId);
     }
 
-    function performRequest(action, data, parseJson = true) {
+    function performRequest(action, data) {
         return new Promise((resolve, reject) => {
             let xhr         = new XMLHttpRequest();
             let formData    = new FormData();
@@ -109,22 +117,11 @@
             xhr.send(formData);
 
             xhr.onload = function() {
-                if (parseJson) {
-                    try {
-                        var json = JSON.parse(this.response);
-                    }
-                    catch(e) {
-                        reject(this.response);
-                    }
-                    resolve(json);
-                } else {
-                    resolve(this.response);
-                }
-
+                resolve(this.response);
             };
 
             xhr.onerror = function () {
-                reject(this.response);
+                reject(new Error("Network Error"));
             }
         });
     }

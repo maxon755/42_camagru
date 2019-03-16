@@ -53,7 +53,7 @@ $db->executeQuery('CREATE TABLE IF NOT EXISTS auth_token (
 
 $db->executeQuery('CREATE TABLE IF NOT EXISTS post (
     post_id         SERIAL PRIMARY KEY,
-    user_id         INTEGER NOT NULL REFERENCES client(user_id),
+    user_id         INTEGER NOT NULL REFERENCES client(user_id) ON DELETE CASCADE,
     image_name      VARCHAR(32) NOT NULL,
     number          INTEGER NOT NULL,
     is_deleted      BOOLEAN DEFAULT FALSE,
@@ -82,14 +82,14 @@ $db->insertIfNotExists([
 ]);
 
 $db->executeQuery('CREATE TABLE IF NOT EXISTS post_like (
-    post_id INTEGER REFERENCES post(post_id),
+    post_id INTEGER REFERENCES post(post_id) ON DELETE CASCADE,
     client_id INTEGER REFERENCES client(user_id),
     PRIMARY KEY (post_id, client_id)
 )');
 
 $db->executeQuery('CREATE TABLE IF NOT EXISTS comment (
     comment_id    SERIAL PRIMARY KEY,
-    post_id       INTEGER NOT NULL REFERENCES post(post_id),
+    post_id       INTEGER NOT NULL REFERENCES post(post_id) ON DELETE CASCADE,
     user_id       INTEGER NOT NULL REFERENCES client(user_id),
     creation_date TIMESTAMP NOT NULL DEFAULT NOW(),
     comment       text NOT NULL

@@ -39,6 +39,11 @@ class RibbonController extends Controller
         $offset = $_POST['offset'];
         $limit  = $_POST['limit'];
 
+        if (!isset($offset) || !is_numeric($offset) ||
+            !isset($limit)  || !is_numeric($limit)) {
+            return;
+        }
+
         $postsData = $this->postModel->getPosts($this->userId, $offset, $limit);
 
         foreach ($postsData as $postData) {
@@ -49,20 +54,23 @@ class RibbonController extends Controller
         }
     }
 
+    public function deletePost(): void
+    {
+
+    }
+
     public function actionToggleLike(): void
     {
-        if (!$this->userId) {
-            return;
-        }
-        $likeModel = new PostLike();
         $postId = $_POST['postId'];
 
-        $response = [
-            'likeAdded' => $likeModel->toggleLike($postId, $this->userId),
-            'likeCount' => $likeModel->countLikes($postId),
-        ];
+        if (!$this->userId || !isset($postId) || !is_numeric($postId)) {
+            echo $this->jsonResponse(false);
+        }
+        $likeModel = new PostLike();
 
-        echo json_encode($response);
+        echo $this->jsonResponse($likeModel->toggleLike($postId, $this->userId), [
+            'likeCount' => $likeModel->countLikes($postId),
+        ]);
     }
 
     public function actionCreateComment(): void
@@ -70,14 +78,14 @@ class RibbonController extends Controller
         $postId = $_POST['postId'];
         $comment = $_POST['comment'];
 
-        if (!$postId || !is_numeric($postId) || !$comment) {
-            return;
+        if (!isset($postId) || !is_numeric($postId) || !isset($comment)) {
+            echo $this->jsonResponse(false);
         }
 
         $commentId = $this->commentModel->addComment($postId, $this->userId, $comment);
         $commentData = $this->commentModel->getComments(['comment_id' => $commentId])[0];
 
-        echo json_encode([
+        echo $this->jsonResponse($commentId, [
             'commentId'     => $commentData['comment_id'],
             'shouldNotify'  => $commentData['comment_notify'],
             'comment'       => Widget::getContent(
@@ -89,23 +97,25 @@ class RibbonController extends Controller
     public function actionDeleteComment(): void
     {
         $commentId = $_POST['commentId'];
-        if (!$commentId || !is_numeric($commentId)) {
-            return;
+
+        if (!isset($commentId) || !is_numeric($commentId)) {
+            echo $this->jsonResponse(false);
         }
+
         $currentUserId = self::$auth->getUserId();
         $postOwnerId = $this->commentModel->getCommentOwnerId($commentId);
         if ($currentUserId !== $postOwnerId) {
-            return;
+            echo $this->jsonResponse(false);
         }
 
-        echo $this->commentModel->deleteComment($commentId);
+        echo $this->jsonResponse($this->commentModel->deleteComment($commentId));
     }
 
     public function actionCommentNotify()
     {
         $commentId = $_POST['commentId'];
 
-        if (!$commentId || !is_numeric($commentId)) {
+        if (!isset($commentId) || !is_numeric($commentId)) {
             return;
         }
 
