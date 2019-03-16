@@ -17,6 +17,10 @@ window.addEventListener('load', () => {
        getPosts(offset, 1)
            .then(response => JSON.parse(response))
            .then(response => {
+               if (!response.success) {
+                   noPosts = true;
+                   return;
+               }
                xhrOpened = false;
                offset += 1;
                postModule.renderPosts(ribbon, response);

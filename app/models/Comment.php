@@ -22,7 +22,7 @@ class Comment extends DataBaseModel
      * @param array $whereData
      * @return array
      */
-    public function getComments(array $whereData): array
+    public function getComments(array $where): array
     {
         $query = "SELECT
             comment_id,
@@ -34,7 +34,7 @@ class Comment extends DataBaseModel
             JOIN client  cl ON cl.user_id = cm.user_id
         ";
 
-        return $this->db->select($query, $whereData, [
+        return $this->db->select($query, $where, [], [
             'creation_date' => 'DESC',
         ]);
     }

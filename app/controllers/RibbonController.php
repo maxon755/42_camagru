@@ -18,8 +18,6 @@ class RibbonController extends Controller
 
     public function __construct()
     {
-        $this->postModel = new Post();
-        $this->commentModel = new Comment();
         $this->userId = self::$auth->getUserId();
     }
 
@@ -38,12 +36,16 @@ class RibbonController extends Controller
             return;
         }
 
-        $postsData = $this->postModel->getPosts($this->userId, $offset, $limit);
+        $postModel = new Post();
+        $postsData = $postModel->getPosts($this->userId, [
+            'is_deleted' => 'false',
+        ], $offset, $limit);
 
+        $commentModel = new Comment();
         $posts = [];
         foreach ($postsData as $postData) {
             $postId = $postData['post_id'];
-            $postData['comments'] = $this->commentModel->getComments([
+            $postData['comments'] = $commentModel->getComments([
                 'post_id' => $postId
             ]);
             $post['postId'] = $postId;

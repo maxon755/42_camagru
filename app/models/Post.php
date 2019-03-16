@@ -49,15 +49,30 @@ class Post extends DataBaseModel
     }
 
     /**
+     * @param int $postId
+     * @return string
+     */
+    public function getPostImagePath(int $postId): string
+    {
+        $res = $this->db->selectAllWhere([
+            'post_id' => $postId,
+        ])[0];
+
+        $imagePath = ROOT . $this->getImagePath() . $res['user_id'] . DS . $res['image_name'];
+
+        return $imagePath;
+    }
+
+    /**
      * @param int|null $currentUserId
      * @param int|null $offset
      * @param int|null $limit
      * @return array
      */
-    public function getPosts(?int $currentUserId, int $offset = null, int $limit = null): array
+    public function getPosts(?int $currentUserId, array $where = [], int $offset = null, int $limit = null): array
     {
         $currentUserId = $currentUserId ?? 'null';
-        $imagePath = DS . self::$config['storage'] . DS . self::$config['imagesFolder'] . DS;
+        $imagePath = $this->getImagePath();
 
         $query = "SELECT
             p.post_id,
@@ -71,10 +86,12 @@ class Post extends DataBaseModel
         FROM post AS p
         JOIN client AS c ON c.user_id = p.user_id
         LEFT JOIN post_like AS l ON l.post_id = p.post_id
-        LEFT JOIN post_like AS ul ON ul.post_id = p.post_id AND ul.client_id = $currentUserId
-        GROUP BY p.post_id, c.user_id";
+        LEFT JOIN post_like AS ul ON ul.post_id = p.post_id AND ul.client_id = $currentUserId";
 
-        return $this->db->select($query, [], [
+        return $this->db->select($query, $where, [
+            'p.post_id',
+            'c.user_id'
+        ], [
             'p.creation_date' => 'DESC',
         ], $offset, $limit);
     }
@@ -85,8 +102,15 @@ class Post extends DataBaseModel
      */
     public function deletePost(int $postId): bool
     {
-        return $this->db->delete([
+        return $this->db->update([
+            'is_deleted' => true,
+        ], [
             'post_id' => $postId,
         ]);
+    }
+
+    private function getImagePath()
+    {
+        return DS . self::$config['storage'] . DS . self::$config['imagesFolder'] . DS;
     }
 }

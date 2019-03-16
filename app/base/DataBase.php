@@ -102,19 +102,25 @@ class DataBase extends Application
     public function select(
         string $sql,
         array $where = [],
+        array $groupBy = [],
         array $orderBy = [],
         int $offset = null,
         int $limit = null
     ): array {
         if (!empty($where)) {
             $where = CaseTranslator::keysTo('snake', $where);
-            $whereString = ' WHERE ' . $this->prepareWhereData($where);
+            $whereString = "\nWHERE " . $this->prepareWhereData($where);
             $sql .= $whereString;
+        }
+
+        if (!empty($groupBy)) {
+            $groupByString = "\nGROUP BY " . implode(', ', $groupBy);
+            $sql .= $groupByString;
         }
 
         if (!empty($orderBy)) {
             $orderBy = CaseTranslator::keysTo('snake', $orderBy);
-            $orderByString = ' ORDER BY ' . $this->prepareOrderByData($orderBy);
+            $orderByString = "\nORDER BY " . $this->prepareOrderByData($orderBy);
             $sql .= $orderByString;
         }
 
