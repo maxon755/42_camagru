@@ -4,6 +4,7 @@ namespace app\base;
 
 
 use app\widgets\WidgetInterface;
+use Exception;
 
 class Widget extends Application
 {
@@ -59,6 +60,21 @@ class Widget extends Application
     {
         ob_start();
         $widget->render();
+
+        return ob_get_clean();
+    }
+
+    /**
+     * @param array[WidgetInterface] $widgets
+     * @return string
+     * @throws Exception
+     */
+    public static function getContentArray(array $widgets): string
+    {
+        ob_start();
+        foreach ($widgets as $widget) {
+            $widget->render();
+        }
 
         return ob_get_clean();
     }

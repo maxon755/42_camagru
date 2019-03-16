@@ -46,12 +46,21 @@ class RibbonController extends Controller
 
         $postsData = $this->postModel->getPosts($this->userId, $offset, $limit);
 
+        $posts = [];
         foreach ($postsData as $postData) {
+            $postId = $postData['post_id'];
             $postData['comments'] = $this->commentModel->getComments([
-                'post_id' => $postData['post_id']
+                'post_id' => $postId
             ]);
-            (new PostWidget($postData, true))->render();
+            $post['postId'] = $postId;
+            $post['post'] = Widget::getContent(
+                new PostWidget($postData, true)
+            );
+
+            $posts[] = $post;
         }
+
+        echo $this->jsonResponse(!empty($posts), [ 'posts' => $posts ]);
     }
 
     public function deletePost(): void
@@ -89,7 +98,7 @@ class RibbonController extends Controller
             'commentId'     => $commentData['comment_id'],
             'shouldNotify'  => $commentData['comment_notify'],
             'comment'       => Widget::getContent(
-                (new CommentWidget($commentData, true))
+                new CommentWidget($commentData, true)
             )
         ]);
     }
