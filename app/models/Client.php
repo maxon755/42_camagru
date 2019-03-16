@@ -72,4 +72,15 @@ class Client extends DataBaseModel implements AvailabilityChecker, CredentialsCh
         }
         return password_verify($data['password'], $row[0]['password']);
     }
+
+    /**
+     * @param int $userId
+     * @return array
+     */
+    public function getUserData(int $userId): array
+    {
+        return $this->db->selectAllWhere([
+            'user_id' => $userId,
+        ])[0];
+    }
 }

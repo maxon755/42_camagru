@@ -3,13 +3,13 @@
 namespace app\widgets\inputForm\components\inputField;
 
 
-use app\base\Widget;
 use app\components\CaseTranslator;
+use app\widgets\inputForm\components\Input;
 use app\widgets\WidgetFillPropertiesTrait;
 use app\widgets\WidgetInterface;
 use app\widgets\WidgetNameGetterTrait;
 
-class InputField extends Widget implements WidgetInterface
+class InputField extends Input implements WidgetInterface
 {
     use WidgetNameGetterTrait;
     use WidgetFillPropertiesTrait;
@@ -21,13 +21,10 @@ class InputField extends Widget implements WidgetInterface
     private $type;
 
     /** @var bool  */
-    private $required = false;
-
-    /** @var string  */
-    private $value;
+    private $required;
 
     /** @var bool  */
-    private $unique = false;
+    private $unique;
 
     /** @var null|string  */
     private $auxValue;
@@ -85,22 +82,6 @@ class InputField extends Widget implements WidgetInterface
     public function isRequired(): bool
     {
         return $this->required;
-    }
-
-    /**
-     * @return string
-     */
-    public function getValue(): string
-    {
-        return $this->value;
-    }
-
-    /**
-     * @param $value
-     */
-    public function setValue($value): void
-    {
-        $this->value = $value;
     }
 
     /**

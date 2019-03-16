@@ -3,12 +3,12 @@
 namespace app\widgets\inputForm\components\textArea;
 
 
-use app\base\Widget;
+use app\widgets\inputForm\components\Input;
 use app\widgets\WidgetFillPropertiesTrait;
 use app\widgets\WidgetInterface;
 use app\widgets\WidgetNameGetterTrait;
 
-class TextArea extends Widget implements WidgetInterface
+class TextArea extends Input implements WidgetInterface
 {
     use WidgetNameGetterTrait;
     use WidgetFillPropertiesTrait;

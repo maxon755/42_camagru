@@ -86,17 +86,17 @@ class DataBase extends Application
     }
 
     /**
-     * @param array $data
+     * @param array $where
      * @param string|null $operator
      * @return array
      */
-    public function selectAllWhere(array $data, string $operator = null): array
+    public function selectAllWhere(array $where, string $operator = null): array
     {
-        $data = CaseTranslator::keysTo('snake', $data);
-        $whereString =  $this->prepareWhereData($data, $operator);
+        $where = CaseTranslator::keysTo('snake', $where);
+        $whereString =  $this->prepareWhereData($where, $operator);
         $query = "SELECT * FROM $this->tableName WHERE ${whereString};";
 
-        return $this->executeQuery($query, $data);
+        return $this->executeQuery($query, $where);
     }
 
     public function select(

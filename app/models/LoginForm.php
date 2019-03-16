@@ -13,24 +13,25 @@ class LoginForm extends InputForm
         parent::__construct([
             'tittle'    => 'Log In',
             'action'    => '/login/confirm',
-        ], [
-            'username'  => new InputField([
-                'name'      => 'username',
-                'type'      => 'text',
-                'required'  => true,
-                'unique'    => true,
-                'checks'    => [
-                    'emptiness',
-                ]
-            ]),
-            'password'  => new InputField([
-                'name'      => 'password',
-                'type'      => 'password',
-                'required'  => true,
-                'checks'    => [
-                    'emptiness',
-                ]
-            ]),
+            'inputs'    => [
+                'username'  => new InputField([
+                    'name'      => 'username',
+                    'type'      => 'text',
+                    'required'  => true,
+                    'unique'    => true,
+                    'checks'    => [
+                        'emptiness',
+                    ]
+                ]),
+                'password'  => new InputField([
+                    'name'      => 'password',
+                    'type'      => 'password',
+                    'required'  => true,
+                    'checks'    => [
+                        'emptiness',
+                    ]
+                ]),
+            ]
         ]);
     }
 

@@ -10,5 +10,6 @@ return array(
     '^sign-up/(.+)$'    => 'SignUp/$1',
     '^image$'           => 'Image/index',
     '^image/(.+)$'      => 'Image/$1',
+    '^settings$'        => 'Settings/index',
     '^empty/(.+)$'      => 'Empty/$1',
 );

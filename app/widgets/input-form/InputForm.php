@@ -4,6 +4,7 @@ namespace app\widgets\inputForm;
 
 use app\base\Widget;
 use app\components\CaseTranslator;
+use app\widgets\WidgetFillPropertiesTrait;
 use app\widgets\WidgetInterface;
 use app\widgets\WidgetNameGetterTrait;
 use app\widgets\inputForm\components\inputField\InputField;
@@ -11,6 +12,7 @@ use app\widgets\inputForm\components\inputField\InputField;
 class InputForm extends Widget implements WidgetInterface
 {
     use WidgetNameGetterTrait;
+    use WidgetFillPropertiesTrait;
 
     /** @var string  */
     private $name;
@@ -22,10 +24,10 @@ class InputForm extends Widget implements WidgetInterface
     private $action;
 
     /** @var string  */
-    private $method;
+    private $method = 'post';
 
     /** @var bool */
-    private $header;
+    private $header = true;
 
     /** @var InputField[] */
     protected $inputs;
@@ -41,16 +43,10 @@ class InputForm extends Widget implements WidgetInterface
      * @param array $inputFields
      * @throws \ReflectionException
      */
-    public function __construct(array $params, array $inputs) {
-        parent::__construct();
+    public function __construct(array $params) {
         $className = CaseTranslator::toKebab($this->getShortClassName());
-
-        $this->name     = $params['name']   ?? $className;
-        $this->tittle   = $params['tittle'] ?? '';
-        $this->action   = $params['action'] ?? '';
-        $this->method   = $params['method'] ?? 'post';
-        $this->header   = $params['header'] ?? true;
-        $this->inputs   = $inputs;
+        $params['name'] =  $params['name'] ?? $className;
+        parent::__construct($params);
     }
 
     /**

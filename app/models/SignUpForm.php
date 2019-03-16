@@ -14,65 +14,66 @@ class SignUpForm extends InputForm
         parent::__construct([
             'tittle' => 'Sign Up',
             'action' => '/sign-up/confirm',
-        ], [
-            'username'  => new InputField([
-                'name'      => 'username',
-                'type'      => 'text',
-                'required'  => true,
-                'unique'    => true,
-                'checks'    => [
-                    'emptiness',
-                    'length',
-                    'word'
-                ]
-            ]),
-            'first-name'=> new InputField([
-                'name'      => 'first-name',
-                'type'      => 'text',
-                'checks'    => [
-                    'length',
-                ]
-            ]),
-            'last-name' => new InputField([
-                'name'      => 'last-name',
-                'type'      => 'text',
-                'checks'    => [
-                    'length',
-                ]
-            ]),
-            'email'     => new InputField([
-                'name'      => 'email',
-                'type'      => 'email',
-                'required'  => true,
-                'unique'    => true,
-                'checks'    => [
-                    'emptiness',
-                    'length',
-                    'email'
-                ]
-            ]),
-            'password'  => new InputField([
-                'name'      => 'password',
-                'type'      => 'password',
-                'required'  => true,
-                'unique'    => true,
-                'checks'    => [
-                    'emptiness',
-                    'length',
-                    'password'
-                ]
-            ]),
-            'repeat-password' => new InputField([
-                'name'      => 'repeat-password',
-                'type'      => 'password',
-                'required'  => true,
-                'auxValue'  => 'password',
-                'checks'    => [
-                    'emptiness',
-                    'length',
-                    'equality'
-                ]
-            ]),
+            'inputs' => [
+                'username'  => new InputField([
+                    'name'      => 'username',
+                    'type'      => 'text',
+                    'required'  => true,
+                    'unique'    => true,
+                    'checks'    => [
+                        'emptiness',
+                        'length',
+                        'word'
+                    ]
+                ]),
+                'first-name'=> new InputField([
+                    'name'      => 'first-name',
+                    'type'      => 'text',
+                    'checks'    => [
+                        'length',
+                    ]
+                ]),
+                'last-name' => new InputField([
+                    'name'      => 'last-name',
+                    'type'      => 'text',
+                    'checks'    => [
+                        'length',
+                    ]
+                ]),
+                'email'     => new InputField([
+                    'name'      => 'email',
+                    'type'      => 'email',
+                    'required'  => true,
+                    'unique'    => true,
+                    'checks'    => [
+                        'emptiness',
+                        'length',
+                        'email'
+                    ]
+                ]),
+                'password'  => new InputField([
+                    'name'      => 'password',
+                    'type'      => 'password',
+                    'required'  => true,
+                    'unique'    => true,
+                    'checks'    => [
+                        'emptiness',
+                        'length',
+                        'password'
+                    ]
+                ]),
+                'repeat-password' => new InputField([
+                    'name'      => 'repeat-password',
+                    'type'      => 'password',
+                    'required'  => true,
+                    'auxValue'  => 'password',
+                    'checks'    => [
+                        'emptiness',
+                        'length',
+                        'equality'
+                    ]
+                ]),
+            ]
         ]);
     }
 
