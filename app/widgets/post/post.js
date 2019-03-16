@@ -55,7 +55,10 @@
         performRequest(dataUrl, { postId })
             .then(response => JSON.parse(response))
             .then(response => {
-                if (response.success) {
+                if (!response.success) {
+                    return;
+                }
+                if (response.liked) {
                     heart.classList.add('liked');
                 } else {
                     heart.classList.remove('liked');
@@ -196,13 +199,16 @@
         submitButton.addEventListener('click', event => {
             createComment(event)
                 .then(response => {
-                        renderComment(comments, response.comment);
+                    if (!response.success) {
+                        return;
+                    }
+                    renderComment(comments, response.comment);
 
-                        return {
-                            commentId    : response.commentId,
-                            shouldNotify : response.shouldNotify
-                        };
-                    },
+                    return {
+                        commentId    : response.commentId,
+                        shouldNotify : response.shouldNotify
+                    };
+                },
                 )
                 .then(commentData => {
                     if (commentData && commentData.shouldNotify) {

@@ -33,6 +33,7 @@ class RibbonController extends Controller
 
         if (!isset($offset) || !is_numeric($offset) ||
             !isset($limit)  || !is_numeric($limit)) {
+            echo $this->jsonResponse(false);
             return;
         }
 
@@ -65,6 +66,7 @@ class RibbonController extends Controller
 
         if (!$this->userId || !isset($postId) || !is_numeric($postId)) {
             echo $this->jsonResponse(false);
+            return;
         }
 
         $postModel = new Post();
@@ -81,12 +83,14 @@ class RibbonController extends Controller
     {
         $postId = $_POST['postId'];
 
-        if (!$this->userId || !isset($postId) || !is_numeric($postId)) {
+        if (!isset($this->userId) || !isset($postId) || !is_numeric($postId)) {
             echo $this->jsonResponse(false);
+            return;
         }
         $likeModel = new PostLike();
 
-        echo $this->jsonResponse($likeModel->toggleLike($postId, $this->userId), [
+        echo $this->jsonResponse(true, [
+            'liked' => $likeModel->toggleLike($postId, $this->userId),
             'likeCount' => $likeModel->countLikes($postId),
         ]);
     }
@@ -96,8 +100,9 @@ class RibbonController extends Controller
         $postId = $_POST['postId'];
         $comment = $_POST['comment'];
 
-        if (!isset($postId) || !is_numeric($postId) || !isset($comment)) {
+        if (!isset($this->userId) || !isset($postId) || !is_numeric($postId) || !isset($comment)) {
             echo $this->jsonResponse(false);
+            return;
         }
 
         $commentModel = new Comment();
@@ -120,6 +125,7 @@ class RibbonController extends Controller
 
         if (!isset($this->userId)|| !isset($commentId) || !is_numeric($commentId)) {
             echo $this->jsonResponse(false);
+            return;
         }
 
         $commentModel = new Comment();
@@ -137,6 +143,7 @@ class RibbonController extends Controller
         $commentId = $_POST['commentId'];
 
         if (!isset($commentId) || !is_numeric($commentId)) {
+            echo $this->jsonResponse(false);
             return;
         }
 
