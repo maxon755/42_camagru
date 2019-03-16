@@ -13,6 +13,7 @@ if (!$this->isAsync()) {
     $this->view->registerJsFile('/widgets/post/post.js', true);
 }
 
+$currentUser = self::$auth->getUserName();
 $name = CaseTranslator::toKebab($this->getWidgetName());
 
 $imagePath = $this->imagePath;
@@ -60,6 +61,12 @@ $form = new InputForm([
         <div class="<?= $name . '__comment' //fa-comment-alt?>">
             <span class="far fa-edit fa-2x comment-icon"></span>
         </div>
+
+        <?php if ($this->username === $currentUser): ?>
+            <div class="<?= $name . '__delete' ?>">
+                <span class="far fa-trash-alt fa-2x post-delete"></span>
+            </div>
+        <?php endif; ?>
     </div>
 
     <?php $form->render() ?>

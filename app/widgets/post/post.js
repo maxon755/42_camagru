@@ -1,6 +1,50 @@
 ;var postModule = (function() {
     'use strict';
 
+    function renderPosts(container, postsData)
+    {
+        for (let i = 0; i < postsData.posts.length; i++) {
+            renderPost(container, postsData.posts[i]);
+        }
+    }
+
+    function renderPost(container, postData)
+    {
+        let post = document.createElement('div');
+        post.innerHTML = postData.post.trim();
+
+        addPostDeletionButtonListener(post);
+        addLikeListener(post);
+        addCommentEditorListener(post);
+        addCommentDeletionButtonsListener(post.querySelectorAll('.comment-delete'));
+        addCommentCreationListener(post);
+
+        container.appendChild(post);
+    }
+
+    function deletePost(event)
+    {
+        let dataUrl = '/ribbon/delete-post';
+
+        let post = event.target.closest('.post__container');
+        let postId = post.dataset.postId;
+
+        let result = confirm('Are you really want to delete this post?');
+        if (!result) {
+            return;
+        }
+        performRequest(dataUrl, { postId })
+            .then(response => JSON.parse(response))
+            .then(response => {
+                if (response.success) {
+                    post.parentElement.removeChild(post);
+                }
+            })
+            .catch(error => {
+                alert(error.message);
+            });
+    }
+
     function toggleLike(event) {
         let dataUrl = '/ribbon/toggle-like';
         let heart = event.target;
@@ -37,6 +81,15 @@
         commentEditor.style.display = editorState !== 'block'
             ? 'block'
             : 'none';
+    }
+
+    function closeCommentEditor(submitButton)
+    {
+        let commentEditor = submitButton.closest('.post__comment-editor');
+        let commentInput = commentEditor.querySelector('textarea');
+
+        commentInput.value = '';
+        commentEditor.style.display = 'none';
     }
 
     function createComment(event) {
@@ -78,15 +131,6 @@
         comments.insertBefore(comment, comments.firstChild);
     }
 
-    function closeCommentEditor(submitButton)
-    {
-        let commentEditor = submitButton.closest('.post__comment-editor');
-        let commentInput = commentEditor.querySelector('textarea');
-
-        commentInput.value = '';
-        commentEditor.style.display = 'none';
-    }
-
     function deleteComment(event)
     {
         event.preventDefault();
@@ -116,17 +160,16 @@
         performRequest('/ribbon/commentNotify', commentId);
     }
 
-    function renderPost(container, postData)
+    function addPostDeletionButtonListener(post)
     {
-        let post = document.createElement('div');
-        post.innerHTML = postData.post.trim();
+        let postDeletionButton = post.querySelector('.post__delete');
 
-        addLikeListener(post);
-        addCommentEditorListener(post);
-        addCommentDeletionButtonsListener(post.querySelectorAll('.comment-delete'));
-        addCommentCreationListener(post);
-
-        container.appendChild(post);
+        if (!postDeletionButton) {
+            return;
+        }
+        postDeletionButton.addEventListener('click', event => {
+            deletePost(event);
+        });
     }
 
     function addLikeListener(post)
@@ -177,13 +220,6 @@
             deleteButtons[i].addEventListener('click', () => {
                 deleteComment(event);
             });
-        }
-    }
-
-    function renderPosts(container, postsData)
-    {
-        for (let i = 0; i < postsData.posts.length; i++) {
-            renderPost(container, postsData.posts[i]);
         }
     }
 

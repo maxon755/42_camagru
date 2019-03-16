@@ -38,6 +38,20 @@ class Post extends DataBaseModel
     }
 
     /**
+     * @param int $postId
+     * @return int
+     */
+    public function getPostOwnerId(int $postId): int
+    {
+        return $this->getValue('user_id', [
+            'post_id' => $postId,
+        ]);
+    }
+
+    /**
+     * @param int|null $currentUserId
+     * @param int|null $offset
+     * @param int|null $limit
      * @return array
      */
     public function getPosts(?int $currentUserId, int $offset = null, int $limit = null): array
@@ -63,5 +77,16 @@ class Post extends DataBaseModel
         return $this->db->select($query, [], [
             'p.creation_date' => 'DESC',
         ], $offset, $limit);
+    }
+
+    /**
+     * @param int $postId
+     * @return bool
+     */
+    public function deletePost(int $postId): bool
+    {
+        return $this->db->delete([
+            'post_id' => $postId,
+        ]);
     }
 }

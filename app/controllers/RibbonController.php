@@ -13,12 +13,6 @@ use app\widgets\post\Post as PostWidget;
 
 class RibbonController extends Controller
 {
-    /** @var Post  */
-    private $postModel;
-
-    /** @var Comment  */
-    private $commentModel;
-
     /** @var int */
     private $userId;
 
@@ -63,9 +57,22 @@ class RibbonController extends Controller
         echo $this->jsonResponse(!empty($posts), [ 'posts' => $posts ]);
     }
 
-    public function deletePost(): void
+    public function actionDeletePost(): void
     {
+        $postId = $_POST['postId'];
 
+        if (!$this->userId || !isset($postId) || !is_numeric($postId)) {
+            echo $this->jsonResponse(false);
+        }
+
+        $postModel = new Post();
+        $postOwnerId = $postModel->getPostOwnerId($postId);
+
+        if ($this->userId !== $postOwnerId) {
+            echo $this->jsonResponse(false);
+        }
+
+        echo $this->jsonResponse($postModel->deletePost($postId));
     }
 
     public function actionToggleLike(): void
@@ -91,8 +98,10 @@ class RibbonController extends Controller
             echo $this->jsonResponse(false);
         }
 
-        $commentId = $this->commentModel->addComment($postId, $this->userId, $comment);
-        $commentData = $this->commentModel->getComments(['comment_id' => $commentId])[0];
+        $commentModel = new Comment();
+
+        $commentId = $commentModel->addComment($postId, $this->userId, $comment);
+        $commentData = $commentModel->getComments(['comment_id' => $commentId])[0];
 
         echo $this->jsonResponse($commentId, [
             'commentId'     => $commentData['comment_id'],
@@ -107,17 +116,18 @@ class RibbonController extends Controller
     {
         $commentId = $_POST['commentId'];
 
-        if (!isset($commentId) || !is_numeric($commentId)) {
+        if (!isset($this->userId)|| !isset($commentId) || !is_numeric($commentId)) {
             echo $this->jsonResponse(false);
         }
 
-        $currentUserId = self::$auth->getUserId();
-        $postOwnerId = $this->commentModel->getCommentOwnerId($commentId);
-        if ($currentUserId !== $postOwnerId) {
+        $commentModel = new Comment();
+
+        $commentOwnerId = $commentModel->getCommentOwnerId($commentId);
+        if ($this->userId !== $commentOwnerId) {
             echo $this->jsonResponse(false);
         }
 
-        echo $this->jsonResponse($this->commentModel->deleteComment($commentId));
+        echo $this->jsonResponse($commentModel->deleteComment($commentId));
     }
 
     public function actionCommentNotify()

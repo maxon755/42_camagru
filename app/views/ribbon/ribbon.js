@@ -25,7 +25,7 @@ window.addEventListener('load', () => {
                }
            })
            .catch(error => {
-               alert(error.message);
+               alert(error);
            });
     }
 
@@ -43,7 +43,7 @@ window.addEventListener('load', () => {
                 postModule.renderPosts(ribbon, response);
             })
             .catch(error => {
-                alert(error.message);
+                alert(error);
             });
     }
 
@@ -81,7 +81,10 @@ window.addEventListener('load', () => {
         if (atBottom && !xhrOpened) {
             atBottom = false;
             xhrOpened = true;
-            !noPosts && showSpinner();
+            if (noPosts) {
+                return;
+            }
+            showSpinner();
             setTimeout(function () {
                 fillRibbon();
             }, 1000);
