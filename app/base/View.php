@@ -6,14 +6,22 @@ use Exception;
 
 class View extends Application
 {
-    private static $viewInstance = null;
+    /** @var \app\base\View  */
+    private static $viewInstance;
 
+    /** @var string  */
     private $template = ROOT . '/template/template.php';
 
+    /** @var string */
     private $viewName;
 
+    /** @var string[] */
     private $jsFiles = [];
 
+    /** @var string[]  */
+    private $jsScripts = [];
+
+    /** @var string[]  */
     private $cssFiles = [];
 
     private function __construct()
@@ -94,7 +102,7 @@ class View extends Application
      * @param bool $fullPath
      * @throws Exception
      */
-    public function registerCssFile(string $fileName, bool $fullPath = false)
+    public function registerCssFile(string $fileName, bool $fullPath = false): void
     {
         $filePath = $fullPath ?
                     $this->checkFilePath($fileName) :
@@ -109,7 +117,7 @@ class View extends Application
      * @return string
      * @throws Exception
      */
-    public function checkFilePath(string $path)
+    public function checkFilePath(string $path): ?string
     {
         if (realpath(ROOT . DS . $path)) {
             return $path;
@@ -123,7 +131,7 @@ class View extends Application
      * @return string
      * @throws Exception
      */
-    private function resolveFilePath(string $fileName, string $extension)
+    private function resolveFilePath(string $fileName, string $extension): ?string
     {
         if (!preg_match('/.+\.\w+$/', $fileName)) {
             $fileName = $fileName . '.' . $extension;
@@ -140,5 +148,13 @@ class View extends Application
             }
         }
         throw new Exception("File ${fileName} does not exists");
+    }
+
+    /**
+     * @param string $jsScript
+     */
+    public function registerJsScript(string $jsScript): void
+    {
+        $this->jsScripts[] = $jsScript;
     }
 }

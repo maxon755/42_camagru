@@ -7,10 +7,11 @@ use app\components\CaseTranslator;
 
 $widgetName = CaseTranslator::toKebab($this->widgetName);
 $formWidgetName = $params['formWidgetName'] ?? CaseTranslator::toKebab($this->widgetName);
+$this->id = $formWidgetName . '__' . $this->name;
 ?>
 
 <div class="<?= $formWidgetName . '__unit' ?>">
-    <input id="<?= $formWidgetName . '__' . $this->name?>"
+    <input id="<?= $this->id ?>"
            class="<?= $formWidgetName . "__$widgetName ";
            echo $params['formSubmitted'] ? $this->isValid() ? 'valid-input' : 'invalid-input' : '' ?>"
            type="<?= $this->type ?>"

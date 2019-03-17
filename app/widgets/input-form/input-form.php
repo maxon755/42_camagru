@@ -31,3 +31,22 @@ $this->view->registerCssFile('/widgets/input-form/input-form.css', true);
     </form>
 </div>
 
+<?php
+
+$inputs = [];
+foreach ($this->inputs as $name => $field) {
+    $inputs[$name] = [
+        'id'     => $field->getId(),
+        'unique' => $field->isUnique(),
+    ];
+}
+$inputs = json_encode($inputs);
+
+    $this->view->registerJsScript(<<<JS
+;var inputForm = (function() {
+    return {
+        fields : $inputs
+    }
+}());
+JS
+);

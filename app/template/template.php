@@ -41,16 +41,20 @@
     include($renderUnit['markUp']);
 
 ?>
-    <?php foreach($this->jsFiles as $jsFile): ?>
-        <script src="<?= $jsFile ?>"></script>
-    <?php endforeach ?>
-
     <?php if ($renderUnit['script']): ?>
         <script src="<?= $renderUnit['script'] ?>"></script>
     <?php endif ?>
 
     <?php foreach($this->cssFiles as $cssFile): ?>
         <link rel="stylesheet" href="<?= $cssFile ?>">
+    <?php endforeach ?>
+
+    <?php foreach($this->jsFiles as $jsFile): ?>
+        <script src="<?= $jsFile ?>"></script>
+    <?php endforeach ?>
+
+    <?php foreach($this->jsScripts as $jsScript): ?>
+        <script><?= $jsScript ?></script>
     <?php endforeach ?>
 </body>
 </html>

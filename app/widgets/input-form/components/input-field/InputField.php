@@ -41,6 +41,9 @@ class InputField extends Input implements WidgetInterface
     /** @var string  */
     private $placeholder;
 
+    /** @var string */
+    private $id;
+
     /**
      * @param array $params
      */
@@ -153,6 +156,14 @@ class InputField extends Input implements WidgetInterface
      */
     public function isUnique(): bool
     {
-        return $this->unique;
+        return (bool)$this->unique;
+    }
+
+    /**
+     * @return string
+     */
+    public function getId(): string
+    {
+        return $this->id;
     }
 }

@@ -3,14 +3,12 @@ window.onload = function () {
 
     var submitButton = document.getElementById("input-form__submit");
 
-    var inputFields = {
-        usernameField       : new InputField("input-form__username", true),
-        firstNameField      : new InputField("input-form__first-name"),
-        lastNameField       : new InputField("input-form__last-name"),
-        emailField          : new InputField("input-form__email", true),
-        passwordField       : new InputField("input-form__password"),
-        repeatPasswordField : new InputField("input-form__repeat-password")
-    };
+    let inputFields = {};
+
+    for (let field in inputForm.fields) {
+        let data = inputForm.fields[field];
+        inputFields[field] = new InputField(data.id, data.unique);
+    }
 };
 
 
