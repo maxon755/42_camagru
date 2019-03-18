@@ -27,11 +27,13 @@ $form = new InputForm([
         'name'   => $name . '__comment-editor',
         'action' => '/ribbon/create-comment',
         'header' => false,
-    ], [
-        new TextArea([
-            'name' => 'comment',
-            'rows' => 5,
-        ])
+        'inputs' => [
+            new TextArea([
+                'name' => 'comment',
+                'rows' => 5,
+                'id'   => 'comment-editor-' . $this->postId,
+            ])
+        ]
     ]);
 ?>
 
