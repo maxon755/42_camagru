@@ -11,5 +11,6 @@ return array(
     '^image$'           => 'Image/index',
     '^image/(.+)$'      => 'Image/$1',
     '^settings$'        => 'Settings/index',
+    '^settings/(.+)$'   => 'Settings/$1',
     '^empty/(.+)$'      => 'Empty/$1',
 );

@@ -3,6 +3,7 @@
 namespace app\base;
 
 
+use app\components\Cookie;
 use app\models\AuthToken;
 use app\models\Client;
 
@@ -17,20 +18,12 @@ class Auth
     /** @var string */
     private $token;
 
-    /** @var string */
-    private $usernameClient;
-
-    /** @var string  */
-    private $tokenClient;
-
     public function __construct()
     {
-        $this->usernameClient = $_COOKIE['username'] ?? null;
-        $this->tokenClient = $_COOKIE['token'] ?? null;
-        $this->username = $this->usernameClient;
+        $this->username = Cookie::get('username');
 
-        if ($this->usernameClient && !$this->userId) {
-            $this->fetchUserId($this->usernameClient);
+        if ($this->username && !$this->userId) {
+            $this->fetchUserId($this->username);
         }
     }
 
@@ -44,9 +37,8 @@ class Auth
         $this->fetchUserId($username);
         $this->token = $this->manageToken();
 
-
-        return  $this->setCookie('username', $this->username) &&
-                $this->setCookie('token', $this->token);
+        return  Cookie::set('username', $this->username) &&
+                Cookie::set('token', $this->token);
     }
 
     /**
@@ -54,8 +46,8 @@ class Auth
      */
     public function logout(): bool
     {
-        return  $this->unsetCookie('username') &&
-                $this->unsetCookie('token');
+        return  Cookie::unset('username') &&
+                Cookie::unset('token');
     }
 
     /**
@@ -66,7 +58,10 @@ class Auth
         return $this->username;
     }
 
-    public function getUserId()
+    /**
+     * @return int|null
+     */
+    public function getUserId(): ?int
     {
         return $this->userId;
     }
@@ -77,7 +72,8 @@ class Auth
     public function loggedIn(): bool
     {
         $this->fetchToken();
-        return $this->clientDataExists() && $this->token === $this->tokenClient;
+        $x = $this->token === Cookie::get('token');
+        return $this->clientDataExists() && $this->token === Cookie::get('token');
     }
 
     public function fetchToken(): void
@@ -104,36 +100,7 @@ class Auth
      */
     public function clientDataExists(): bool
     {
-        return isset($this->usernameClient) && isset($this->tokenClient);
-    }
-
-    /**
-     * @param string $name
-     * @param string $value
-     * @param int $days
-     * @param string $path
-     * @return bool
-     */
-    private function setCookie(string $name, string $value, int $days = 7, string $path = '/'): bool
-    {
-        return setcookie(
-            $name,
-            $value,
-            time() + (3600 * 24 * $days),
-            $path);
-    }
-
-    /**
-     * @param string $name
-     * @return bool
-     */
-    private function unsetCookie(string $name): bool
-    {
-        return setcookie(
-            $name,
-            '',
-            time() - 3600,
-            '/');
+        return Cookie::get('username') && Cookie::get('token');
     }
 
     /**
@@ -155,6 +122,6 @@ class Auth
     {
         $this->fetchToken();
 
-        return $username === $this->usernameClient && $this->token === $this->tokenClient;
+        return $username === Cookie::get('username') && $this->token === Cookie::get('token');
     }
 }

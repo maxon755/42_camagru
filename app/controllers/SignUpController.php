@@ -9,6 +9,7 @@ use app\models\Client;
 
 class SignUpController extends Controller
 {
+    /** @var SignUpForm  */
     private $signUpForm;
 
     const VIEW_NAME = 'sign-up';
@@ -42,19 +43,11 @@ class SignUpController extends Controller
     {
         $userInput = $_POST;
 
-        $userInput = [
-            'username'          => 'maks',
-            'first-name'        => '',
-            'last-name'         => 'gayduk',
-            'email'             => 'maksim.gayduk@gmail.com',
-            'password'          => '1234aaZZ',
-            'repeat-password'   => '1234aaZZ',
-        ];
-
         $result = $this->signUpForm->confirm($userInput);
 
         if ($result) {
             $this->sendActivationEmail($userInput['email']);
+            // TODO: notify about activation mail sending;
             header('Location: /');
         }
         else {
@@ -88,6 +81,7 @@ class SignUpController extends Controller
         if (!empty($clientData)
             && $clientModel->activateAccount($activationCode)
             && self::$auth->login($this->signUpForm->getValue('username'))) {
+            // TODO: notify about activation result;
             echo 'success';
         } else {
             echo 'Something going wrong';

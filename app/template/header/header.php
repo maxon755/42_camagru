@@ -7,6 +7,7 @@
         <?= $_COOKIE['username'] ?>
 
         <a href="/user/<?= $_COOKIE['username'] ?>">my page</a>
+        <a href="/settings">settings</a>
     <?php else: ?>
         <a href="/login">
             <p class="header__login">Log in</p>
