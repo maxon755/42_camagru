@@ -23,6 +23,8 @@
             <span class="fas fa-save fa-3x"></span>
         </button>
     </div>
+
+    <input type="file" id="camera__file-button">
 </div>
 
 <?php

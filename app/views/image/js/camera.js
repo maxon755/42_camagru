@@ -1,14 +1,15 @@
 window.addEventListener('load', function() {
     "use strict";
 
-    const capture = document.getElementById('camera__capture');
-    const video = document.getElementById('camera__video');
-    const canvas = document.getElementById('camera__canvas');
-    const context = canvas.getContext('2d');
-    const startButton = document.getElementById('camera__start-button');
-    const stopButton = document.getElementById('camera__stop-button');
-    const saveButton = document.getElementById('camera__save-button');
-    const filterContainer = document.getElementById('camera__filter-container');
+    let capture = document.getElementById('camera__capture');
+    let video = document.getElementById('camera__video');
+    let canvas = document.getElementById('camera__canvas');
+    let context = canvas.getContext('2d');
+    let startButton = document.getElementById('camera__start-button');
+    let stopButton = document.getElementById('camera__stop-button');
+    let saveButton = document.getElementById('camera__save-button');
+    let fileButton = document.getElementById('camera__file-button');
+    let filterContainer = document.getElementById('camera__filter-container');
 
     let width = 640;
     let height = 480;
@@ -19,7 +20,6 @@ window.addEventListener('load', function() {
     let streaming = false;
 
     startButton.addEventListener('click', function () {
-
         if (!streaming) {
             clearCanvas();
             getWebCamAccess();
@@ -124,7 +124,7 @@ window.addEventListener('load', function() {
     }
 
     function saveResultImage() {
-        let src = canvas.toDataURL("image/jpeg", 0.25);
+        let src = canvas.toDataURL("image/jpeg", 0.5);
         let img = new Image();
 
         img.src = src;
@@ -137,15 +137,11 @@ window.addEventListener('load', function() {
                         alert('Image successfully uploaded');
                 },
                     () => {
-                        handleFailedUploading();
+                        stopStream();
+                        clearCanvas();
+                        displayError('Upload failed. Try again.');
                 })
         };
-    }
-
-    function handleFailedUploading() {
-        stopStream();
-        clearCanvas();
-        displayError('Upload failed. Try again.');
     }
 
     function addImageToContainer(img) {
@@ -210,5 +206,34 @@ window.addEventListener('load', function() {
             circle.style.display = "inline-block";
             camera.style.display = "none";
         }
+    }
+
+    fileButton.addEventListener("change", (event) => {
+
+        let file = event.target.files[0];
+        let reader = new FileReader();
+
+        if (!isFileImage(file.type)) {
+            return;
+        }
+
+        clearCanvas();
+
+        reader.onload = (event) => {
+            let image = new Image();
+
+            image.src = event.target.result;
+
+            image.onload = () => {
+                canvas.setAttribute('width', image.width);
+                canvas.setAttribute('height', image.height);
+                context.drawImage(image, 0, 0, image.width, image.height);
+            };
+        };
+        reader.readAsDataURL(file);
+    });
+
+    function isFileImage(fileType) {
+        return /^image\/[a-z]+$/.test(fileType)
     }
 });

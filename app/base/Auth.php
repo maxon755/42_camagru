@@ -72,7 +72,6 @@ class Auth
     public function loggedIn(): bool
     {
         $this->fetchToken();
-        $x = $this->token === Cookie::get('token');
         return $this->clientDataExists() && $this->token === Cookie::get('token');
     }
 
