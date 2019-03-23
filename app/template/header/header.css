@@ -1,5 +1,27 @@
-.header {
-    background-color: red;
+.right {
+    position: absolute;
+    right: 0;
+}
 
-    color: green;
+.dropdown-menu {
+    left: -50px;
+}
+
+.nav {
+    height: 50px;
+    background-color: #1f78d1;
+}
+
+.white {
+    color: white;
+}
+
+.nav-item {
+    margin: 0 20px;
+}
+
+.nav-item:hover {
+    background-color: #1855ae;
+    border-radius: 5px;
+    color: white;
 }

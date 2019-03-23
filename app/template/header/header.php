@@ -1,20 +1,28 @@
-<header class="header">
-    <a href="/">
-        <p class="logo">Memogram</p>
-    </a>
+<?php
+/** @var \app\base\View self */
+/** @var \app\base\View $this */
 
-    <?php if (self::$auth->loggedIn()): ?>
-        <?= $_COOKIE['username'] ?>
+$username = self::$auth->getUserName();
+$this->registerJsFile('/template/header/header.js', true);
+?>
 
-        <a href="/user/<?= $_COOKIE['username'] ?>">my page</a>
-        <a href="/settings">settings</a>
-    <?php else: ?>
-        <a href="/login">
-            <p class="header__login">Log in</p>
-        </a>
-    <?php endif ?>
+<nav class="nav align-items-center container-fluid">
+        <a href="/" class="nav-link white nav-item">Memogram</a>
 
-    <a href="/image">Create image</a>
+        <?php if (self::$auth->loggedIn()): ?>
+            <div class="dropdown right">
+                <a href="#" class="nav-link dropdown-toggle white nav-item" data-toggle="dropdown"><?= $username ?></a>
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" href="/user/<?= $username ?>" >My Page</a>
+                    <a class="dropdown-item" href="/settings">Settings</a>
+                    <a class="dropdown-item" href="/image">Create Post</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="/logout">Logout</a>
+                </div>
+            </div>
 
-    <a href="/logout">logout</a>
-</header>
+        <?php else: ?>
+            <a class="nav-link right white nav-item" href="/login">Log in</a>
+
+        <?php endif ?>
+</nav>

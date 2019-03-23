@@ -1,4 +1,3 @@
-<a href="/">return</a>
 
 <?php $parameters['loginForm']->render() ?>
 
