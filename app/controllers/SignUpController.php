@@ -33,7 +33,9 @@ class SignUpController extends Controller
         $value  = $_POST['value'];
         $column = $_POST['type'];
         $available  = (new Client())->isInputAvailable([$column => $value]);
-        echo json_encode(["available" => $available]);
+        echo $this->jsonResponse(true, [
+            "available" => $available
+        ]);
     }
 
     public function actionConfirm(): void

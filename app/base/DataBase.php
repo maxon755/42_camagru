@@ -90,11 +90,13 @@ class DataBase extends Application
      * @param string|null $operator
      * @return array
      */
-    public function selectAllWhere(array $where, string $operator = null): array
+    public function selectWhere(array $where, array $columns = [], string $operator = null): array
     {
+        $columns = empty($columns) ? ['*'] : $columns;
+        $columnsString = implode(', ', $columns);
         $where = CaseTranslator::keysTo('snake', $where);
         $whereString =  $this->prepareWhereData($where, $operator);
-        $query = "SELECT * FROM $this->tableName WHERE ${whereString};";
+        $query = "SELECT ${columnsString} FROM $this->tableName WHERE ${whereString};";
 
         return $this->executeQuery($query, $where);
     }

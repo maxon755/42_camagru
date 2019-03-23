@@ -6,8 +6,8 @@ namespace app\widgets\inputForm;
 interface AvailabilityChecker
 {
     /**
-     * @param array $data
+     * @param array $where
      * @return bool
      */
-    public function isInputAvailable(array $data): bool;
+    public function isInputAvailable(array $where): bool;
 }

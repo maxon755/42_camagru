@@ -54,7 +54,7 @@ class Post extends DataBaseModel
      */
     public function getPostImagePath(int $postId): string
     {
-        $res = $this->db->selectAllWhere([
+        $res = $this->db->selectWhere([
             'post_id' => $postId,
         ])[0];
 

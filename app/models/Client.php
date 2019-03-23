@@ -9,12 +9,15 @@ use app\widgets\inputForm\CredentialsChecker;
 class Client extends DataBaseModel implements AvailabilityChecker, CredentialsChecker
 {
     /**
-     * @param array $data
+     * @param array $where
      * @return bool
      */
-    public function isInputAvailable(array $data): bool
+    public function isInputAvailable(array $where): bool
     {
-        return  !$this->db->rowExists($data);
+        $currentUserId = self::$auth->getUserId();
+        $userId = $this->getValue('user_id', $where);
+
+        return !isset($userId) || (isset($userId) && $userId === $currentUserId);
     }
 
     /**
@@ -39,7 +42,7 @@ class Client extends DataBaseModel implements AvailabilityChecker, CredentialsCh
      */
     public function getActivationCode(string $email): string
     {
-        $data = $this->db->selectAllWhere(['email' => $email]);
+        $data = $this->db->selectWhere(['email' => $email]);
         return $data[0]['activation_code'];
     }
 
@@ -63,10 +66,10 @@ class Client extends DataBaseModel implements AvailabilityChecker, CredentialsCh
      */
     public function checkCredentials(array $data): bool
     {
-        $row = $this->db->selectAllWhere([
+        $row = $this->db->selectWhere([
             'username'  => $data['username'],
             'is_active' => true,
-        ], 'AND');
+        ]);
         if (empty($row)) {
             return false;
         }
@@ -79,7 +82,7 @@ class Client extends DataBaseModel implements AvailabilityChecker, CredentialsCh
      */
     public function getUserData(int $userId): array
     {
-        return $this->db->selectAllWhere([
+        return $this->db->selectWhere([
             'user_id' => $userId,
         ])[0];
     }

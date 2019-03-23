@@ -69,7 +69,7 @@ class DataBaseModel extends Application
      */
     public function getRowWhere(array $data): array
     {
-        $result = $this->db->selectAllWhere($data);
+        $result = $this->db->selectWhere($data);
 
         return !empty($result) ? $result[0] : $result ;
     }
@@ -80,7 +80,7 @@ class DataBaseModel extends Application
      */
     public function getRowsWhere(array $data): array
     {
-        return $this->db->selectAllWhere($data)[0];
+        return $this->db->selectWhere($data)[0];
     }
 
     /**
@@ -90,9 +90,9 @@ class DataBaseModel extends Application
      */
     public function getValue($columnName, $whereData)
     {
-        $result = $this->db->selectAllWhere($whereData);
+        $result = $this->db->selectWhere($whereData);
 
-        return !empty($result) ? $result[0][$columnName] : $result;
+        return !empty($result) ? $result[0][$columnName] : null;
     }
 
     public function prepareWhereData($data, string $operator = null)
