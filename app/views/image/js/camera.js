@@ -11,11 +11,9 @@ window.addEventListener('load', function() {
     let fileButton = document.getElementById('camera__file-button');
     let filterContainer = document.getElementById('camera__filter-container');
 
-    let width = 640;
-    let height = 480;
+    let width;
+    let height;
 
-    canvas.setAttribute('width', width);
-    canvas.setAttribute('height', height);
 
     let streaming = false;
 
@@ -56,23 +54,16 @@ window.addEventListener('load', function() {
     function streamWebCam(stream) {
         video.srcObject = stream;
 
+
         video.onloadedmetadata = function() {
             video.play();
         };
 
         video.oncanplay = function() {
             if (!streaming) {
-                height = video.videoHeight / (video.videoWidth/width);
-
-                if (isNaN(height)) {
-                    height = width / (4/3);
-                }
-
-                capture.style.width = width + 'px';
-                capture.style.height = height + 'px';
-                canvas.setAttribute('width', width);
-                canvas.setAttribute('height', height);
-
+                width = video.videoWidth;
+                height = video.videoHeight;
+                setWorkZoneDimensions();
                 streaming = true;
             }
         };
@@ -99,6 +90,18 @@ window.addEventListener('load', function() {
 
     function clearCanvas() {
         context.clearRect(0, 0, canvas.width, canvas.height);
+    }
+
+    function setWorkZoneDimensions()
+    {
+        capture.style.width = width + 'px';
+        capture.style.height = height + 'px';
+        canvas.setAttribute('width', width);
+        canvas.setAttribute('height', height);
+        filterContainer.style.width = width + 'px';
+        filterContainer.style.height = height + 'px';
+        video.style.width = width + 'px';
+        video.style.height = height + 'px';
     }
 
     function saveCanvasContent() {
@@ -225,8 +228,11 @@ window.addEventListener('load', function() {
             image.src = event.target.result;
 
             image.onload = () => {
-                canvas.setAttribute('width', image.width);
-                canvas.setAttribute('height', image.height);
+                saveButton.disabled = false;
+                width = image.width;
+                height = image.height;
+
+                setWorkZoneDimensions();
                 context.drawImage(image, 0, 0, image.width, image.height);
             };
         };

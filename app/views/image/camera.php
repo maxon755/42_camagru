@@ -19,7 +19,7 @@
             <span class="fas fa-camera fa-3x"></span>
         </button>
 
-        <button id="camera__save-button" class="camera__button">
+        <button id="camera__save-button" class="camera__button" disabled>
             <span class="fas fa-save fa-3x"></span>
         </button>
     </div>

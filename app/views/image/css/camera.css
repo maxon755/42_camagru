@@ -1,21 +1,25 @@
 #camera__container {
-    width: 640px;
-    margin: auto;
+    display: flex;
+
+    flex-direction: column;
+    align-items: center;
 }
 
 #camera__capture {
     position: relative;
-
-    width: 640px;
-    height: 480px;
-
-    border: 3px solid blue;
+    border: 2px solid black;
+    border-radius: 10px;
 }
 
-#camera__canvas {
+#camera__canvas, #camera__filter-container {
     position: absolute;
     left: 0;
     top: 0;
+}
+
+#camera__capture, #camera__video {
+    width: 640px;
+    height: 480px;
 }
 
 .camera__button {
@@ -34,16 +38,3 @@ span.fa-camera {
     z-index: 500;
 }
 
-#camera__filter-container {
-    position: absolute;
-    width: 640px;
-    height: 480px;
-
-    left: 0;
-    top: 0;
-}
-
-#camera__buttons {
-    width: 188px;
-    margin: auto;
-}

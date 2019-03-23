@@ -13,6 +13,8 @@
 #toolbar__container > img {
     margin: 10px;
 
+    width: 75px;
+
     display: block;
     height: auto;
 }
