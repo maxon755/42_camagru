@@ -4,6 +4,7 @@ namespace app\widgets\inputForm;
 
 use app\base\Widget;
 use app\components\CaseTranslator;
+use app\widgets\inputForm\components\Input;
 use app\widgets\WidgetFillPropertiesTrait;
 use app\widgets\WidgetInterface;
 use app\widgets\WidgetNameGetterTrait;
@@ -29,7 +30,7 @@ class InputForm extends Widget implements WidgetInterface
     /** @var bool */
     private $header = true;
 
-    /** @var InputField[] */
+    /** @var Input[] */
     protected $inputs;
 
     /** @var bool */
@@ -121,12 +122,12 @@ class InputForm extends Widget implements WidgetInterface
     {
         foreach ($values as $name => $value)
         {
+            $name = CaseTranslator::toKebab($name);
             if (!isset($this->inputs[$name])) {
                 continue ;
             }
             $this->inputs[$name]->setValue($value);
-            if (($auxSource = $this->inputs[$name]->getAuxValue()) !== null)
-            {
+            if (($auxSource = $this->inputs[$name]->getAuxValue()) !== null) {
                 $auxValue = $this->inputs[$auxSource]->getValue();
                 $this->inputs[$name]->setAuxValue($auxValue);
             }

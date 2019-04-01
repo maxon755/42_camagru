@@ -4,6 +4,7 @@
 namespace app\models;
 
 
+use app\widgets\inputForm\components\checkbox\Checkbox;
 use app\widgets\inputForm\components\inputField\InputField;
 use app\widgets\inputForm\InputChecker;
 use app\widgets\inputForm\InputForm;
@@ -51,6 +52,10 @@ class Settings extends InputForm
                         'length',
                         'email'
                     ]
+                ]),
+                'like-notify' => new Checkbox([
+                    'name'  => 'like-notify',
+                    'label' => 'Like notification',
                 ]),
             ]
         ]);

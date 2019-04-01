@@ -243,6 +243,7 @@ class DataBase extends Application
     public function update(array $setData, array $whereData, string $operator = null): bool
     {
         $setData = CaseTranslator::keysTo('snake', $setData);
+        $setData = $this->prepareData($setData);
         $whereData = CaseTranslator::keysTo('snake', $whereData);
         $setString = $this->prepareSetData($setData);
         $whereString = $this->prepareWhereData($whereData, $operator);
@@ -304,6 +305,21 @@ class DataBase extends Application
     public function rowExists(array $data, string $operator = null): bool
     {
         return (bool)$this->count($data);
+    }
+
+    /**
+     * @param array $data
+     * @return array
+     */
+    private function prepareData(array $data): array
+    {
+        return array_map(function ($value) {
+            if (is_bool($value)) {
+                $value = $value ? 'true' : 'false';
+            }
+
+            return $value;
+        }, $data);
     }
 
     /**

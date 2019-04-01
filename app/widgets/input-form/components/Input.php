@@ -8,7 +8,13 @@ use app\base\Widget;
 
 abstract class Input extends Widget
 {
+    /** @var string  */
+    protected $name;
+
     protected $value;
+
+    /** @var null|string  */
+    private $auxValue;
 
     /** @var bool  */
     protected $unique;
@@ -19,6 +25,30 @@ abstract class Input extends Widget
     public function __construct(array $params = [], bool $async = false)
     {
         parent::__construct($params, $async);
+    }
+
+    /**
+     * @return string
+     */
+    public function getName(): string
+    {
+        return $this->name;
+    }
+
+    /**
+     * @return null|string
+     */
+    public function getAuxValue(): ?string
+    {
+        return $this->auxValue;
+    }
+
+    /**
+     * @param null|string $auxValue
+     */
+    public function setAuxValue(?string $auxValue): void
+    {
+        $this->auxValue = $auxValue;
     }
 
     public function getValue()
@@ -36,7 +66,7 @@ abstract class Input extends Widget
      */
     public function getId(): string
     {
-        return $this->id;
+        return $this->id ?: '';
     }
 
     /**

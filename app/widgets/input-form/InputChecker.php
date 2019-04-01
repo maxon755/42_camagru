@@ -29,6 +29,9 @@ class InputChecker implements Checker
     {
         $validity = true;
         foreach ($inputFields as $inputField) {
+            if (!$inputField instanceof InputField) {
+                continue;
+            }
             $validity *= $this->performChecks($inputField);
         }
         return $validity;

@@ -89,7 +89,7 @@ class Client extends DataBaseModel implements AvailabilityChecker, CredentialsCh
 
     public function updateUserData(array $userInput)
     {
-        $this->db->update($userInput, [
+        return $this->db->update($userInput, [
             'user_id' => self::$auth->getUserId(),
         ]);
     }

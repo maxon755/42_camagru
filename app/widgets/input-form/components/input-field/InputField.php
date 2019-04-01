@@ -14,17 +14,12 @@ class InputField extends Input implements WidgetInterface
     use WidgetNameGetterTrait;
     use WidgetFillPropertiesTrait;
 
-    /** @var string  */
-    private $name;
 
     /** @var string  */
     private $type;
 
     /** @var bool  */
     private $required;
-
-    /** @var null|string  */
-    private $auxValue;
 
     /** @var string[]  */
     private $checks;
@@ -41,7 +36,8 @@ class InputField extends Input implements WidgetInterface
     /**
      * @param array $params
      */
-    public function __construct(array $params) {
+    public function __construct(array $params = [])
+    {
 
         $params['value']        = trim($params['value'] ?? null);
         $params['placeholder']  = ucfirst(CaseTranslator::toHuman($params['name']));
@@ -57,13 +53,7 @@ class InputField extends Input implements WidgetInterface
         include(__DIR__ . DS . 'input-field.php');
     }
 
-    /**
-     * @return string
-     */
-    public function getName(): string
-    {
-        return $this->name;
-    }
+
 
     /**
      * @return string
@@ -87,22 +77,6 @@ class InputField extends Input implements WidgetInterface
     public function getChecks(): array
     {
         return $this->checks;
-    }
-
-    /**
-     * @return null|string
-     */
-    public function getAuxValue(): ?string
-    {
-        return $this->auxValue;
-    }
-
-    /**
-     * @param null|string $auxValue
-     */
-    public function setAuxValue(?string $auxValue): void
-    {
-        $this->auxValue = $auxValue;
     }
 
     /**
