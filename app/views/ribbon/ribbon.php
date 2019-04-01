@@ -1,10 +1,15 @@
 <?php
 /** @var app\base\View $this */
 
+use app\widgets\ribbon\Ribbon;
+
 $this->registerCssFile('/widgets/post/post.css', true);
-$this->registerJsFile('/widgets/post/post.js', true);
 
 ?>
 
-<div id="ribbon__container"></div>
+<?php (new Ribbon([
+    'url'       => '/ribbon/get-posts',
+    'offset'    => 0,
+    'limit'     => 1,
+]))->render(); ?>
 <div id="ribbon__spinner"></div>

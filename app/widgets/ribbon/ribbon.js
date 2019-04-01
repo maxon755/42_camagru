@@ -1,9 +1,9 @@
 window.addEventListener('load', () => {
     'use strict';
 
-    let dataUrl  = '/ribbon/get-posts';
-    let offset   = 0;
-    let limit    = 1;
+    let dataUrl  = ribbonData.url;
+    let offset   = ribbonData.offset;
+    let limit    = ribbonData.limit;
     let noPosts  = false;
     let ribbon   = document.getElementById('ribbon__container');
     let spinner  = document.getElementById('ribbon__spinner');

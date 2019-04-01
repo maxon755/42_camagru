@@ -4,34 +4,32 @@ namespace app\widgets\ribbon;
 
 
 use app\base\Widget;
+use app\widgets\WidgetFillPropertiesTrait;
 use app\widgets\WidgetInterface;
 use app\widgets\WidgetNameGetterTrait;
 
 class Ribbon extends Widget implements WidgetInterface
 {
     use WidgetNameGetterTrait;
+    use WidgetFillPropertiesTrait;
 
     /**
      * @var string
      * url of resource witch provides items for infinite ribbon
      */
-    private $dataSource;
+    private $url;
 
-    private $offset;
+    private $offset = 0;
 
-    private $limit;
+    private $limit = 5;
 
-    public function __construct(string $dataSource)
+    public function __construct(array $params = [])
     {
-        parent::__construct();
-
-        $this->dataSource = $dataSource;
-        $this->offset = 0;
-        $this->limit = 5;
+        parent::__construct($params);
     }
 
     public function render(array $params = []): void
     {
-        echo 'ribbon item';
+        include (__DIR__ . DS . 'ribbon-layout.php');
     }
 }

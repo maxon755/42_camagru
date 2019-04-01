@@ -21,7 +21,7 @@ class SignUpController extends Controller
 
     private function renderForm(): void
     {
-        $this->render(self::VIEW_NAME, false, ['signUpForm' => $this->signUpForm]);
+        $this->render(self::VIEW_NAME, true, ['signUpForm' => $this->signUpForm]);
     }
 
     public function actionIndex()

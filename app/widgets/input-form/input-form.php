@@ -46,10 +46,8 @@ foreach ($this->inputs as $name => $field) {
 $inputs = json_encode($inputs);
 
     $this->view->registerJsScript(<<<JS
-;var inputForm = (function() {
-    return {
+var inputForm = {
         fields : $inputs
-    }
-}());
+};
 JS
 );
