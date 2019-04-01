@@ -8,4 +8,3 @@ $this->registerJsFile('/widgets/post/post.js', true);
 
 <div id="ribbon__container"></div>
 <div id="ribbon__spinner"></div>
-

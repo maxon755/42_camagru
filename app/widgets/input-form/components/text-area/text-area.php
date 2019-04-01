@@ -9,11 +9,9 @@ $widgetName = CaseTranslator::toKebab($this->widgetName);
 $formWidgetName = $params['formWidgetName'] ?? CaseTranslator::toKebab($this->widgetName);
 ?>
 
-<div class="<?= $formWidgetName . '__unit' ?>">
-    <textarea
-        id="<?= $this->id ?>"
-        class="<?= $formWidgetName . "__$widgetName" ?>"
-        name="<?= $this->name ?>"
-        placeholder="<?= $this->placeholder ?>"
-        rows="<?= $this->rows ?>"></textarea>
-</div>
+<textarea
+    id="<?= $this->id ?>"
+    class="<?= $formWidgetName . "__$widgetName" ?>"
+    name="<?= $this->name ?>"
+    placeholder="<?= $this->placeholder ?>"
+    rows="<?= $this->rows ?>"></textarea>

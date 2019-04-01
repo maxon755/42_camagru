@@ -19,11 +19,14 @@ $this->view->registerCssFile('/widgets/input-form/input-form.css', true);
 
         <div class="<?= $widgetName . '__container' ?>">
 
+            <?php $i = 1 ?>
             <?php foreach($this->inputs as $field): ?>
-                <?= $field->render([
+                <div class="<?= $widgetName . '__unit-' . $i++ ?>">
+                    <?= $field->render([
                         'formWidgetName'    => $widgetName,
                         'formSubmitted'     => $this->submitted
-                ]) ?>
+                    ]) ?>
+                </div>
             <?php endforeach ?>
             <input class="<?= $widgetName . '__submit' ?>"
                    type="submit" value="Submit">

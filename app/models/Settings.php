@@ -57,6 +57,10 @@ class Settings extends InputForm
                     'name'  => 'like-notify',
                     'label' => 'Like notification',
                 ]),
+                'comment-notify' => new Checkbox([
+                    'name'  => 'comment-notify',
+                    'label' => 'Comment notification',
+                ]),
             ]
         ]);
     }

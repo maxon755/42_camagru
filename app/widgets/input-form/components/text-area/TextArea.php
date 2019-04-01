@@ -13,9 +13,6 @@ class TextArea extends Input implements WidgetInterface
     use WidgetNameGetterTrait;
     use WidgetFillPropertiesTrait;
 
-    /** @var string  */
-    private $name;
-
     /** @var bool  */
     private $required;
 

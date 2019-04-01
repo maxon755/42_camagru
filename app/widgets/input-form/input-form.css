@@ -39,7 +39,7 @@
     margin-top: 0;
 }
 
-.input-form__unit {
+div[class^='input-form__unit'] {
     width:  300px;
     margin: auto;
     margin-bottom: 20px;
