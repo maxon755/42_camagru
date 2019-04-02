@@ -35,7 +35,6 @@ class InputField extends Input implements WidgetInterface
      */
     public function __construct(array $params = [])
     {
-
         $params['value']        = trim($params['value'] ?? null);
         $params['placeholder']  = ucfirst(CaseTranslator::toHuman($params['name']));
         if ($this->required) {

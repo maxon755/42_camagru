@@ -14,7 +14,7 @@ abstract class Input extends Widget
     protected $value;
 
     /** @var null|string  */
-    private $auxValue;
+    protected $auxValue;
 
     /** @var bool  */
     protected $unique;

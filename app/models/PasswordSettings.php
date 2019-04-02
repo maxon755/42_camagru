@@ -17,12 +17,10 @@ class PasswordSettings extends Settings
                 'password'  => new InputField([
                     'name'      => 'password',
                     'type'      => 'password',
-                    'fillValue' => false,
                     'required'  => true,
                     'unique'    => true,
                     'checks'    => [
                         'emptiness',
-                        'length',
                         'password'
                     ]
                 ]),
@@ -33,7 +31,6 @@ class PasswordSettings extends Settings
                     'auxValue'  => 'password',
                     'checks'    => [
                         'emptiness',
-                        'length',
                         'equality'
                     ]
                 ]),

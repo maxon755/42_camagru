@@ -1,6 +1,6 @@
 window.addEventListener('load', () => {
-    let toggler = document.querySelector("[data-toggle]");
-    let dropdown = document.querySelector(".dropdown-menu");
+    let toggler = document.querySelector("header [data-toggle]");
+    let dropdown = document.querySelector("header .dropdown-menu");
 
     if (toggler) {
         toggler.addEventListener('click', (event) => {

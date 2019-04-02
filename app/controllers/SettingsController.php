@@ -6,6 +6,7 @@ namespace app\controllers;
 
 use app\base\Controller;
 use app\components\CaseTranslator;
+use app\components\Header;
 use app\models\Client;
 use app\models\GeneralSettings;
 use app\models\PasswordSettings;
@@ -55,9 +56,10 @@ class SettingsController extends Controller
         $form = $this->getForm($userInput['formName']);
 
         if ($form->save($userInput)) {
-            $userInput = $this->generalSettingsForm->getValues();
+            $userInput = $form->getValues();
             self::$auth->login($userInput['username']);
             // TODO: notify about update result;
+            Header::location('/settings');
         }
 
         $this->renderForm();
