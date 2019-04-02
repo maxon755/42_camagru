@@ -104,7 +104,7 @@ class Router extends Application
 
         if (!self::$auth->loggedIn() && strpos($uri, $exceptionLocation) === false
             && $uri !== 'favicon.ico') {
-            header('Location: /login');
+            Header::location('/login');
             return;
         }
 
@@ -128,6 +128,6 @@ class Router extends Application
             break;
 		}
 		if (!$pageFound)
-		    echo "camagru_log:404 $uri not found";
+		    Header::location('/error/404');
 	}
 }

@@ -3,6 +3,7 @@
 namespace app\controllers;
 
 use app\base\Controller;
+use app\components\Header;
 use app\models\LoginForm;
 
 
@@ -33,7 +34,7 @@ class LoginController extends Controller
 
         if ($this->loginForm->isInputCorrect($userInput)) {
             self::$auth->login($this->loginForm->getValue('username'));
-            header('Location: /');
+            Header::location('/');
         }
         else {
             $this->renderForm();
@@ -43,6 +44,6 @@ class LoginController extends Controller
     public function actionLogout()
     {
         self::$auth->logout();
-        header('Location: /');
+        Header::location('/login');
     }
 }
