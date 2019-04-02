@@ -5,7 +5,7 @@
 use app\components\CaseTranslator;
 
 $widgetName = CaseTranslator::toKebab($this->widgetName);
-//$this->view->registerCssFile('/widgets/input-form/input-form.css', true);
+$this->view->registerCssFile('/widgets/input-form/input-form.css', true);
 ?>
 
 <div class="<?= $this->name ?>">
@@ -18,7 +18,6 @@ $widgetName = CaseTranslator::toKebab($this->widgetName);
 
 
         <div class="<?= $widgetName . '__container' ?>">
-
             <?php $i = 1 ?>
             <?php foreach($this->inputs as $field): ?>
                 <div class="<?=  $widgetName . '__unit-' . $i++ ?>">
@@ -28,8 +27,11 @@ $widgetName = CaseTranslator::toKebab($this->widgetName);
                     ]) ?>
                 </div>
             <?php endforeach ?>
-            <input class="<?= $widgetName . '__submit' ?>"
-                   type="submit" value="Submit">
+
+            <div class="row justify-content-center col-12">
+                <input class="<?= $widgetName . '__submit' ?> btn btn-primary col-sm-4"
+                       type="submit" value="Submit">
+            </div>
         </div>
     </form>
 </div>
@@ -38,6 +40,9 @@ $widgetName = CaseTranslator::toKebab($this->widgetName);
 
 $inputs = [];
 foreach ($this->inputs as $name => $field) {
+    if (!$field->getChecks()) {
+        continue;
+    }
     $inputs[$name] = [
         'id'     => $field->getId(),
         'unique' => $field->isUnique(),

@@ -1,20 +1,18 @@
+.nopadding {
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
 .input-form {
     position: relative;
     top: 20px;
-
-    width: 400px;
-    /*min-height: 500px;*/
-    margin: auto;
-
     box-shadow: 0 0 10px 1px lightgray;
-
-    font-family: 'Roboto', sans-serif;
 }
 
-.input-form__container {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
+.input-form__container:after {
+    display: inline-block;
+    height: 10px;
+    content: " ";
 }
 
 .input-form__header {
@@ -25,8 +23,9 @@
     font-size: 32px;
     font-weight: 900;
 
-    margin: 0px;
-    padding: 20px;
+    margin: 0;
+    padding-top: 10px;
+    padding-bottom: 10px;
 }
 
 .input-form__line {
@@ -40,49 +39,8 @@
 }
 
 div[class^='input-form__unit'] {
-    width:  300px;
-    margin: auto;
+    width: 90%;
     margin-bottom: 20px;
-}
-
-.input-form__input-field {
-    display: block;
-    box-sizing: border-box;
-    width: 100%;
-
-
-    font-size: 14px;
-    line-height: 20px;
-    padding: 6px 10px;
-
-    border-radius: 2px;
-    border: 1px solid lightgray;
-}
-
-.input-form__input::placeholder {
-    /*font-style: italic;*/
-}
-
-
-.input-form__submit{
-    display: block;
-
-    width: 30%;
-    height: 30px;
-
-    margin: auto;
-    margin-bottom: 20px;
-
-    font-size: 16px;
-    color: white;
-    background-color: #1f78d1;
-
-    border-radius: 3px;
-    border: none;
-}
-
-.input-form__submit:hover {
-    cursor: pointer;
 }
 
 .input-form__validation {

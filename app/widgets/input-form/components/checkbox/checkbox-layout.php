@@ -14,12 +14,15 @@ $this->id = $this->id ?? $formWidgetName . '__' . $this->name;
        name="<?= $this->name ?>"
        value="<?= false ?>">
 
-<input id="<?= $this->id ?>"
-    class="<?= $formWidgetName . "__" . $widgetName ?>"
-    <?= $this->value ? 'checked' : '' ?>
-    type="checkbox"
-    name="<?= $this->name ?>"
-    value="<?= true ?>">
-<label for="<?= $this->id ?>">
-    <?= $this->label ?? $this->name ?>
-</label>
+
+<div class="<?= $widgetName . '-wrapper' ?> form-check">
+    <input id="<?= $this->id ?>"
+           class="<?= $formWidgetName . "__" . $widgetName ?> form-check-input"
+        <?= $this->value ? 'checked' : '' ?>
+           type="checkbox"
+           name="<?= $this->name ?>"
+           value="<?= true ?>">
+    <label for="<?= $this->id ?>" class="form-check-label">
+        <?= $this->label ?? $this->name ?>
+    </label>
+</div>

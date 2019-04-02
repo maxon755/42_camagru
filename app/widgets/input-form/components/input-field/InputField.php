@@ -21,9 +21,6 @@ class InputField extends Input implements WidgetInterface
     /** @var bool  */
     private $required;
 
-    /** @var string[]  */
-    private $checks;
-
     /** @var bool  */
     private $validity = true;
 
@@ -69,14 +66,6 @@ class InputField extends Input implements WidgetInterface
     public function isRequired(): bool
     {
         return $this->required;
-    }
-
-    /**
-     * @return array
-     */
-    public function getChecks(): array
-    {
-        return $this->checks;
     }
 
     /**

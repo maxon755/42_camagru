@@ -22,6 +22,9 @@ abstract class Input extends Widget
     /** @var string */
     protected $id;
 
+    /** @var string[] */
+    protected $checks;
+
     public function __construct(array $params = [], bool $async = false)
     {
         parent::__construct($params, $async);
@@ -59,6 +62,14 @@ abstract class Input extends Widget
     public function setValue($value): void
     {
         $this->value = $value;
+    }
+
+    /**
+     * @return array
+     */
+    public function getChecks(): ?array
+    {
+        return $this->checks;
     }
 
     /**
