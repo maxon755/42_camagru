@@ -2,13 +2,15 @@
 
 namespace app\components;
 
+use app\base\Application;
+
 /**
  * Класс Router
  *
  * Анализирует строку запроса.
  * Передает управление необходимому контроллеру
  */
-class Router
+class Router extends Application
 {
     /**
      * Массив шаблонов путей приложения.
@@ -90,7 +92,7 @@ class Router
      *
      * @return void
      */
-	public function run()
+	public function run(string $exceptionLocation)
 	{
 	    $pageFound = false;
 		$uri = $this->getURI();
@@ -99,6 +101,12 @@ class Router
 
 		if (is_null($uri))
             return ;
+
+        if (!self::$auth->loggedIn() && strpos($uri, $exceptionLocation) === false
+            && $uri !== 'favicon.ico') {
+            header('Location: /login');
+            return;
+        }
 
 		foreach ($this->routes as $uriPattern => $path)
 		{
@@ -109,7 +117,6 @@ class Router
             $controllerName = $this->getControllerName($segments);
             $actionName = $this->getActionName($segments);
             $controllerName = $this->getFullClassName($controllerName);
-
             $controllerObject = new $controllerName;
 
             if (!method_exists($controllerObject, $actionName)) {

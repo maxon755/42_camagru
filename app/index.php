@@ -20,6 +20,6 @@ Application::initApplication($config);
 session_start();
 
 $router = new Router();
-$router->run();
+$router->run('login');
 
 ?>
