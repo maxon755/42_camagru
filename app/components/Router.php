@@ -40,7 +40,7 @@ class Router extends Application
      *
      * @return string
      */
-	private function getURI()
+	private function getURI(): string
     {
         return trim($_SERVER['REQUEST_URI'], '/');
 	}
@@ -49,9 +49,10 @@ class Router extends Application
      * @param $segments
      * @return string
      */
-	private function getControllerName(&$segments)
+	private function getControllerName(&$segments): string
     {
         $controllerName = array_shift($segments) . 'Controller';
+
         return $controllerName;
     }
 
@@ -59,12 +60,13 @@ class Router extends Application
      * @param $segments
      * @return string
      */
-    public function getActionName(&$segments)
+    public function getActionName(&$segments): string
     {
         $actionName = array_shift($segments);
         $actionName = ucwords($actionName, "-");
         $actionName = str_replace("-", "", $actionName);
         $actionName = 'action' . $actionName;
+
         return  $actionName;
     }
 
@@ -75,9 +77,25 @@ class Router extends Application
      *
      * @return string
      */
-    private function  getFullClassName($controllerName)
+    private function  getFullClassName($controllerName): string
     {
         return sprintf($this->targetNameSpace . '%s', $controllerName);
+    }
+
+    /**
+     * @param array $allowedLocations
+     * @param $uri
+     * @return bool
+     */
+    private function isAllowed(array $allowedLocations, $uri): bool
+    {
+        foreach ($allowedLocations as $allowedLocation) {
+            if (strpos($uri, $allowedLocation) !== false) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**
@@ -92,7 +110,7 @@ class Router extends Application
      *
      * @return void
      */
-	public function run(string $exceptionLocation)
+	public function run(array $allowedLocations): void
 	{
 	    $pageFound = false;
 		$uri = $this->getURI();
@@ -102,8 +120,7 @@ class Router extends Application
 		if (is_null($uri))
             return ;
 
-        if (!self::$auth->loggedIn() && strpos($uri, $exceptionLocation) === false
-            && $uri !== 'favicon.ico') {
+        if (!self::$auth->loggedIn() && !$this->isAllowed($allowedLocations, $uri)) {
             Header::location('/login');
             return;
         }

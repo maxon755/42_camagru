@@ -11,7 +11,7 @@ $this->id = $this->id ?? $formWidgetName . '__' . $this->name;
 ?>
 
 <input id="<?= $this->id ?>"
-       class="<?= $formWidgetName . "__$widgetName ";
+       class="form-control <?= $formWidgetName . "__$widgetName ";
        echo $params['formSubmitted'] ? $this->isValid() ? 'valid-input' : 'invalid-input' : '' ?>"
        type="<?= $this->type ?>"
        name="<?= $this->name ?>"
