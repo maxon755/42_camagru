@@ -9,7 +9,9 @@ window.addEventListener('load', () => {
         });
     }
 
-    document.addEventListener('click', () => {
-        hide(dropdown);
-    });
+    if (dropdown) {
+        document.addEventListener('click', () => {
+            hide(dropdown);
+        });
+    }
 });

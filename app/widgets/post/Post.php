@@ -39,6 +39,9 @@ class Post extends Widget implements WidgetInterface
     /** @var array */
     private $comments;
 
+    /** @var string */
+    private $emailHash;
+
     public function __construct(array $postData, bool $async = false)
     {
         parent::__construct($postData, $async);

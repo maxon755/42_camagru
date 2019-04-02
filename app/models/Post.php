@@ -82,7 +82,8 @@ class Post extends DataBaseModel
             count(l.*)  AS likes,
             count(ul.*) AS liked,
             '${imagePath}' || c.user_id || '/' || p.image_name AS image_path,
-            to_char(p.creation_date, 'DD MonthYYYY HH:MM am') as date
+            to_char(p.creation_date, 'DD MonthYYYY HH:MM am') AS date,
+            MD5(TRIM(c.email)) AS email_hash
         FROM post AS p
         JOIN client AS c ON c.user_id = p.user_id
         LEFT JOIN post_like AS l ON l.post_id = p.post_id

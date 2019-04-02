@@ -39,6 +39,9 @@ $form = new InputForm([
 
 <div class="<?= $name . '__container' ?>" data-post-id ="<?= $this->postId ?>">
     <div class="<?= $name . '__info' ?>">
+        <a class="<?= $name . '__avatar' ?>" href="/ribbon/user/<?= Escape::html($this->username) ?>">
+            <img src="https://www.gravatar.com/avatar/<?= $this->emailHash ?>?d=identicon" alt="user avatar">
+        </a>
         <a class="<?= $name . '__username' ?>" href="/ribbon/user/<?= Escape::html($this->username) ?>">
             <?= Escape::html($this->username) ?>
         </a>
