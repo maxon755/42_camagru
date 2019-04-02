@@ -39,7 +39,7 @@ $form = new InputForm([
 
 <div class="<?= $name . '__container' ?>" data-post-id ="<?= $this->postId ?>">
     <div class="<?= $name . '__info' ?>">
-        <a class="<?= $name . '__username' ?>" href="/user/<?= Escape::html($this->username) ?>">
+        <a class="<?= $name . '__username' ?>" href="/ribbon/user/<?= Escape::html($this->username) ?>">
             <?= Escape::html($this->username) ?>
         </a>
         <span class="<?= $name . '__date' ?>"><?= $this->date ?></span>

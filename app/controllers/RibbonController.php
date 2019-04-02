@@ -26,7 +26,7 @@ class RibbonController extends Controller
 		$this->render('ribbon', true);
 	}
 
-	public function actionGetPosts(): void
+	public function actionGetPosts(string $username = null): void
     {
         $offset = $_POST['offset'];
         $limit  = $_POST['limit'];
@@ -38,9 +38,10 @@ class RibbonController extends Controller
         }
 
         $postModel = new Post();
-        $postsData = $postModel->getPosts($this->userId, [
+        $postsData = $postModel->getPosts($this->userId, array_filter([
             'is_deleted' => 'false',
-        ], $offset, $limit);
+            'username'   => $username,
+        ]), $offset, $limit);
 
         $commentModel = new Comment();
         $posts = [];
@@ -138,6 +139,11 @@ class RibbonController extends Controller
         echo $this->jsonResponse($commentModel->deleteComment($commentId));
     }
 
+    public function actionUser(string $username):void
+    {
+        $this->render('ribbon', true, ['username' => $username]);
+    }
+
     public function actionCommentNotify()
     {
         $commentId = $_POST['commentId'];
@@ -146,6 +152,5 @@ class RibbonController extends Controller
             echo $this->jsonResponse(false);
             return;
         }
-
     }
 }

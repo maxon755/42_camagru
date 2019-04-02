@@ -13,9 +13,9 @@ $this->registerJsFile('/template/header/header.js', true);
             <div class="dropdown right">
                 <a href="#" class="nav-link dropdown-toggle white nav-item" data-toggle="dropdown"><?= $username ?></a>
                 <div class="dropdown-menu">
-                    <a class="dropdown-item" href="/user/<?= $username ?>" >My Page</a>
-                    <a class="dropdown-item" href="/settings">Settings</a>
+                    <a class="dropdown-item" href="/ribbon/user/<?= $username ?>">My Posts</a>
                     <a class="dropdown-item" href="/image">Create Post</a>
+                    <a class="dropdown-item" href="/settings">Settings</a>
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item" href="/logout">Logout</a>
                 </div>

@@ -2,6 +2,8 @@
 
 return array(
 	'^$'                => 'Ribbon/index',
+	'^ribbon$'          => 'Ribbon/index',
+    '^ribbon/(.+)/(.+)$'=> 'Ribbon/$1/$2',
     '^ribbon/(.+)$'     => 'Ribbon/$1',
     '^login$'           => 'Login/index',
     '^login/(.+)$'      => 'Login/$1',

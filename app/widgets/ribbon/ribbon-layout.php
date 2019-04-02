@@ -11,7 +11,7 @@ $this->view->registerJsScript(<<<JS
 let ribbonData = {
     'url': '$this->url',
     'offset': $this->offset,
-    'limit': $this->limit
+    'limit': $this->limit,
 };
 JS
 )
