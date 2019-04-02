@@ -123,13 +123,15 @@ class InputForm extends Widget implements WidgetInterface
         foreach ($values as $name => $value)
         {
             $name = CaseTranslator::toKebab($name);
-            if (!isset($this->inputs[$name])) {
+            $field = $this->inputs[$name] ?? null;
+            if (!isset($field) || !$field->shouldFeel()) {
                 continue ;
             }
-            $this->inputs[$name]->setValue($value);
-            if (($auxSource = $this->inputs[$name]->getAuxValue()) !== null) {
+
+            $field->setValue($value);
+            if (($auxSource = $field->getAuxValue()) !== null) {
                 $auxValue = $this->inputs[$auxSource]->getValue();
-                $this->inputs[$name]->setAuxValue($auxValue);
+                $field->setAuxValue($auxValue);
             }
         }
     }

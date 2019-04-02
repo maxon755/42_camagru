@@ -25,6 +25,9 @@ abstract class Input extends Widget
     /** @var string[] */
     protected $checks;
 
+    /** @var bool  */
+    protected $fillValue = true;
+
     public function __construct(array $params = [], bool $async = false)
     {
         parent::__construct($params, $async);
@@ -86,5 +89,13 @@ abstract class Input extends Widget
     public function isUnique(): bool
     {
         return (bool)$this->unique;
+    }
+
+    /**
+     * @return bool
+     */
+    public function shouldFeel(): bool
+    {
+        return $this->fillValue;
     }
 }

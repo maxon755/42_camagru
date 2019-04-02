@@ -6,7 +6,8 @@ $username = self::$auth->getUserName();
 $this->registerJsFile('/template/header/header.js', true);
 ?>
 
-<nav class="nav align-items-center container-fluid">
+<header>
+    <nav class="nav align-items-center container-fluid">
         <a href="/" class="nav-link white nav-item">Memogram</a>
 
         <?php if (self::$auth->loggedIn()): ?>
@@ -25,4 +26,5 @@ $this->registerJsFile('/template/header/header.js', true);
             <a class="nav-link right white nav-item" href="/login">Log in</a>
 
         <?php endif ?>
-</nav>
+    </nav>
+</header>

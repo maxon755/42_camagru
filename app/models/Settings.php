@@ -11,58 +11,9 @@ use app\widgets\inputForm\InputForm;
 
 class Settings extends InputForm
 {
-    public function __construct()
+    public function __construct(array $formConfig)
     {
-        parent::__construct([
-            'tittle' => 'User Settings',
-            'action' => '/settings/save',
-            'inputs' => [
-                'username'  => new InputField([
-                    'name'      => 'username',
-                    'type'      => 'text',
-                    'required'  => true,
-                    'unique'    => true,
-                    'checks'    => [
-                        'emptiness',
-                        'length',
-                        'word'
-                    ]
-                ]),
-                'first-name'=> new InputField([
-                    'name'      => 'first-name',
-                    'type'      => 'text',
-                    'checks'    => [
-                        'length',
-                    ]
-                ]),
-                'last-name' => new InputField([
-                    'name'      => 'last-name',
-                    'type'      => 'text',
-                    'checks'    => [
-                        'length',
-                    ]
-                ]),
-                'email'     => new InputField([
-                    'name'      => 'email',
-                    'type'      => 'email',
-                    'required'  => true,
-                    'unique'    => true,
-                    'checks'    => [
-                        'emptiness',
-                        'length',
-                        'email'
-                    ]
-                ]),
-                'like-notify' => new Checkbox([
-                    'name'  => 'like-notify',
-                    'label' => 'Like notification',
-                ]),
-                'comment-notify' => new Checkbox([
-                    'name'  => 'comment-notify',
-                    'label' => 'Comment notification',
-                ]),
-            ]
-        ]);
+        parent::__construct($formConfig);
     }
 
     /**

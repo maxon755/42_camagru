@@ -1,26 +1,26 @@
-.right {
+header .right {
     position: absolute;
     right: 0;
 }
 
-.dropdown-menu {
+header  .dropdown-menu {
     left: -50px;
 }
 
-.nav {
+header .nav {
     /*height: 50px;*/
     background-color: #1f78d1;
 }
 
-.white {
+header  .white {
     color: white;
 }
 
-.nav-item {
+header .nav-item {
     margin: 0 20px;
 }
 
-.nav-item:hover {
+header .nav-item:hover {
     background-color: #1855ae;
     border-radius: 5px;
     color: white;
