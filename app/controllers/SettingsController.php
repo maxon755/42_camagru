@@ -61,8 +61,9 @@ class SettingsController extends Controller
                 self::$auth->login($userInput['username']);
             }
             // TODO: notify about update result;
-            $url = '/settings';
-            Header::location('/settings');
+
+            $url = $this->getUrl($userInput['formName']);
+            Header::location($url);
         }
 
         $this->renderForm();
@@ -77,5 +78,14 @@ class SettingsController extends Controller
         $formName = CaseTranslator::toCamel($formName) . 'Form';
 
         return $this->{$formName};
+    }
+
+    /**
+     * @param string $formName
+     * @return string
+     */
+    private function getUrl(string $formName): string
+    {
+        return '/settings#' . explode('-', $formName)[0];
     }
 }
