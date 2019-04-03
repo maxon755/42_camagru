@@ -12,7 +12,7 @@ class PasswordSettings extends Settings
     {
         parent::__construct([
             'tittle' => 'Password Settings',
-            'action' => '/settings/save',
+            'action' => '/settings/save#password',
             'inputs' => [
                 'password'  => new InputField([
                     'name'      => 'password',
@@ -44,6 +44,14 @@ class PasswordSettings extends Settings
      */
     protected function updateData(array $userInput): bool
     {
-        return (new Client())->updateUserPassword($userInput['password']);
+        $res = (new Client())->updateUserPassword($userInput['password']);
+
+        if ($res) {
+            $this->setResult('Password successfully updated', 'success');
+        } else {
+            $this->setResult('An error happened while password updating', 'danger');
+        }
+
+        return $res;
     }
 }

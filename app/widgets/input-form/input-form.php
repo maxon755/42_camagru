@@ -33,11 +33,20 @@ $this->view->registerCssFile('/widgets/input-form/input-form.css', true);
                 </div>
             <?php endforeach ?>
 
+            <?php if ($this->result): ?>
+                <div class="alert result <?= 'alert-' . $this->resultStyle ?>" role="alert">
+                    <?= $this->result ?>
+                </div>
+            <?php endif; ?>
+
             <div class="row justify-content-center col-12">
                 <input class="<?= $widgetName . '__submit' ?> btn btn-primary col-sm-4"
                        type="submit" value="Submit">
             </div>
         </div>
+
+
+
         <div class="<?= $widgetName . '__aggregate' ?>">&nbsp;</div>
     </form>
 </div>

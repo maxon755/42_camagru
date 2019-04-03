@@ -63,6 +63,14 @@ class GeneralSettings extends Settings
 
     protected function updateData($userInput): bool
     {
-        return (new Client())->updateGeneralUserData($userInput);
+        $res =  (new Client())->updateGeneralUserData($userInput);
+
+        if ($res) {
+            $this->setResult('Your data successfully updated', 'success');
+        } else {
+            $this->setResult('An error happened while data updating', 'danger');
+        }
+
+        return $res;
     }
 }

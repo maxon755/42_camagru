@@ -42,6 +42,12 @@ class InputForm extends Widget implements WidgetInterface
     /** @var string  */
     private $description;
 
+    /** @var string */
+    private $result;
+
+    /** @var @var string */
+    private $resultStyle;
+
     /**
      * @param array $params
      * @param array $inputFields
@@ -212,5 +218,15 @@ class InputForm extends Widget implements WidgetInterface
     public function setSubmitted(bool $submitted): void
     {
         $this->submitted = $submitted;
+    }
+
+    /**
+     * @param string $result
+     * @param string $style
+     */
+    public function setResult(string $result, string $style = 'light'): void
+    {
+        $this->result = $result;
+        $this->resultStyle = $style;
     }
 }

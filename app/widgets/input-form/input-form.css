@@ -64,6 +64,13 @@ div[class^='input-form__unit'] {
     box-shadow: 0 0 3px 1px #ff4c31 !important;
 }
 
-.description {
+.input-form .description {
     width: 80%;
+}
+
+.input-form .result {
+    width: 80%;
+
+    /*margin-top: 20px;*/
+    /*margin-bottom: 0;*/
 }

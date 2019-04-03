@@ -23,7 +23,8 @@ class RestorePasswordForm extends InputForm
                         'word'
                     ]
                 ])],
-            'description' => 'Specify your username. A new password will be sanded to related email.'
+            'description' => 'Specify your username. ' .
+                'A new password will be sanded to related email.',
         ]);
     }
 }
