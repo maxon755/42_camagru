@@ -1,9 +1,13 @@
+header {
+    margin-bottom: 20px;
+}
+
 header .right {
     position: absolute;
     right: 0;
 }
 
-header  .dropdown-menu {
+header .dropdown-menu {
     left: -50px;
 }
 
@@ -12,7 +16,7 @@ header .nav {
     background-color: #1f78d1;
 }
 
-header  .white {
+header .white {
     color: white;
 }
 

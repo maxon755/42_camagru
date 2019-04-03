@@ -16,6 +16,11 @@ $this->view->registerCssFile('/widgets/input-form/input-form.css', true);
             <hr class="<?= $widgetName . '__line' ?>">
         <?php endif; ?>
 
+        <?php if ($this->description): ?>
+            <div class="alert alert-primary description" role="alert">
+                <?= $this->description ?>
+            </div>
+        <?php endif; ?>
 
         <div class="<?= $widgetName . '__container' ?>">
             <?php $i = 1 ?>
@@ -33,6 +38,7 @@ $this->view->registerCssFile('/widgets/input-form/input-form.css', true);
                        type="submit" value="Submit">
             </div>
         </div>
+        <div class="<?= $widgetName . '__aggregate' ?>">&nbsp;</div>
     </form>
 </div>
 

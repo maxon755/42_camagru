@@ -9,8 +9,10 @@ use app\models\LoginForm;
 
 class LoginController extends Controller
 {
+    /** @var LoginForm  */
     private $loginForm;
 
+    /** @var string  */
     private const VIEW_NAME = 'login';
 
     public function __construct()

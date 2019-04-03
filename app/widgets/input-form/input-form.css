@@ -5,14 +5,11 @@
 
 .input-form {
     position: relative;
-    top: 20px;
     box-shadow: 0 0 10px 1px lightgray;
 }
 
-.input-form__container:after {
-    display: inline-block;
-    height: 10px;
-    content: " ";
+.input-form__aggregate {
+    height: 20px;
 }
 
 .input-form__header {
@@ -58,12 +55,15 @@ div[class^='input-form__unit'] {
 }
 
 .valid-input {
-    border-color: limegreen;
-    box-shadow: 0 0 3px 1px limegreen;
+    border-color: limegreen !important;
+    box-shadow: 0 0 3px 1px limegreen !important;
 }
 
 .invalid-input {
-    border-color: red;
-    box-shadow: 0 0 3px 1px #ff4c31;
+    border-color: red !important;
+    box-shadow: 0 0 3px 1px #ff4c31 !important;
 }
 
+.description {
+    width: 80%;
+}

@@ -39,6 +39,9 @@ class InputForm extends Widget implements WidgetInterface
     /** @var bool  */
     private $submitted = false;
 
+    /** @var string  */
+    private $description;
+
     /**
      * @param array $params
      * @param array $inputFields

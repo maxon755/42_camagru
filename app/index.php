@@ -20,6 +20,6 @@ Application::initApplication($config);
 session_start();
 
 $router = new Router();
-$router->run(['login', 'sign-up', 'favicon.ico']);
+$router->run(['login', 'sign-up', 'restore-password', 'favicon.ico']);
 
 ?>
