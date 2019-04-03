@@ -28,6 +28,8 @@ abstract class Input extends Widget
     /** @var bool  */
     protected $fillValue = true;
 
+    protected $save = true;
+
     public function __construct(array $params = [], bool $async = false)
     {
         parent::__construct($params, $async);
@@ -97,5 +99,10 @@ abstract class Input extends Widget
     public function shouldFeel(): bool
     {
         return $this->fillValue;
+    }
+
+    public function shouldSave(): bool
+    {
+        return $this->save;
     }
 }

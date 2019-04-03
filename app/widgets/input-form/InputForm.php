@@ -160,7 +160,7 @@ class InputForm extends Widget implements WidgetInterface
         return $this->inputs;
     }
 
-    public function getInputField(string $filedName): InputField
+    public function getInputField(string $filedName): Input
     {
         return $this->inputs[$filedName];
     }
@@ -176,10 +176,13 @@ class InputForm extends Widget implements WidgetInterface
     /**
      * @return array
      */
-    public function getValues(): array
+    public function getValues(bool $filter = true): array
     {
         $values = [];
         foreach ($this->inputs as $inputField) {
+            if ($filter && !$inputField->shouldSave()) {
+                continue;
+            }
             $values[$inputField->getName()] = $inputField->getValue();
         }
         return $values;

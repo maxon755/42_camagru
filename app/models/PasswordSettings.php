@@ -18,7 +18,6 @@ class PasswordSettings extends Settings
                     'name'      => 'password',
                     'type'      => 'password',
                     'required'  => true,
-                    'unique'    => true,
                     'checks'    => [
                         'emptiness',
                         'password'
@@ -29,6 +28,7 @@ class PasswordSettings extends Settings
                     'type'      => 'password',
                     'required'  => true,
                     'auxValue'  => 'password',
+                    'save'      => false,
                     'checks'    => [
                         'emptiness',
                         'equality'
@@ -36,5 +36,14 @@ class PasswordSettings extends Settings
                 ]),
             ]
         ]);
+    }
+
+    /**
+     * @param array $userInput
+     * @return bool
+     */
+    protected function updateData(array $userInput): bool
+    {
+        return (new Client())->updateUserPassword($userInput['password']);
     }
 }

@@ -56,9 +56,12 @@ class SettingsController extends Controller
         $form = $this->getForm($userInput['formName']);
 
         if ($form->save($userInput)) {
-            $userInput = $form->getValues();
-            self::$auth->login($userInput['username']);
+            $username = $form->getValues()['username'] ?? null;
+            if ($username) {
+                self::$auth->login($userInput['username']);
+            }
             // TODO: notify about update result;
+            $url = '/settings';
             Header::location('/settings');
         }
 

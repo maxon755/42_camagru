@@ -60,4 +60,9 @@ class GeneralSettings extends Settings
             ]
         ]);
     }
+
+    protected function updateData($userInput): bool
+    {
+        return (new Client())->updateGeneralUserData($userInput);
+    }
 }

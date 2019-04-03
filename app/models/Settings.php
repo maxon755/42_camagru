@@ -6,7 +6,7 @@ namespace app\models;
 use app\widgets\inputForm\InputChecker;
 use app\widgets\inputForm\InputForm;
 
-class Settings extends InputForm
+abstract class Settings extends InputForm
 {
     public function __construct(array $formConfig)
     {
@@ -29,9 +29,15 @@ class Settings extends InputForm
         }
         if ($this->isValid()) {
             $userInput = $this->getValues();
-            $clientModel->updateUserData($userInput);
+            $this->updateData($userInput);
         }
 
         return $this->isValid();
     }
+
+    /**
+     * @param array $userInput
+     * @return mixed
+     */
+    abstract protected function updateData(array $userInput);
 }
