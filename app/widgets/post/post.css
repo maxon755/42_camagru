@@ -110,18 +110,17 @@
 }
 
 .post__container .input-form__submit {
-    display: block;
+    /*display: block;*/
 
     height: 30px;
     margin-top: 10px;
     font-size: 12px;
-    color: white;
-    background-color: #1f78d1;
-    border-radius: 3px;
-    border: none;
+    position: relative; !important;
+    /*left: calc(100% - 40px - 30px);*/
 
-    position: relative;
-    left: calc(100% - 40px - 30px);
+    right: 0;
+
+    /*align-self: end; !important;*/
 }
 
 .post__container .input-form__submit:hover {

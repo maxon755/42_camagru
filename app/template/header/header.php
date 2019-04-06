@@ -4,6 +4,7 @@
 
 $username = self::$auth->getUserName();
 $this->registerJsFile('/template/header/header.js', true);
+$this->registerCSSFile('/template/header/header.css', true);
 ?>
 
 <header>

@@ -25,7 +25,6 @@ class Application
         self::$config           = $config;
         self::$appName          = $config['appName'];
         self::$mode             = $config['mode'];
-        self::$viewComponents   = $config['viewComponents'];
 
         self::$auth = new Auth();
     }

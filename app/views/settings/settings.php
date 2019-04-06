@@ -8,7 +8,7 @@ $this->registerJsFile('/widgets/input-form/input-validator.js', true);
 ?>
 
 <nav>
-    <div class="nav nav-tabs">
+    <div class="nav nav-tabs row justify-content-center">
         <a class="nav-item nav-link active" href="#general" data-pane="general">General</a>
         <a class="nav-item nav-link" href="#password" data-pane="password">Password</a>
     </div>

@@ -1,0 +1,10 @@
+footer {
+    position: fixed;
+
+    background-color: #707070;
+
+    bottom: 0;
+    text-align: right;
+    color: aliceblue;
+}
+
