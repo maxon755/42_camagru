@@ -66,8 +66,11 @@ foreach ($this->inputs as $name => $field) {
 $inputs = json_encode($inputs);
 
     $this->view->registerJsScript(<<<JS
-var inputForm = {
-        fields : $inputs
+
+if (window.inputFields === undefined) {
+    var inputFields = {};
 };
+
+inputFields = Object.assign(inputFields, $inputs);
 JS
 );

@@ -3,11 +3,8 @@ window.onload = function () {
 
     var submitButton = document.getElementById("input-form__submit");
 
-    let inputFields = {};
-
-    for (let field in inputForm.fields) {
-        let data = inputForm.fields[field];
-        inputFields[field] = new InputField(data.id, data.unique);
+    for (let field in inputFields) {
+        new InputField(inputFields[field].id, inputFields[field].unique);
     }
 };
 
