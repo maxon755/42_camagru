@@ -88,26 +88,28 @@ class Client extends DataBaseModel implements AvailabilityChecker, CredentialsCh
     }
 
     /**
+     * @param int $userId
      * @param array $userInput
      * @return bool
      */
-    public function updateGeneralUserData(array $userInput): bool
+    public function updateGeneralUserData(int $userId, array $userInput): bool
     {
         return $this->db->update($userInput, [
-            'user_id' => self::$auth->getUserId(),
+            'user_id' => $userId,
         ]);
     }
 
     /**
+     * @param int $userId
      * @param string $password
      * @return bool
      */
-    public function updateUserPassword(string $password): bool
+    public function updateUserPassword(int $userId, string $password): bool
     {
         return $this->db->update([
             'password' => $this->encryptPassword($password)
         ], [
-            'user_id' => self::$auth->getUserId(),
+            'user_id' => $userId,
         ]);
     }
 }

@@ -38,7 +38,7 @@ class SettingsController extends Controller
 
     public function renderForm()
     {
-        $this->render($this::VIEW_NAME, true, [
+        $this->render(self::VIEW_NAME, true, [
             'settingsForm' => $this->generalSettingsForm,
             'passwordForm' => $this->passwordSettingsForm,
         ]);
@@ -55,7 +55,7 @@ class SettingsController extends Controller
 
         $form = $this->getForm($userInput['formName']);
 
-        if ($form->save($userInput)) {
+        if ($form->save(self::$auth->getUserId(), $userInput)) {
             $username = $form->getValues()['username'] ?? null;
             if ($username) {
                 self::$auth->login($userInput['username']);

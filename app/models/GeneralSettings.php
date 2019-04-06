@@ -61,9 +61,9 @@ class GeneralSettings extends Settings
         ]);
     }
 
-    protected function updateData($userInput): bool
+    protected function updateData(int $userId, array $userInput): bool
     {
-        $res =  (new Client())->updateGeneralUserData($userInput);
+        $res =  (new Client())->updateGeneralUserData($userId, $userInput);
 
         if ($res) {
             $this->setResult('Your data was successfully updated', 'success');

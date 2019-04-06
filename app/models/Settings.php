@@ -14,10 +14,11 @@ abstract class Settings extends InputForm
     }
 
     /**
+     * @param int $userId
      * @param array $userInput
      * @return bool
      */
-    public function save(array $userInput): bool
+    public function save(int $userId, array $userInput): bool
     {
         $clientModel = new Client();
 
@@ -29,7 +30,7 @@ abstract class Settings extends InputForm
         }
         if ($this->isValid()) {
             $userInput = $this->getValues();
-            $this->updateData($userInput);
+            $this->updateData($userId, $userInput);
         }
 
         return $this->isValid();
@@ -39,5 +40,5 @@ abstract class Settings extends InputForm
      * @param array $userInput
      * @return mixed
      */
-    abstract protected function updateData(array $userInput);
+    abstract protected function updateData(int $userId, array $userInput);
 }

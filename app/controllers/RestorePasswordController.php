@@ -19,7 +19,7 @@ class RestorePasswordController extends Controller
     /** @var PasswordSettings  */
     private $restorePasswordForm;
 
-    private const REQUEST_VIEW_NAME = 'restore-password-request';
+    private const REQUEST_VIEW_NAME = 'restore-password';
 
     public function __construct()
     {
@@ -113,7 +113,7 @@ class RestorePasswordController extends Controller
         if (!$tokenIsValid) {
             $this->restorePasswordForm->setResult('Wrong link', 'danger');
         } else {
-            $this->restorePasswordForm->save($userInput);
+            $this->restorePasswordForm->save($userId, $userInput);
         }
 
         $this->render(self::REQUEST_VIEW_NAME, true, [

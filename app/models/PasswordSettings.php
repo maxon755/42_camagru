@@ -44,12 +44,13 @@ class PasswordSettings extends Settings
     }
 
     /**
+     * @param int $userId
      * @param array $userInput
      * @return bool
      */
-    protected function updateData(array $userInput): bool
+    protected function updateData(int $userId, array $userInput): bool
     {
-        $res = (new Client())->updateUserPassword($userInput['password']);
+        $res = (new Client())->updateUserPassword($userId, $userInput['password']);
 
         if ($res) {
             $this->setResult('Password was successfully updated', 'success');
