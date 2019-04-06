@@ -1,10 +1,12 @@
 <?php
 
+
 namespace app\models;
+
 
 use app\base\DataBaseModel;
 
-class AuthToken extends DataBaseModel
+class PasswordToken extends DataBaseModel
 {
     /**
      * @param int $userId
@@ -15,8 +17,8 @@ class AuthToken extends DataBaseModel
     {
         if (!$this->rowExists(['user_id' => $userId])) {
             return $this->db->insert([
-                'user_id'   => $userId,
-                'token'     => $token,
+                'user_id' => $userId,
+                'token' => $token,
             ]);
         } else {
             return $this->db->update(['token' => $token], ['user_id' => $userId]);

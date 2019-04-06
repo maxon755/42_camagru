@@ -8,10 +8,15 @@ use app\widgets\inputForm\components\inputField\InputField;
 
 class PasswordSettings extends Settings
 {
-    public function __construct()
+    /**
+     * PasswordSettings constructor.
+     * @param string|null $titte
+     * @throws \ReflectionException
+     */
+    public function __construct(string $titte = null)
     {
         parent::__construct([
-            'tittle' => 'Password Settings',
+            'tittle' => $titte ?? 'Password Settings',
             'action' => '/settings/save#password',
             'inputs' => [
                 'password'  => new InputField([

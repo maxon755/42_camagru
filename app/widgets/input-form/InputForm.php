@@ -229,4 +229,12 @@ class InputForm extends Widget implements WidgetInterface
         $this->result = $result;
         $this->resultStyle = $style;
     }
+
+    /**
+     * @param string $action
+     */
+    public function setAction(string $action): void
+    {
+        $this->action = $action;
+    }
 }

@@ -15,6 +15,7 @@ return [
     '^settings$'                => 'Settings/index',
     '^settings/(.+)$'           => 'Settings/$1',
     '^error/(.+)$'              => 'Error/$1',
-    '^restore-password$'        => 'RestorePassword/index',
-    '^restore-password/(.+)$'   => 'RestorePassword/$1',
+    '^restore-password$'                => 'RestorePassword/index',
+    '^restore-password/(.+)/(.+)/(.+)$' => 'RestorePassword/$1/$2/$3',
+    '^restore-password/(.+)$'           => 'RestorePassword/$1',
 ];

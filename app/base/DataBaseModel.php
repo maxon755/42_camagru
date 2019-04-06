@@ -55,6 +55,15 @@ class DataBaseModel extends Application
     }
 
     /**
+     * @param string $value
+     * @return string
+     */
+    public function encrypt(string $value): string
+    {
+        return $this->encryptPassword($value);
+    }
+
+    /**
      * @param array $data
      * @return bool
      */
@@ -88,11 +97,16 @@ class DataBaseModel extends Application
      * @param $whereData
      * @return mixed
      */
-    public function getValue($columnName, $whereData)
+    public function getValue(string $columnName, array $whereData)
     {
         $result = $this->db->selectWhere($whereData);
 
         return !empty($result) ? $result[0][$columnName] : null;
+    }
+
+    public function getValues(array $columns, array $where)
+    {
+        return $this->db->selectWhere($where, $columns);
     }
 
     public function prepareWhereData($data, string $operator = null)

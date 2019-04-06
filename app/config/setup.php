@@ -94,3 +94,8 @@ $db->executeQuery('CREATE TABLE IF NOT EXISTS comment (
     creation_date TIMESTAMP NOT NULL DEFAULT NOW(),
     comment       text NOT NULL
 )');
+
+$db->executeQuery('CREATE TABLE IF NOT EXISTS password_token (
+    user_id     INTEGER PRIMARY KEY REFERENCES client(user_id),
+    token       VARCHAR(23)
+)');

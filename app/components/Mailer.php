@@ -13,7 +13,7 @@ class Mailer
      */
     public function sendEmail(string $to, string $subject, string $body): bool
     {
-        $headers = 'From: Camagru Team <mg@camagru.zzz.com.ua>' . "\r\n" .
+        $headers = 'From: Memagru Team <mg@camagru.zzz.com.ua>' . "\r\n" .
             'Reply-To: mg@camagru.zzz.com.ua' . "\r\n" .
             'MIME-Version: 1.0' . "\r\n" .
             'Content-Type: text/html; charset=utf-8' . "\r\n" .
