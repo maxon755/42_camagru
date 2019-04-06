@@ -3,6 +3,7 @@
 namespace app\controllers;
 
 use app\base\Controller;
+use app\components\Header;
 use app\components\Mailer;
 use app\models\SignUpForm;
 use app\models\Client;
@@ -45,14 +46,11 @@ class SignUpController extends Controller
 
         $result = $this->signUpForm->confirm($userInput);
 
-        if ($result) {
-            $this->sendActivationEmail($userInput['email']);
-            // TODO: notify about activation mail sending;
-            header('Location: /');
+        if ($result && $this->sendActivationEmail($userInput['email'])) {
+            $this->signUpForm->setResult('The activation link was sent to your email', 'success');
         }
-        else {
-           $this->renderForm();
-        }
+
+        $this->renderForm();
     }
 
     /**
@@ -75,16 +73,12 @@ class SignUpController extends Controller
     public function actionActivate(string $activationCode): void
     {
         $clientModel = new Client();
-
         $clientData = $clientModel->getRowWhere(['activation_code' => $activationCode]);
 
         if (!empty($clientData)
             && $clientModel->activateAccount($activationCode)
-            && self::$auth->login($this->signUpForm->getValue('username'))) {
-            // TODO: notify about activation result;
-            echo 'success';
-        } else {
-            echo 'Something going wrong';
+            && self::$auth->login($clientData['username'])) {
+            Header::location('/');
         }
     }
 }
