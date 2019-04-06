@@ -66,7 +66,7 @@ class GeneralSettings extends Settings
         $res =  (new Client())->updateGeneralUserData($userInput);
 
         if ($res) {
-            $this->setResult('Your data successfully updated', 'success');
+            $this->setResult('Your data was successfully updated', 'success');
         } else {
             $this->setResult('An error happened while data updating', 'danger');
         }

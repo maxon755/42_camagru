@@ -1,3 +1,7 @@
 .checkbox-wrapper {
     display: flex;
 }
+
+.nav {
+    margin-bottom: 20px;
+}

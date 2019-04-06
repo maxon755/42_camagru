@@ -60,10 +60,6 @@ class SettingsController extends Controller
             if ($username) {
                 self::$auth->login($userInput['username']);
             }
-            // TODO: notify about update result;
-
-            $url = $this->getUrl($userInput['formName']);
-            Header::location($url);
         }
 
         $this->renderForm();

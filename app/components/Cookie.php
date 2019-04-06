@@ -15,6 +15,15 @@ class Cookie
         return ArrayHelper::get($_COOKIE, $name);
     }
 
+    public static  function getFromHeader(string $name)
+    {
+        foreach (headers_list() as $header) {
+            if (preg_match("/Set-Cookie:\s${name}=(?<${name}>.+?);/", $header, $matches)) {
+                return urldecode($matches[$name]);
+            }
+        }
+    }
+
     /**
      * @param string $name
      * @param string $value

@@ -47,7 +47,7 @@ class PasswordSettings extends Settings
         $res = (new Client())->updateUserPassword($userInput['password']);
 
         if ($res) {
-            $this->setResult('Password successfully updated', 'success');
+            $this->setResult('Password was successfully updated', 'success');
         } else {
             $this->setResult('An error happened while password updating', 'danger');
         }

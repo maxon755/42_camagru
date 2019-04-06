@@ -35,7 +35,7 @@ class Auth
     {
         $this->username = $username;
         $this->fetchUserId($username);
-        $this->token = $this->manageToken();
+        $this->manageToken();
 
         return  Cookie::set('username', $this->username) &&
                 Cookie::set('token', $this->token);
@@ -72,7 +72,9 @@ class Auth
     public function loggedIn(): bool
     {
         $this->fetchToken();
-        return $this->clientDataExists() && $this->token === Cookie::get('token');
+        return $this->clientDataExists() &&
+            ($this->token === Cookie::get('token') ||
+            $this->token === Cookie::getFromHeader('token'));
     }
 
     public function fetchToken(): void
@@ -105,12 +107,10 @@ class Auth
     /**
      * @return string
      */
-    private function manageToken(): string
+    private function manageToken(): void
     {
-        $token = password_hash($this->username . time(), PASSWORD_BCRYPT);
-        (new AuthToken())->insertToken($this->userId, $token);
-
-        return $token;
+        $this->token = password_hash($this->username . time(), PASSWORD_BCRYPT);
+        (new AuthToken())->insertToken($this->userId, $this->token);
     }
 
     /**
