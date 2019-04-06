@@ -4,6 +4,7 @@ namespace app\controllers;
 
 use app\base\Controller;
 use app\base\Widget;
+use app\components\Mailer;
 use app\models\Comment;
 use app\models\Post;
 use app\models\PostLike;
@@ -110,10 +111,11 @@ class RibbonController extends Controller
 
         $commentId = $commentModel->addComment($postId, $this->userId, $comment);
         $commentData = $commentModel->getComments(['comment_id' => $commentId])[0];
+        $shouldNotify = $commentModel->shouldNotify($commentId, 'comment');
 
         echo $this->jsonResponse($commentId, [
             'commentId'     => $commentData['comment_id'],
-            'shouldNotify'  => $commentData['comment_notify'],
+            'shouldNotify'  => $shouldNotify,
             'comment'       => Widget::getContent(
                 new CommentWidget($commentData, true)
             )
@@ -139,7 +141,7 @@ class RibbonController extends Controller
         echo $this->jsonResponse($commentModel->deleteComment($commentId));
     }
 
-    public function actionUser(string $username):void
+    public function actionUser(string $username): void
     {
         $this->render('ribbon', true, ['username' => $username]);
     }
@@ -152,5 +154,36 @@ class RibbonController extends Controller
             echo $this->jsonResponse(false);
             return;
         }
+
+        $commentModel = new Comment();
+        $data = $commentModel->getCommentNotificationData([
+            'comment_id' => $commentId
+        ])[0];
+
+        if ($data['comment_writer'] === $data['post_owner']) {
+            echo $this->jsonResponse(false);
+            return;
+        }
+
+        echo $this->jsonResponse($this->sendCommentNotificationEmail($data));
+    }
+
+    /**
+     * @param array $data
+     * @return bool
+     */
+    private function sendCommentNotificationEmail(array $data): bool
+    {
+        $email          = $data['email'];
+        $commentWriter  = $data['comment_writer'];
+        $postOwner      = $data['post_owner'];
+        $commentText    = $data['comment_text'];
+        $body = include(ROOT . DS . 'mails/comment.php');
+
+        return (new Mailer())->sendEmail(
+            $email,
+            'Comment Notification',
+            $body
+        );
     }
 }

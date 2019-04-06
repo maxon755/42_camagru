@@ -27,7 +27,6 @@ class Comment extends DataBaseModel
         $query = "SELECT
             comment_id,
             cl.username,
-            cl.comment_notify,
             to_char(creation_date, 'DD MonthYYYY HH:MM am') AS date,
             comment
             FROM comment cm
@@ -59,5 +58,29 @@ class Comment extends DataBaseModel
         return $this->db->delete([
             'comment_id' => $commentId,
         ]);
+    }
+
+    public function getCommentNotificationData(array $where): array
+    {
+        return $this->db->select('
+            SELECT po.email AS email, po.username AS post_owner,
+                   cw.username AS comment_writer,
+                   cm.comment AS comment_text
+            FROM comment AS cm
+            JOIN client AS cw ON cw.user_id = cm.user_id
+            JOIN post AS p ON p.post_id = cm.post_id
+            JOIN client AS po ON po.user_id = p.user_id',
+            $where
+        );
+    }
+
+    public function shouldNotify(int $commentId, string $subject): bool
+    {
+        return $this->db->select("
+            SELECT c.${subject}_notify AS should_notify
+            FROM comment AS cm
+            JOIN post p on cm.post_id = p.post_id
+            JOIN client c on p.user_id = c.user_id
+        ", ['comment_id' => $commentId])[0]['should_notify'];
     }
 }
