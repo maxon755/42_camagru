@@ -18,7 +18,7 @@ $currentUser = self::$auth->getUserName();
         </a>
         <span class="<?= $name . '__date' ?>"><?= $this->date ?></span>
     </div>
-    <hr class="<?= $name . '__line' ?>">
+    <hr class="<?= $name . '__line'?> no-margin">
     <p class="comment__content"><?= nl2br(Escape::html($this->comment))  ?></p>
 
     <?php if ($this->username === $currentUser): ?>

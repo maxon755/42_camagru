@@ -48,19 +48,19 @@ $form = new InputForm([
         <span class="<?= $name . '__date' ?>"><?= $this->date ?></span>
     </div>
 
-    <hr class="<?= $name . '__line' ?>">
+    <hr class="<?= $name . '__line' ?> no-margin">
     <div class="<?= $name . '__image-wrap' ?>">
         <img src="<?= $imagePath ?>" alt="post image" class="<?= $name . '__image' ?>">
     </div>
 
-    <hr class="<?= $name . '__line' ?>">
+    <hr class="<?= $name . '__line' ?> no-margin">
 
     <div class="<?= $name . '__interaction-container' ?>">
         <div class="<?= $name . '__like-block' ?>">
             <span class="fas fa-heart like fa-2x <?= $liked ?>"></span>
             <span class="<?= $name . '__like-counter'?>">
-            <?= $this->likes ?>
-        </span>
+                <?= $this->likes ?>
+            </span>
         </div>
 
         <div class="<?= $name . '__comment' //fa-comment-alt?>">

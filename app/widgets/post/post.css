@@ -1,3 +1,7 @@
+:root {
+    --offset: 15px;
+}
+
 .post__container {
     width: 680px;
     margin: auto;
@@ -9,12 +13,16 @@
 }
 
 .post__info, .comment__info {
-    position: relative;
-    /*margin: 25px;*/
-    display: inline-block;
-    margin: 10px 0 10px 0;
-
     width: 100%;
+    display: flex;
+    align-items: center;
+    padding: 10px 0 10px 0;
+}
+
+.post__avatar > img {
+    width: 50px;
+    padding-left: var(--offset);
+
 }
 
 .post__username, .comment__username {
@@ -23,46 +31,46 @@
 }
 
 .post__date, .comment__date {
-    position: absolute;
-    right: 10px;
-
+    margin-right: var(--offset);
+    margin-left: auto;
     font-size: 0.8em;
     color: #707070;
-}
-
-.post__line {
-    margin: 0;
 }
 
 .post__image {
     display: block;
 
-    width: 640px;
+    width: calc(100% - 30px);
     margin: auto;
+    padding-top: 15px;
+    padding-bottom: 15px;
+}
+
+.post__interaction-container {
+    display: flex;
+
     margin-top: 10px;
-    margin-bottom: 20px;
 }
 
 .post__like-block {
     display: flex;
     align-items: center;
+    justify-content: space-around;
 
-    margin-left: 10px;
-    margin-right: 10px;
+    margin-left: var(--offset);
 }
 
 .post__container .post__delete {
-    position: absolute;
+    margin-right: var(--offset);
+    margin-left: auto;
+}
 
-    right: 10px;
+.post__comment {
+    margin-left: 10px;
 }
 
 .like, .comment-icon, .comment-delete, .post-delete {
     color: #808080;
-}
-
-.like {
-    margin-right: 3px;
 }
 
 .like:hover, .comment-icon:hover, .comment-delete:hover, .post-delete:hover {
@@ -75,14 +83,6 @@
 
 .liked {
     color: #ff4c31;
-}
-
-.post__interaction-container {
-    display: flex;
-
-    position: relative;
-
-    margin-top: 5px;
 }
 
 .post__comment-editor {
@@ -102,25 +102,17 @@
 .post__container textarea {
     display: block;
     resize: none;
-
     width: 95%;
     margin: auto;
-
     font-size: 14px;
 }
 
 .post__container .input-form__submit {
-    /*display: block;*/
-
     height: 30px;
     margin-top: 10px;
     font-size: 12px;
-    position: relative; !important;
-    /*left: calc(100% - 40px - 30px);*/
-
-    right: 0;
-
-    /*align-self: end; !important;*/
+    margin-right: 2.5%;
+    margin-left: auto;
 }
 
 .post__container .input-form__submit:hover {
@@ -137,9 +129,7 @@
 }
 
 .post__container .comment__content {
-    margin-top: 0;
-    margin-bottom: 0;
-    margin-left: 20px;
+    margin: 0 50px 0 20px;
     font-size: 15px;
 }
 
@@ -147,15 +137,24 @@
     position: absolute;
 
     bottom: 0;
-    right: 0;
+    right: var(--offset);
 }
 
-.post__container .comment__line {
-    margin-top: 0;
+.input-form__aggregate {
+    display: none;
 }
 
-.post__container .comment__info {
-    margin-top: 0;
-    margin-bottom: 0;
-}
+@media (max-width: 680px) {
+    .post__container {
+        width: 100%;
+    }
 
+    .post__container .input-form__submit {
+        margin-right: 2.5%;
+        margin-left: 2.5%;
+    }
+
+    header {
+        margin-bottom: 0;
+    }
+}

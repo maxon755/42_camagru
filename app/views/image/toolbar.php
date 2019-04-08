@@ -26,7 +26,5 @@ $images = [
                     draggable="true">
 IMG;
             }
-
-
         ?>
 </div>
