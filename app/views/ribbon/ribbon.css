@@ -23,3 +23,9 @@
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
 }
+
+#ribbon__container::after {
+    display: inline-block;
+    height: 40px;
+    content: " ";
+}
