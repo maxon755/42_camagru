@@ -9,7 +9,7 @@ $this->registerCSSFile('/template/header/header.css', true);
 
 <header>
     <nav class="nav align-items-center container-fluid">
-        <a href="/" class="nav-link white nav-item">Memogram</a>
+        <a href="/" class="nav-link white nav-item">Memagru</a>
 
         <?php if (self::$auth->loggedIn()): ?>
             <div class="dropdown right">
@@ -25,7 +25,6 @@ $this->registerCSSFile('/template/header/header.css', true);
 
         <?php else: ?>
             <a class="nav-link right white nav-item" href="/login">Log in</a>
-
         <?php endif ?>
     </nav>
 </header>

@@ -60,6 +60,9 @@
                 }
                 if (response.liked) {
                     heart.classList.add('liked');
+                    if (response.shouldNotify) {
+                        performRequest('/ribbon/like-notify', { postId })
+                    }
                 } else {
                     heart.classList.remove('liked');
                 }

@@ -74,13 +74,13 @@ class Comment extends DataBaseModel
         );
     }
 
-    public function shouldNotify(int $commentId, string $subject): bool
+    public function shouldNotify(int $commentId): bool
     {
-        return $this->db->select("
-            SELECT c.${subject}_notify AS should_notify
+        return $this->db->select('SELECT
+            c.comment_notify
             FROM comment AS cm
             JOIN post p on cm.post_id = p.post_id
             JOIN client c on p.user_id = c.user_id
-        ", ['comment_id' => $commentId])[0]['should_notify'];
+        ', ['comment_id' => $commentId])[0]['comment_notify'];
     }
 }

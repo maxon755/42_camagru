@@ -81,6 +81,7 @@ class RibbonController extends Controller
         echo $this->jsonResponse($postModel->deletePost($postId));
     }
 
+
     public function actionToggleLike(): void
     {
         $postId = $_POST['postId'];
@@ -92,9 +93,32 @@ class RibbonController extends Controller
         $likeModel = new PostLike();
 
         echo $this->jsonResponse(true, [
-            'liked' => $likeModel->toggleLike($postId, $this->userId),
-            'likeCount' => $likeModel->countLikes($postId),
+            'liked'         => $likeModel->toggleLike($postId, $this->userId),
+            'likeCount'     => $likeModel->countLikes($postId),
+            'shouldNotify'  => $likeModel->shouldNotify($postId),
         ]);
+    }
+
+    public function actionLikeNotify(): void
+    {
+        $postId = $_POST['postId'];
+
+        if (!isset($postId) || !is_numeric($postId)) {
+            echo $this->jsonResponse(false);
+            return;
+        }
+
+        $likeModel = new PostLike();
+        $data = $likeModel->getLikeNotificationData($postId);
+        $liker = self::$auth->getUserName();
+        if ($data['post_owner'] === $liker) {
+            echo $this->jsonResponse(false);
+            return;
+        }
+
+        echo $this->jsonResponse($this->sendNotificationEmail(array_merge($data, [
+            'liker' => $liker
+        ]), 'like'));
     }
 
     public function actionCreateComment(): void
@@ -111,11 +135,10 @@ class RibbonController extends Controller
 
         $commentId = $commentModel->addComment($postId, $this->userId, $comment);
         $commentData = $commentModel->getComments(['comment_id' => $commentId])[0];
-        $shouldNotify = $commentModel->shouldNotify($commentId, 'comment');
 
         echo $this->jsonResponse($commentId, [
             'commentId'     => $commentData['comment_id'],
-            'shouldNotify'  => $shouldNotify,
+            'shouldNotify'  => $commentModel->shouldNotify($commentId),
             'comment'       => Widget::getContent(
                 new CommentWidget($commentData, true)
             )
@@ -165,24 +188,22 @@ class RibbonController extends Controller
             return;
         }
 
-        echo $this->jsonResponse($this->sendCommentNotificationEmail($data));
+        echo $this->jsonResponse($this->sendNotificationEmail($data, 'comment'));
     }
 
     /**
      * @param array $data
+     * @param string $bodyLayout
      * @return bool
      */
-    private function sendCommentNotificationEmail(array $data): bool
+    private function sendNotificationEmail(array $data, string $bodyLayout): bool
     {
         $email          = $data['email'];
-        $commentWriter  = $data['comment_writer'];
-        $postOwner      = $data['post_owner'];
-        $commentText    = $data['comment_text'];
-        $body = include(ROOT . DS . 'mails/comment.php');
+        $body = include(ROOT . DS . "mails/${bodyLayout}.php");
 
         return (new Mailer())->sendEmail(
             $email,
-            'Comment Notification',
+            ucfirst($bodyLayout) . ' Notification',
             $body
         );
     }

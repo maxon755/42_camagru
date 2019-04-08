@@ -1,11 +1,11 @@
 <?php
-/** @var string $commentWriter */
-/** @var string $postOwner */
-/** @var string $commentText */
+/** @var array $data */
 
 use app\components\Escape;
 
-$commentText = nl2br(Escape::html($commentText));
+$commentWriter  = Escape::html($data['comment_writer']);
+$postOwner      = Escape::html($data['post_owner']);
+$commentText    = nl2br(Escape::html($data['comment_text']));
 
 return <<<MAIL
     <body>
