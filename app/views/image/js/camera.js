@@ -10,12 +10,22 @@ window.addEventListener('load', function() {
     let saveButton = document.getElementById('camera__save-button');
     let fileButton = document.getElementById('camera__file-button');
     let filterContainer = document.getElementById('camera__filter-container');
+    let fileLoaded = false;
+    let streaming = false;
+
 
     let width;
     let height;
 
 
-    let streaming = false;
+    document.addEventListener('filterAdded', () => {
+        if (streaming) {
+            startButton.disabled = false;
+        }
+        if (fileLoaded) {
+            saveButton.disabled = false;
+        }
+    });
 
     startButton.addEventListener('click', function () {
         if (!streaming) {
@@ -37,6 +47,8 @@ window.addEventListener('load', function() {
         })
             .then(function(stream) {
                 toggleStartButton();
+                startButton.disabled = true;
+
                 streamWebCam(stream);
             })
             .catch(function (error) {
@@ -150,8 +162,6 @@ window.addEventListener('load', function() {
     function addImageToContainer(img) {
         let container = document.getElementById('image__past-photos');
 
-        img.style.width = img.width + 'px';
-        img.style.height = img.height + 'px';
         container.appendChild(img);
     }
 
@@ -198,20 +208,19 @@ window.addEventListener('load', function() {
     }
 
     function toggleStartButton() {
-
         let circle = startButton.getElementsByClassName('fa-play-circle')[0];
         let camera = startButton.getElementsByClassName('fa-camera')[0];
 
         if (!streaming) {
-            circle.style.display = "none";
-            camera.style.display = "inline-block";
+            circle.style.display = 'none';
+            camera.style.display = 'inline-block';
         } else {
-            circle.style.display = "inline-block";
-            camera.style.display = "none";
+            circle.style.display = 'inline-block';
+            camera.style.display = 'none';
         }
     }
 
-    fileButton.addEventListener("change", (event) => {
+    fileButton.addEventListener('change', (event) => {
 
         let file = event.target.files[0];
         let reader = new FileReader();
@@ -221,6 +230,12 @@ window.addEventListener('load', function() {
         }
 
         clearCanvas();
+        removeHtmlCollection(filterContainer.children);
+
+        startButton.disabled = true;
+        saveButton.disabled = true;
+        stopButton.disabled = true;
+        fileLoaded = true;
 
         reader.onload = (event) => {
             let image = new Image();
@@ -228,7 +243,6 @@ window.addEventListener('load', function() {
             image.src = event.target.result;
 
             image.onload = () => {
-                saveButton.disabled = false;
                 width = image.width;
                 height = image.height;
 

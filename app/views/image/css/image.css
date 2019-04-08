@@ -19,3 +19,12 @@
     height: auto;
 }
 
+header {
+    margin-bottom: 0 !important;
+}
+
+#image__past-photos img {
+    height: 200px;
+
+    padding: 10px;
+}

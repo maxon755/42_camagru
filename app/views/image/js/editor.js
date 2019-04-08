@@ -5,6 +5,8 @@ window.addEventListener('load', function() {
     const filterContainer = document.getElementById('camera__filter-container');
     const toolbar = document.getElementById('toolbar__container');
 
+    let filterAddedEvent = new Event('filterAdded');
+
     let filters = toolbar.getElementsByTagName('img');
 
     for (let i = 0; i < filters.length; i++) {
@@ -29,6 +31,7 @@ window.addEventListener('load', function() {
         if (!data) {
             return;
         }
+        document.dispatchEvent(filterAddedEvent);
         data = JSON.parse(event.dataTransfer.getData("text/json"));
 
         if (data.isNew) {
