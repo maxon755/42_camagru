@@ -5,7 +5,6 @@ include '../base/DataBase.php';
 include '../components/CaseTranslator.php';
 
 use app\base\DataBase;
-use app\base\Application;
 
 $config = require_once('database.php');
 
@@ -60,26 +59,6 @@ $db->executeQuery('CREATE TABLE IF NOT EXISTS post (
     creation_date   TIMESTAMP DEFAULT NOW()
   );'
 );
-
-$db->useTable('post');
-
-$db->insertIfNotExists([
-    'user_id'       => 1,
-    'image_name'    => '1.jpeg',
-    'number'        => 1,
-], [
-    'user_id'       => 1,
-    'image_name'    => '1.jpeg',
-]);
-
-$db->insertIfNotExists([
-    'user_id'       => 1,
-    'image_name'    => '2.jpeg',
-    'number'        => 2,
-], [
-    'user_id'       => 1,
-    'image_name'    => '2.jpeg',
-]);
 
 $db->executeQuery('CREATE TABLE IF NOT EXISTS post_like (
     post_id INTEGER REFERENCES post(post_id) ON DELETE CASCADE,
