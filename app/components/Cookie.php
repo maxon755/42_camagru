@@ -8,20 +8,26 @@ class Cookie
 {
     /**
      * @param string $name
-     * @return mixed
+     * @return string|null
      */
-    public static function get(string $name)
+    public static function get(string $name): ?string
     {
         return ArrayHelper::get($_COOKIE, $name);
     }
 
-    public static  function getFromHeader(string $name)
+    /**
+     * @param string $name
+     * @return string|null
+     */
+    public static function getFromHeader(string $name): ?string
     {
         foreach (headers_list() as $header) {
             if (preg_match("/Set-Cookie:\s${name}=(?<${name}>.+?);/", $header, $matches)) {
                 return urldecode($matches[$name]);
             }
         }
+
+        return null;
     }
 
     /**

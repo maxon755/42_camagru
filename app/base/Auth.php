@@ -73,8 +73,7 @@ class Auth
     {
         $this->fetchToken();
         return $this->clientDataExists() &&
-            ($this->token === Cookie::get('token') ||
-            $this->token === Cookie::getFromHeader('token'));
+            ($this->token === Cookie::get('token'));
     }
 
     public function fetchToken(): void

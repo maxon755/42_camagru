@@ -50,7 +50,6 @@ class InputForm extends Widget implements WidgetInterface
 
     /**
      * @param array $params
-     * @param array $inputFields
      * @throws \ReflectionException
      */
     public function __construct(array $params) {

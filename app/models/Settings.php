@@ -37,6 +37,7 @@ abstract class Settings extends InputForm
     }
 
     /**
+     * @param int $userId
      * @param array $userInput
      * @return mixed
      */
